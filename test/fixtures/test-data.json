@@ -1,0 +1,162 @@
+{
+  "categories": [
+    {
+      "ID": "7fdaa02e-ec7a-4c39-bb39-80f2a60034db",
+      "werks": "1000",
+      "default_desc": "Critical Production Issues",
+      "sendmail": 1
+    },
+    {
+      "ID": "6151dd50-3039-4145-aff3-64948737b726",
+      "werks": "1000",
+      "default_desc": "Maintenance Required",
+      "sendmail": 0
+    },
+    {
+      "ID": "268812a6-36c5-4495-9486-5872d2fb3ad3",
+      "werks": "1000",
+      "default_desc": "Quality Control",
+      "sendmail": 1
+    }
+  ],
+  "recipients": [
+    {
+      "category": "7fdaa02e-ec7a-4c39-bb39-80f2a60034db",
+      "werks": "1000",
+      "mail_address": "production.manager@company.com"
+    },
+    {
+      "category": "7fdaa02e-ec7a-4c39-bb39-80f2a60034db",
+      "werks": "1000", 
+      "mail_address": "shift.supervisor@company.com"
+    },
+    {
+      "category": "268812a6-36c5-4495-9486-5872d2fb3ad3",
+      "werks": "1000",
+      "mail_address": "quality.team@company.com"
+    }
+  ],
+  "translations": [
+    {
+      "category": "7fdaa02e-ec7a-4c39-bb39-80f2a60034db",
+      "werks": "1000",
+      "lng": "EN",
+      "desc": "Critical Production Issues"
+    },
+    {
+      "category": "7fdaa02e-ec7a-4c39-bb39-80f2a60034db",
+      "werks": "1000",
+      "lng": "DE",
+      "desc": "Kritische Produktionsprobleme"
+    },
+    {
+      "category": "7fdaa02e-ec7a-4c39-bb39-80f2a60034db",
+      "werks": "1000",
+      "lng": "ES",
+      "desc": "Problemas Críticos de Producción"
+    },
+    {
+      "category": "6151dd50-3039-4145-aff3-64948737b726",
+      "werks": "1000",
+      "lng": "EN",
+      "desc": "Maintenance Required"
+    },
+    {
+      "category": "6151dd50-3039-4145-aff3-64948737b726",
+      "werks": "1000",
+      "lng": "DE", 
+      "desc": "Wartung Erforderlich"
+    },
+    {
+      "category": "268812a6-36c5-4495-9486-5872d2fb3ad3",
+      "werks": "1000",
+      "lng": "EN",
+      "desc": "Quality Control"
+    },
+    {
+      "category": "268812a6-36c5-4495-9486-5872d2fb3ad3",
+      "werks": "1000",
+      "lng": "DE",
+      "desc": "Qualitätskontrolle"
+    }
+  ],
+  "sampleLogs": [
+    {
+      "werks": "1000",
+      "shoporder": "SO-E2E-001",
+      "stepid": "010",
+      "split": "001",
+      "workcenter": "WC-ASSEMBLY",
+      "user_id": "operator.smith",
+      "category": "7fdaa02e-ec7a-4c39-bb39-80f2a60034db",
+      "subject": "Machine Breakdown",
+      "message": "Assembly line stopped - requires immediate attention"
+    },
+    {
+      "werks": "1000",
+      "shoporder": "SO-E2E-002", 
+      "stepid": "020",
+      "split": "001",
+      "workcenter": "WC-PACKAGING",
+      "user_id": "tech.jones",
+      "category": "6151dd50-3039-4145-aff3-64948737b726",
+      "subject": "Preventive Maintenance",
+      "message": "Completed scheduled maintenance on packaging unit"
+    },
+    {
+      "werks": "1000",
+      "shoporder": "SO-E2E-003",
+      "stepid": "015",
+      "split": "001", 
+      "workcenter": "WC-QUALITY",
+      "user_id": "inspector.brown",
+      "category": "268812a6-36c5-4495-9486-5872d2fb3ad3",
+      "subject": "Quality Issue",
+      "message": "Product batch requires quality review"
+    }
+  ],
+  "users": {
+    "operator": {
+      "user_id": "operator.user",
+      "role": "shiftbook.operator",
+      "werks": ["1000"],
+      "description": "Standard operator user with limited access"
+    },
+    "admin": {
+      "user_id": "admin.user", 
+      "role": "shiftbook.admin",
+      "werks": ["1000", "2000"],
+      "description": "Administrator with full access"
+    },
+    "supervisor": {
+      "user_id": "supervisor.user",
+      "role": "shiftbook.operator",
+      "werks": ["1000"],
+      "permissions": ["email_management"],
+      "description": "Supervisor with additional email permissions"
+    }
+  },
+  "scenarios": {
+    "criticalAlert": {
+      "name": "Critical Production Alert Workflow",
+      "description": "Complete workflow from log creation to email notification",
+      "steps": [
+        "Create critical log entry",
+        "Verify database persistence", 
+        "Check auto-email trigger",
+        "Validate email recipients",
+        "Confirm email content"
+      ]
+    },
+    "multiLanguageSupport": {
+      "name": "Multi-Language Category Support",
+      "description": "Test category descriptions in multiple languages",
+      "languages": ["en", "de", "es", "fr"],
+      "steps": [
+        "Request categories with Accept-Language header",
+        "Verify translated descriptions",
+        "Test language fallback"
+      ]
+    }
+  }
+}

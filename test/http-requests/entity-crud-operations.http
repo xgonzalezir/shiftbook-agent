@@ -1,0 +1,326 @@
+### Entity CRUD Operations
+### Base URL: http://localhost:4004/shiftbook/ShiftBookService
+
+@baseUrl = http://localhost:4004/shiftbook/ShiftBookService
+@auth = Basic alice:
+
+##################################################
+### ShiftBookCategory Operations
+##################################################
+
+### Read All Categories
+GET {{baseUrl}}/ShiftBookCategory
+Authorization: {{auth}}
+
+###
+
+### Read Category with Expand
+GET {{baseUrl}}/ShiftBookCategory?$expand=mails,translations,workcenters,teamsChannel
+Authorization: {{auth}}
+
+###
+
+### Read Single Category
+### Replace CATEGORY_ID with actual UUID
+GET {{baseUrl}}/ShiftBookCategory(ID=CATEGORY_ID,werks='1000')
+Authorization: {{auth}}
+
+###
+
+### Read Single Category with Expand
+### Replace CATEGORY_ID with actual UUID
+GET {{baseUrl}}/ShiftBookCategory(ID=CATEGORY_ID,werks='1000')?$expand=mails,translations,workcenters,teamsChannel
+Authorization: {{auth}}
+
+###
+
+### Create Category (Basic)
+POST {{baseUrl}}/ShiftBookCategory
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "werks": "1000",
+  "sendmail": 1,
+  "sendworkcenters": 1
+}
+
+###
+
+### Update Category
+### Replace CATEGORY_ID with actual UUID
+PATCH {{baseUrl}}/ShiftBookCategory(ID=CATEGORY_ID,werks='1000')
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "sendmail": 0,
+  "sendworkcenters": 0
+}
+
+###
+
+### Delete Category
+### Replace CATEGORY_ID with actual UUID
+DELETE {{baseUrl}}/ShiftBookCategory(ID=CATEGORY_ID,werks='1000')
+Authorization: {{auth}}
+
+###
+
+##################################################
+### ShiftBookCategoryMail Operations
+##################################################
+
+### Read All Category Mails
+GET {{baseUrl}}/ShiftBookCategoryMail
+Authorization: {{auth}}
+
+###
+
+### Read Category Mails for Specific Category
+### Replace CATEGORY_ID with actual UUID
+GET {{baseUrl}}/ShiftBookCategoryMail?$filter=category eq CATEGORY_ID
+Authorization: {{auth}}
+
+###
+
+### Create Category Mail
+### Replace CATEGORY_ID with actual UUID
+POST {{baseUrl}}/ShiftBookCategoryMail
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "category": "CATEGORY_ID",
+  "werks": "1000",
+  "mail_address": "newoperator@example.com"
+}
+
+###
+
+### Delete Category Mail
+### Replace CATEGORY_ID and MAIL_ADDRESS with actual values
+DELETE {{baseUrl}}/ShiftBookCategoryMail(category=CATEGORY_ID,werks='1000',mail_address='operator@example.com')
+Authorization: {{auth}}
+
+###
+
+##################################################
+### ShiftBookCategoryLng Operations
+##################################################
+
+### Read All Category Translations
+GET {{baseUrl}}/ShiftBookCategoryLng
+Authorization: {{auth}}
+
+###
+
+### Read Translations for Specific Category
+### Replace CATEGORY_ID with actual UUID
+GET {{baseUrl}}/ShiftBookCategoryLng?$filter=category eq CATEGORY_ID
+Authorization: {{auth}}
+
+###
+
+### Create Category Translation
+### Replace CATEGORY_ID with actual UUID
+POST {{baseUrl}}/ShiftBookCategoryLng
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "category": "CATEGORY_ID",
+  "werks": "1000",
+  "lng": "en",
+  "desc": "Quality Issue"
+}
+
+###
+
+### Update Category Translation
+### Replace CATEGORY_ID with actual UUID
+PATCH {{baseUrl}}/ShiftBookCategoryLng(category=CATEGORY_ID,werks='1000',lng='en')
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "desc": "Updated Quality Issue"
+}
+
+###
+
+### Delete Category Translation
+### Replace CATEGORY_ID with actual UUID
+DELETE {{baseUrl}}/ShiftBookCategoryLng(category=CATEGORY_ID,werks='1000',lng='en')
+Authorization: {{auth}}
+
+###
+
+##################################################
+### ShiftBookCategoryWC Operations
+##################################################
+
+### Read All Category Workcenters
+GET {{baseUrl}}/ShiftBookCategoryWC
+Authorization: {{auth}}
+
+###
+
+### Read Workcenters for Specific Category
+### Replace CATEGORY_ID with actual UUID
+GET {{baseUrl}}/ShiftBookCategoryWC?$filter=category eq CATEGORY_ID
+Authorization: {{auth}}
+
+###
+
+### Create Category Workcenter
+### Replace CATEGORY_ID with actual UUID
+POST {{baseUrl}}/ShiftBookCategoryWC
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "category": "CATEGORY_ID",
+  "workcenter": "WC010"
+}
+
+###
+
+### Delete Category Workcenter
+### Replace CATEGORY_ID with actual UUID
+DELETE {{baseUrl}}/ShiftBookCategoryWC(category=CATEGORY_ID,workcenter='WC010')
+Authorization: {{auth}}
+
+###
+
+##################################################
+### ShiftBookLog Operations
+##################################################
+
+### Read All Logs
+GET {{baseUrl}}/ShiftBookLog
+Authorization: {{auth}}
+
+###
+
+### Read All Logs with Expand
+GET {{baseUrl}}/ShiftBookLog?$expand=category,workcenters
+Authorization: {{auth}}
+
+###
+
+### Read Logs Ordered by Date
+GET {{baseUrl}}/ShiftBookLog?$orderby=log_dt desc&$top=10
+Authorization: {{auth}}
+
+###
+
+### Read Logs Filtered by Workcenter
+GET {{baseUrl}}/ShiftBookLog?$filter=workcenter eq 'WC001'
+Authorization: {{auth}}
+
+###
+
+### Read Logs Filtered by Plant and Category
+### Replace CATEGORY_ID with actual UUID
+GET {{baseUrl}}/ShiftBookLog?$filter=werks eq '1000' and category eq CATEGORY_ID
+Authorization: {{auth}}
+
+###
+
+### Read Single Log
+### Replace LOG_ID with actual UUID
+GET {{baseUrl}}/ShiftBookLog(guid=LOG_ID,werks='1000')
+Authorization: {{auth}}
+
+###
+
+### Read Single Log with Expand
+### Replace LOG_ID with actual UUID
+GET {{baseUrl}}/ShiftBookLog(guid=LOG_ID,werks='1000')?$expand=category,workcenters
+Authorization: {{auth}}
+
+###
+
+### Create Log Entry
+### Replace CATEGORY_ID with actual UUID
+POST {{baseUrl}}/ShiftBookLog
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "werks": "1000",
+  "shoporder": "SO999999",
+  "stepid": "0040",
+  "split": "001",
+  "workcenter": "WC001",
+  "user_id": "test.user@example.com",
+  "category": "CATEGORY_ID",
+  "subject": "Test Entry",
+  "message": "This is a test log entry created via direct POST."
+}
+
+###
+
+### Update Log Entry
+### Replace LOG_ID with actual UUID
+PATCH {{baseUrl}}/ShiftBookLog(guid=LOG_ID,werks='1000')
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "subject": "Updated Test Entry",
+  "message": "This entry has been updated."
+}
+
+###
+
+### Delete Log Entry
+### Replace LOG_ID with actual UUID
+DELETE {{baseUrl}}/ShiftBookLog(guid=LOG_ID,werks='1000')
+Authorization: {{auth}}
+
+###
+
+##################################################
+### ShiftBookLogWC Operations
+##################################################
+
+### Read All Log Workcenters
+GET {{baseUrl}}/ShiftBookLogWC
+Authorization: {{auth}}
+
+###
+
+### Read Log Workcenters for Specific Log
+### Replace LOG_ID with actual UUID
+GET {{baseUrl}}/ShiftBookLogWC?$filter=log_id eq LOG_ID
+Authorization: {{auth}}
+
+###
+
+### Read Log Workcenters for Specific Workcenter
+GET {{baseUrl}}/ShiftBookLogWC?$filter=workcenter eq 'WC001'
+Authorization: {{auth}}
+
+###
+
+### Create Log Workcenter
+### Replace LOG_ID with actual UUID
+POST {{baseUrl}}/ShiftBookLogWC
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "log_id": "LOG_ID",
+  "workcenter": "WC005"
+}
+
+###
+
+### Delete Log Workcenter
+### Replace LOG_ID with actual UUID
+DELETE {{baseUrl}}/ShiftBookLogWC(log_id=LOG_ID,workcenter='WC005')
+Authorization: {{auth}}
+
+###

@@ -1,0 +1,19 @@
+meta {
+  name: Get Logs by Workcenter
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseURL}}/shiftbook/ShiftBookService/ShiftBookLog?$filter=workcenter eq 'WC_ASSEMBLY_01'
+  body: none
+  auth: inherit
+}
+
+params:query {
+  $filter: workcenter eq 'WC_ASSEMBLY_01'
+}
+
+settings {
+  encodeUrl: true
+}

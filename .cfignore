@@ -1,0 +1,90 @@
+# Exclude ALL test files and folders
+test/
+dist/test/
+**/test/
+**/*.test.js
+**/*.test.js.map
+**/*.test.ts
+**/*.spec.js
+**/*.spec.js.map
+**/*.spec.ts
+
+# Exclude E2E test files
+**/e2e/
+**/e2e-http/
+**/*.e2e.test.js
+**/*.e2e.test.js.map
+**/*.e2e.test.ts
+
+# Exclude integration test files
+**/integration/
+**/integration-http/
+**/*.integration.test.js
+**/*.integration.test.js.map
+**/*.integration.test.ts
+
+# Exclude unit test files
+**/unit/
+**/*.unit.test.js
+**/*.unit.test.js.map
+**/*.unit.test.ts
+
+# Exclude development and build artifacts
+node_modules/
+.git/
+.gitignore
+.vscode/
+.idea/
+*.log
+npm-debug.log*
+.DS_Store
+coverage/
+.nyc_output/
+jest.config.js
+.jest/
+
+# Exclude TypeScript source files and configs
+**/*.ts
+!**/*.d.ts
+tsconfig.json
+tsconfig.*.json
+.tsbuildinfo
+dist/tsconfig.tsbuildinfo
+
+# Exclude ALL source maps (saves significant space)
+**/*.map
+**/*.js.map
+
+# Exclude documentation
+README.md
+CHANGELOG.md
+docs/
+*.md
+
+# Exclude local environment files
+.env
+.env.local
+.env.*.local
+default-env.json
+.cdsrc-private.json
+
+# Exclude temporary deployment folder
+deploy-temp/
+
+# Exclude build configuration
+webpack.config.js
+.eslintrc
+.eslintrc.json
+.prettierrc
+.prettierrc.json
+
+# Exclude test fixtures and test data
+**/fixtures/
+**/test-data/
+**/mock-data/
+**/__tests__/
+**/__mocks__/
+
+# Exclude development scripts
+scripts/test/
+scripts/dev/

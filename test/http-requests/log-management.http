@@ -1,0 +1,228 @@
+### ShiftBook Log Management Actions
+### Base URL: http://localhost:4004/shiftbook/ShiftBookService
+
+@baseUrl = http://localhost:4004/shiftbook/ShiftBookService
+@auth = Basic alice:
+
+### Add ShiftBook Entry
+POST {{baseUrl}}/addShiftBookEntry
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "werks": "1000",
+  "shoporder": "SO123456",
+  "stepid": "0010",
+  "split": "001",
+  "workcenter": "WC001",
+  "user_id": "operator.name@example.com",
+  "category": "CATEGORY_ID",
+  "subject": "Machine Maintenance Required",
+  "message": "Machine #3 is showing irregular vibrations. Scheduled maintenance recommended."
+}
+
+###
+
+### Batch Add ShiftBook Entries
+POST {{baseUrl}}/batchAddShiftBookEntries
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "logs": [
+    {
+      "werks": "1000",
+      "shoporder": "SO123456",
+      "stepid": "0010",
+      "split": "001",
+      "workcenter": "WC001",
+      "user_id": "operator1@example.com",
+      "category": "CATEGORY_ID",
+      "subject": "Shift Start - All Systems Normal",
+      "message": "All production lines operational. No issues to report."
+    },
+    {
+      "werks": "1000",
+      "shoporder": "SO123457",
+      "stepid": "0020",
+      "split": "001",
+      "workcenter": "WC002",
+      "user_id": "operator2@example.com",
+      "category": "CATEGORY_ID",
+      "subject": "Quality Check Completed",
+      "message": "Quality inspection passed. Batch ready for next stage."
+    },
+    {
+      "werks": "1000",
+      "shoporder": "SO123458",
+      "stepid": "0030",
+      "split": "002",
+      "workcenter": "WC003",
+      "user_id": "operator3@example.com",
+      "category": "CATEGORY_ID",
+      "subject": "Material Shortage",
+      "message": "Low inventory on raw material RM-4567. Reorder needed."
+    }
+  ]
+}
+
+###
+
+### Advanced Log Search
+POST {{baseUrl}}/advancedLogSearch
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "query": "maintenance"
+}
+
+###
+
+### Get ShiftBook Logs Paginated
+POST {{baseUrl}}/getShiftBookLogsPaginated
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "werks": "1000",
+  "workcenter": "WC001",
+  "category": "CATEGORY_ID",
+  "page": 1,
+  "pageSize": 10,
+  "language": "en",
+  "include_dest_work_center": true,
+  "include_orig_work_center": true
+}
+
+###
+
+### Get ShiftBook Logs Paginated (All Categories)
+POST {{baseUrl}}/getShiftBookLogsPaginated
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "werks": "1000",
+  "workcenter": "WC001",
+  "page": 1,
+  "pageSize": 20,
+  "language": "en",
+  "include_dest_work_center": true,
+  "include_orig_work_center": false
+}
+
+###
+
+### Get Latest Shiftbook Log
+POST {{baseUrl}}/getLatestShiftbookLog
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "werks": "1000",
+  "workcenter": "WC001"
+}
+
+###
+
+### Mark Log as Read
+### Replace LOG_ID with actual UUID
+POST {{baseUrl}}/markLogAsRead
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "log_id": "LOG_ID",
+  "workcenter": "WC001"
+}
+
+###
+
+### Mark Log as Unread
+### Replace LOG_ID with actual UUID
+POST {{baseUrl}}/markLogAsUnread
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "log_id": "LOG_ID",
+  "workcenter": "WC001"
+}
+
+###
+
+### Batch Mark Logs as Read
+### Replace LOG_ID_1, LOG_ID_2, LOG_ID_3 with actual UUIDs
+POST {{baseUrl}}/batchMarkLogsAsRead
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "logs": [
+    {
+      "log_id": "LOG_ID_1",
+      "workcenter": "WC001"
+    },
+    {
+      "log_id": "LOG_ID_2",
+      "workcenter": "WC001"
+    },
+    {
+      "log_id": "LOG_ID_3",
+      "workcenter": "WC002"
+    }
+  ]
+}
+
+###
+
+### Batch Mark Logs as Unread
+### Replace LOG_ID_1, LOG_ID_2 with actual UUIDs
+POST {{baseUrl}}/batchMarkLogsAsUnread
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "logs": [
+    {
+      "log_id": "LOG_ID_1",
+      "workcenter": "WC001"
+    },
+    {
+      "log_id": "LOG_ID_2",
+      "workcenter": "WC002"
+    }
+  ]
+}
+
+###
+
+### Get Last Change Timestamp
+POST {{baseUrl}}/getLastChangeTimestamp
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "werks": "1000",
+  "workcenter": "WC001",
+  "category": "CATEGORY_ID",
+  "include_dest_work_center": true,
+  "include_orig_work_center": true
+}
+
+###
+
+### Get Last Change Timestamp (All Categories)
+POST {{baseUrl}}/getLastChangeTimestamp
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "werks": "1000",
+  "workcenter": "WC001",
+  "include_dest_work_center": true,
+  "include_orig_work_center": false
+}
+
+###

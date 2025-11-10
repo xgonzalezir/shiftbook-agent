@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "commonjs",
+    "lib": ["ES2020"],
+    "outDir": "./gen/srv",
+    "rootDir": ".",
+    "strict": false,
+    "noImplicitAny": false,
+    "noImplicitThis": false,
+    "strictNullChecks": false,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "downlevelIteration": true,
+    "skipLibCheck": true,
+    "declaration": true,
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "typeRoots": [
+      "./srv/@types",
+      "./node_modules/@types"
+    ],
+    "paths": {
+      "#cds-models/*": [
+        "./@cds-models/*"
+      ]
+    }
+  },
+  "include": [
+    "srv/**/*",
+    "test/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "gen/**/*",
+    "srv/**/*.js",
+    "test/**/*.js"
+  ]
+}

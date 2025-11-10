@@ -1,0 +1,71 @@
+{
+  "xsappname": "shiftbook-srv",
+  "tenant-mode": "dedicated",
+  "description": "Security for Shift Book Backend",
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.operator",
+      "description": "Operator - Read/Create logs",
+      "granted-apps": [
+        "$XSAPPNAME(application, shiftbook-plugin)",
+        "$XSAPPNAME(application, sb-execution-dmc-sap-quality)",
+        "$XSAPPNAME(application, execution-dmc-sap-quality)",
+        "$XSAPPNAME(application, dmc-quality)",
+        "$XSAPPNAME(application, dmc-services-quality)"
+      ]
+    },
+    {
+      "name": "$XSAPPNAME.admin",
+      "description": "Admin - Full access",
+      "granted-apps": [
+        "$XSAPPNAME(application, shiftbook-plugin)",
+        "$XSAPPNAME(application, sb-execution-dmc-sap-quality)",
+        "$XSAPPNAME(application, execution-dmc-sap-quality)",
+        "$XSAPPNAME(application, dmc-quality)",
+        "$XSAPPNAME(application, dmc-services-quality)"
+      ]
+    },
+    {
+      "name": "uaa.user",
+      "description": "UAA user for propagation"
+    }
+  ],
+  "foreign-scope-references": [
+    "uaa.user"
+  ],
+  "attributes": [],
+  "authorities": [
+    "$XSAPPNAME.operator",
+    "$XSAPPNAME.admin",
+    "uaa.user",
+    "$ACCEPT_GRANTED_AUTHORITIES"
+  ],
+  "role-templates": [
+    {
+      "name": "operator",
+      "description": "Operator Role",
+      "scope-references": ["$XSAPPNAME.operator"]
+    },
+    {
+      "name": "admin",
+      "description": "Admin Role",
+      "scope-references": ["$XSAPPNAME.admin"]
+    }
+  ],
+  "oauth2-configuration": {
+    "token-validity": 7200,
+    "refresh-token-validity": 86400,
+    "allowedproviders": [
+      "syntax-dmc-demo",
+      "sap.default"
+    ],
+    "grant-types": [
+      "client_credentials",
+      "urn:ietf:params:oauth:grant-type:jwt-bearer",
+      "user_token",
+      "refresh_token",
+      "authorization_code"
+    ],
+    "autoapprove": true
+  }
+}

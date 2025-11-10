@@ -1,0 +1,26 @@
+meta {
+  name: Get Shiftbook Categories
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseURL}}/shiftbook/ShiftBookService/getShiftbookCategories
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "werks": "7000",
+    "language": "en"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

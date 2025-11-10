@@ -1,0 +1,15 @@
+meta {
+  name: List All Logs
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseURL}}/shiftbook/ShiftBookService/ShiftBookLog
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}

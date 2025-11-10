@@ -1,0 +1,229 @@
+### Test Email Notification Flow
+### This file tests the complete email notification circuit:
+### 1. Create a category with email recipient (xavier.gonzalez@syntax.com)
+### 2. Create a shift log entry that triggers email notification
+
+@baseUrl = http://localhost:4004
+@auth = alice:alice
+
+### Variables
+@werks = 2000
+@categoryId = {{createCategory.response.body.$.ID}}
+@logId = {{createLog.response.body.$.guid}}
+
+###############################################################################
+# STEP 1: Create Category with Email Notification
+###############################################################################
+
+# @name createCategory
+POST {{baseUrl}}/shiftbook/ShiftBookService/createCategoryWithDetails
+Authorization: Basic {{auth}}
+Content-Type: application/json
+
+{
+  "werks": "{{werks}}",
+  "sendmail": 1,
+  "sendworkcenters": 0,
+  "default_subject": "Email Notification Test - Action Required",
+  "default_message": "This is a test email notification. Please confirm receipt and verify that email delivery is working correctly.",
+  "translations": [
+    {
+      "lng": "en",
+      "desc": "Test Email Category"
+    },
+    {
+      "lng": "es",
+      "desc": "Categoría de Prueba de Email"
+    }
+  ],
+  "mails": [
+    {
+      "mail_address": "xavier.gonzalez@syntax.com"
+    }
+  ]
+}
+
+###############################################################################
+# STEP 3: Create Shift Log Entry (triggers email notification)
+###############################################################################
+
+# @name createLog
+POST {{baseUrl}}/shiftbook/ShiftBookService/addShiftBookEntry
+Authorization: Basic {{auth}}
+Content-Type: application/json
+
+{
+  "werks": "{{werks}}",
+  "shoporder": "TEST_EMAIL_ORDER_001",
+  "stepid": "0010",
+  "split": "001",
+  "workcenter": "WC_TEST_001",
+  "user_id": "ALICE",
+  "category": "d712e41d-520f-4f76-98bd-e596e6a2573b",
+  "subject": "Test Email Notification",
+  "message": "This is a test message to verify email notifications are working correctly.\n\nEmail should be sent to: xavier.gonzalez@syntax.com\n\nCheck your inbox and the server logs for confirmation."
+}
+
+###############################################################################
+# STEP 4: Verify Log Entry was Created
+###############################################################################
+
+# @name getLog
+GET {{baseUrl}}/odata/v4/shiftbook/getShiftBookLogById(guid={{logId}})
+Authorization: Basic {{auth}}
+
+###############################################################################
+# STEP 5: Get All Logs for this Category
+###############################################################################
+
+# @name getAllLogsForCategory
+GET {{baseUrl}}/odata/v4/shiftbook/ShiftBookLog?$filter=category eq {{categoryId}}&$expand=categoryDetails
+Authorization: Basic {{auth}}
+
+###############################################################################
+# STEP 6: Test with Longer Shop Order (21 characters)
+###############################################################################
+
+# @name createLogLongShoporder
+POST {{baseUrl}}/odata/v4/shiftbook/addShiftBookEntry
+Authorization: Basic {{auth}}
+Content-Type: application/json
+
+{
+  "werks": "{{werks}}",
+  "shoporder": "BOSCH_REXROTH_DEMO-2",
+  "stepid": "0020",
+  "split": "002",
+  "workcenter": "WC_BOSCH_001",
+  "user_id": "ALICE",
+  "category": "{{categoryId}}",
+  "subject": "Test Long Shoporder with Email",
+  "message": "Testing shoporder validation with 21 characters (BOSCH_REXROTH_DEMO-2) and email notification.\n\nThis should:\n✅ Accept the 21-character shoporder\n✅ Send email to xavier.gonzalez@syntax.com"
+}
+
+###############################################################################
+# STEP 7: Test Simulation Mode (if enabled in .env)
+###############################################################################
+
+# @name createLogSimulation
+POST {{baseUrl}}/odata/v4/shiftbook/addShiftBookEntry
+Authorization: Basic {{auth}}
+Content-Type: application/json
+
+{
+  "werks": "{{werks}}",
+  "shoporder": "SIMULATION_TEST_001",
+  "stepid": "0030",
+  "split": "003",
+  "workcenter": "WC_SIM_001",
+  "user_id": "ALICE",
+  "category": "{{categoryId}}",
+  "subject": "Simulation Mode Test",
+  "message": "If EMAIL_SIMULATION_MODE=true in .env:\n- Email will be logged but NOT sent\n- Check server console for simulation message\n\nIf EMAIL_SIMULATION_MODE=false:\n- Email WILL be sent to xavier.gonzalez@syntax.com"
+}
+
+###############################################################################
+# CLEANUP: Delete Test Data (optional)
+###############################################################################
+
+# @name deleteLogs
+DELETE {{baseUrl}}/odata/v4/shiftbook/ShiftBookLog({{logId}})
+Authorization: Basic {{auth}}
+
+# @name deleteCategory
+DELETE {{baseUrl}}/odata/v4/shiftbook/ShiftBookCategory(ID={{categoryId}},werks='{{werks}}')
+Authorization: Basic {{auth}}
+
+###############################################################################
+# ADDITIONAL TESTS
+###############################################################################
+
+### Test with Multiple Recipients
+
+# @name createCategoryMultipleEmails
+POST {{baseUrl}}/odata/v4/shiftbook/ShiftBookCategory
+Authorization: Basic {{auth}}
+Content-Type: application/json
+
+{
+  "werks": "{{werks}}",
+  "sendmail": 1,
+  "sendworkcenters": 0,
+  "translations": [
+    {
+      "category": null,
+      "lng": "en",
+      "werks": "{{werks}}",
+      "desc": "Multi-Recipient Test Category"
+    }
+  ],
+  "mails": [
+    {
+      "category": null,
+      "werks": "{{werks}}",
+      "mail_address": "xavier.gonzalez@syntax.com"
+    },
+    {
+      "category": null,
+      "werks": "{{werks}}",
+      "mail_address": "test@example.com"
+    }
+  ]
+}
+
+###############################################################################
+# HOW TO USE THIS FILE
+###############################################################################
+
+# 1. Make sure the server is running: cds watch
+# 2. Configure .env with your Gmail settings:
+#    EMAIL_SMTP_HOST=smtp.gmail.com
+#    EMAIL_SMTP_PORT=587
+#    EMAIL_SMTP_USER=your-email@gmail.com
+#    EMAIL_SMTP_PASSWORD=your-16-char-app-password
+#    EMAIL_FROM_ADDRESS=your-email@gmail.com
+#    EMAIL_SIMULATION_MODE=false
+#
+# 3. Click "Send Request" on STEP 1 (Create Category)
+# 4. Click "Send Request" on STEP 3 (Create Log - triggers email)
+# 5. Check your server console for email logs
+# 6. Check xavier.gonzalez@syntax.com inbox for the email
+#
+# Expected Console Output:
+# ✅ Using local SMTP server: smtp.gmail.com:587
+# ✅ Email sent successfully to: xavier.gonzalez@syntax.com
+# ✅ Message ID: <xxxxx@gmail.com>
+#
+# Expected Email:
+# From: Shift Book System <your-email@gmail.com>
+# To: xavier.gonzalez@syntax.com
+# Subject: New Shift Log Entry: Test Email Notification
+# Body: [HTML formatted email with log details]
+
+###############################################################################
+# TROUBLESHOOTING
+###############################################################################
+
+# If emails are not being sent:
+# 
+# 1. Check server console for errors:
+#    - Authentication failed → Check Gmail App Password
+#    - Connection refused → Check EMAIL_SMTP_HOST and PORT
+#    - Simulation mode → Check EMAIL_SIMULATION_MODE=false
+#
+# 2. Verify .env configuration:
+#    - EMAIL_SMTP_HOST must be set (not empty)
+#    - EMAIL_SMTP_USER and PASSWORD must be correct
+#    - EMAIL_SMTP_PASSWORD must be 16-char App Password (not regular password)
+#
+# 3. Check Gmail App Password setup:
+#    - Go to: https://myaccount.google.com/apppasswords
+#    - Create new App Password for "Mail"
+#    - Copy the 16-character password (without spaces)
+#    - Paste in EMAIL_SMTP_PASSWORD
+#
+# 4. If using Ethereal (no SMTP configured):
+#    - Server will auto-create test account
+#    - Look for: "📧 Ethereal test account created: xxxxx@ethereal.email"
+#    - View emails at: https://ethereal.email
+#    - Login with the credentials shown in console

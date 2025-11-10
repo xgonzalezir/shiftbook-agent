@@ -1,0 +1,361 @@
+### Common Scenarios and Workflows
+### Base URL: http://localhost:4004/shiftbook/ShiftBookService
+
+@baseUrl = http://localhost:4004/shiftbook/ShiftBookService
+@auth = Basic alice:
+
+##################################################
+### Scenario 1: Complete Setup for New Category
+##################################################
+
+### 1.1: Create Category with Full Configuration
+POST {{baseUrl}}/createCategoryWithDetails
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "werks": "1000",
+  "sendmail": 1,
+  "sendworkcenters": 1,
+  "default_subject": "Safety Incident - Immediate Attention Required",
+  "default_message": "A safety incident has been reported. Please investigate immediately and take corrective action to ensure workplace safety.",
+  "translations": [
+    {
+      "lng": "en",
+      "desc": "Safety Incident"
+    },
+    {
+      "lng": "es",
+      "desc": "Incidente de Seguridad"
+    }
+  ],
+  "mails": [
+    {
+      "mail_address": "safety@example.com"
+    },
+    {
+      "mail_address": "supervisor@example.com"
+    }
+  ],
+  "workcenters": [
+    {
+      "workcenter": "WC001"
+    },
+    {
+      "workcenter": "WC002"
+    }
+  ],
+  "teamsChannel": {
+    "name": "Safety Alerts",
+    "webhookURL": "https://example.webhook.office.com/webhookb2/...",
+    "description": "Immediate safety notifications",
+    "active": true
+  }
+}
+
+###
+
+### 1.2: Verify Category Creation
+GET {{baseUrl}}/getShiftbookCategories
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "werks": "1000",
+  "language": "en"
+}
+
+###
+
+##################################################
+### Scenario 2: Log Entry with Email Notification
+##################################################
+
+### 2.1: Create Log Entry
+### Replace CATEGORY_ID with actual UUID
+POST {{baseUrl}}/addShiftBookEntry
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "werks": "1000",
+  "shoporder": "SO-SAFETY-001",
+  "stepid": "0010",
+  "split": "001",
+  "workcenter": "WC001",
+  "user_id": "floor.supervisor@example.com",
+  "category": "CATEGORY_ID",
+  "subject": "Near Miss Incident",
+  "message": "Fork lift nearly collided with pedestrian in aisle 5. Immediate review of safety protocols recommended."
+}
+
+###
+
+### 2.2: Manually Send Email Notification
+### Replace CATEGORY_ID with actual UUID
+POST {{baseUrl}}/sendMailByCategory
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "category": "CATEGORY_ID",
+  "werks": "1000",
+  "subject": "URGENT: Safety Incident Reported",
+  "message": "A near miss incident has been reported. Please review the latest shift book entry immediately."
+}
+
+###
+
+##################################################
+### Scenario 3: Bulk Log Entry Processing
+##################################################
+
+### 3.1: Create Multiple Log Entries (Shift Handover)
+### Replace CATEGORY_ID with actual UUID
+POST {{baseUrl}}/batchAddShiftBookEntries
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "logs": [
+    {
+      "werks": "1000",
+      "shoporder": "SO123001",
+      "stepid": "0010",
+      "split": "001",
+      "workcenter": "WC001",
+      "user_id": "shift.a.lead@example.com",
+      "category": "CATEGORY_ID",
+      "subject": "Shift A Handover - WC001",
+      "message": "Production running smoothly. Completed 450 units. No issues."
+    },
+    {
+      "werks": "1000",
+      "shoporder": "SO123002",
+      "stepid": "0020",
+      "split": "001",
+      "workcenter": "WC002",
+      "user_id": "shift.a.lead@example.com",
+      "category": "CATEGORY_ID",
+      "subject": "Shift A Handover - WC002",
+      "message": "Quality check scheduled for next shift. 2 units rejected, stored in QC area."
+    },
+    {
+      "werks": "1000",
+      "shoporder": "SO123003",
+      "stepid": "0030",
+      "split": "001",
+      "workcenter": "WC003",
+      "user_id": "shift.a.lead@example.com",
+      "category": "CATEGORY_ID",
+      "subject": "Shift A Handover - WC003",
+      "message": "Machine calibration needed. Performance below optimal."
+    }
+  ]
+}
+
+###
+
+##################################################
+### Scenario 4: Read Status Management
+##################################################
+
+### 4.1: Get Latest Unread Logs
+POST {{baseUrl}}/getShiftBookLogsPaginated
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "werks": "1000",
+  "workcenter": "WC001",
+  "page": 1,
+  "pageSize": 20,
+  "language": "en",
+  "include_dest_work_center": true,
+  "include_orig_work_center": true
+}
+
+###
+
+### 4.2: Mark Multiple Logs as Read
+### Replace LOG_ID_1, LOG_ID_2, LOG_ID_3 with actual UUIDs
+POST {{baseUrl}}/batchMarkLogsAsRead
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "logs": [
+    {
+      "log_id": "LOG_ID_1",
+      "workcenter": "WC001"
+    },
+    {
+      "log_id": "LOG_ID_2",
+      "workcenter": "WC001"
+    },
+    {
+      "log_id": "LOG_ID_3",
+      "workcenter": "WC001"
+    }
+  ]
+}
+
+###
+
+### 4.3: Check for New Updates
+POST {{baseUrl}}/getLastChangeTimestamp
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "werks": "1000",
+  "workcenter": "WC001",
+  "include_dest_work_center": true,
+  "include_orig_work_center": true
+}
+
+###
+
+##################################################
+### Scenario 5: Category Update and Maintenance
+##################################################
+
+### 5.1: Add Additional Email Recipients
+### Replace CATEGORY_ID with actual UUID
+POST {{baseUrl}}/batchInsertMails
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "category": "CATEGORY_ID",
+  "werks": "1000",
+  "mails": [
+    {
+      "mail_address": "manager@example.com"
+    },
+    {
+      "mail_address": "department.head@example.com"
+    }
+  ]
+}
+
+###
+
+### 5.2: Add Additional Workcenters
+### Replace CATEGORY_ID with actual UUID
+POST {{baseUrl}}/batchInsertWorkcenters
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "category": "CATEGORY_ID",
+  "workcenters": [
+    {
+      "workcenter": "WC004"
+    },
+    {
+      "workcenter": "WC005"
+    }
+  ]
+}
+
+###
+
+### 5.3: Add More Language Translations
+### Replace CATEGORY_ID with actual UUID
+POST {{baseUrl}}/batchInsertTranslations
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "category": "CATEGORY_ID",
+  "werks": "1000",
+  "translations": [
+    {
+      "lng": "fr",
+      "desc": "Incident de sécurité"
+    },
+    {
+      "lng": "de",
+      "desc": "Sicherheitsvorfall"
+    }
+  ]
+}
+
+###
+
+### 5.4: Verify Updated Category
+### Replace CATEGORY_ID with actual UUID
+GET {{baseUrl}}/ShiftBookCategory(ID=CATEGORY_ID,werks='1000')?$expand=mails,translations,workcenters,teamsChannel
+Authorization: {{auth}}
+
+###
+
+##################################################
+### Scenario 6: Search and Filter Operations
+##################################################
+
+### 6.1: Search Categories
+POST {{baseUrl}}/advancedCategorySearch
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "query": "safety",
+  "language": "en"
+}
+
+###
+
+### 6.2: Search Logs
+POST {{baseUrl}}/advancedLogSearch
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "query": "incident"
+}
+
+###
+
+### 6.3: Get Latest Log for Workcenter
+POST {{baseUrl}}/getLatestShiftbookLog
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "werks": "1000",
+  "workcenter": "WC001"
+}
+
+###
+
+##################################################
+### Scenario 7: Cleanup Operations
+##################################################
+
+### 7.1: Get Mail Recipients Before Deletion
+### Replace CATEGORY_ID with actual UUID
+POST {{baseUrl}}/getMailRecipients
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "category": "CATEGORY_ID",
+  "werks": "1000"
+}
+
+###
+
+### 7.2: Delete Category with All Related Data
+### Replace CATEGORY_ID with actual UUID
+POST {{baseUrl}}/deleteCategoryCascade
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "category": "CATEGORY_ID",
+  "werks": "1000"
+}
+
+###

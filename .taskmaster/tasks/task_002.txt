@@ -1,0 +1,17 @@
+# Task ID: 2
+# Title: Define Core Data Models
+# Status: done
+# Dependencies: 1
+# Priority: high
+# Description: Create the core data models for the Shift Book Service including ShiftBookLog, ShiftBookCategory, ShiftBookCategoryMail, and ShiftBookCategoryLng entities.
+# Details:
+Create schema.cds file with the following entities:
+1. ShiftBookLog: id (UUID), timestamp, plant, shopOrder, workCenter, category, subject, message, user, userFullName
+2. ShiftBookCategory: id (UUID), code, active, sendMail
+3. ShiftBookCategoryMail: id (UUID), category_ID (association), email
+4. ShiftBookCategoryLng: id (UUID), category_ID (association), language (ISO code), description
+
+Implement proper associations between entities. Add annotations for OData exposure and UI rendering. Include technical fields like createdAt, createdBy, modifiedAt, modifiedBy using CAP's managed aspect. Configure proper indexing for performance optimization.
+
+# Test Strategy:
+Validate data models with 'cds compile' command. Create unit tests to verify entity relationships and constraints. Test database deployment with 'cds deploy --to hana'.

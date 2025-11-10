@@ -1,0 +1,48 @@
+meta {
+  name: Batch Add Shift Book Entries
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseURL}}/shiftbook/ShiftBookService/batchAddShiftBookEntries
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "logs": [
+      {
+        "werks": "1000",
+        "shoporder": "SO2024003002",
+        "stepid": "0010",
+        "split": "001",
+        "workcenter": "WC_QUALITY_01",
+        "user_id": "quality.inspector@company.com",
+        "category": "268812a6-36c5-4495-9486-5872d2fb3ad3",
+        "subject": "Quality Control - Batch Inspection",
+        "message": "Batch QC-002 inspection completed. 5 units rejected due to dimensional tolerance issues. Rework required."
+      },
+      {
+        "werks": "1000",
+        "shoporder": "SO2024003003",
+        "stepid": "0020",
+        "split": "001",
+        "workcenter": "WC_WELDING",
+        "user_id": "welding.operator@company.com",
+        "category": "66f8e40d-7e82-4bbf-9798-a3fcc50f79d4",
+        "subject": "Equipment Malfunction - Welding Station",
+        "message": "Welding gun W-005 showing irregular arc behavior. Maintenance team notified. Production temporarily halted."
+      }
+    ]
+  }
+}
+
+settings {
+  encodeUrl: true
+}

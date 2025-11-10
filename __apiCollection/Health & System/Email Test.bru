@@ -1,0 +1,25 @@
+meta {
+  name: Email Test
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseURL}}/health/email-test
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "test": true
+  }
+}
+
+settings {
+  encodeUrl: true
+}

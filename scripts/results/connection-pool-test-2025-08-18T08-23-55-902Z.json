@@ -1,0 +1,358 @@
+{
+  "timestamp": "2025-08-18T08:23:55.903Z",
+  "testConfiguration": {
+    "baseUrl": "http://localhost:4004",
+    "concurrentRequests": 20,
+    "totalRequests": 100,
+    "delayBetweenBatches": 1000
+  },
+  "results": {
+    "totalRequests": 60,
+    "successfulRequests": 20,
+    "failedRequests": 40,
+    "totalTime": 55.884625999999855,
+    "averageResponseTime": 2.7942312999999928,
+    "minResponseTime": 8.304291999999805,
+    "maxResponseTime": 29.536375000000135,
+    "connectionPoolMetrics": [
+      {
+        "scenario": "Shift Book Logs Query",
+        "initial": {
+          "totalConnections": 0,
+          "activeConnections": 0,
+          "idleConnections": 0,
+          "waitingRequests": 0,
+          "acquiredConnections": 0,
+          "releasedConnections": 0,
+          "failedConnections": 0,
+          "avgAcquisitionTime": 0,
+          "avgQueryTime": 0,
+          "lastReset": "2025-08-18T08:17:57.734Z"
+        },
+        "final": {
+          "totalConnections": 0,
+          "activeConnections": 0,
+          "idleConnections": 0,
+          "waitingRequests": 0,
+          "acquiredConnections": 0,
+          "releasedConnections": 0,
+          "failedConnections": 0,
+          "avgAcquisitionTime": 0,
+          "avgQueryTime": 0,
+          "lastReset": "2025-08-18T08:17:57.734Z"
+        },
+        "health": {
+          "status": "healthy",
+          "issues": [],
+          "recommendations": []
+        }
+      },
+      {
+        "scenario": "Categories Query",
+        "initial": {
+          "totalConnections": 0,
+          "activeConnections": 0,
+          "idleConnections": 0,
+          "waitingRequests": 0,
+          "acquiredConnections": 0,
+          "releasedConnections": 0,
+          "failedConnections": 0,
+          "avgAcquisitionTime": 0,
+          "avgQueryTime": 0,
+          "lastReset": "2025-08-18T08:17:57.734Z"
+        },
+        "final": {
+          "totalConnections": 0,
+          "activeConnections": 0,
+          "idleConnections": 0,
+          "waitingRequests": 0,
+          "acquiredConnections": 0,
+          "releasedConnections": 0,
+          "failedConnections": 0,
+          "avgAcquisitionTime": 0,
+          "avgQueryTime": 0,
+          "lastReset": "2025-08-18T08:17:57.734Z"
+        },
+        "health": {
+          "status": "healthy",
+          "issues": [],
+          "recommendations": []
+        }
+      },
+      {
+        "scenario": "Health Check",
+        "initial": {
+          "totalConnections": 0,
+          "activeConnections": 0,
+          "idleConnections": 0,
+          "waitingRequests": 0,
+          "acquiredConnections": 0,
+          "releasedConnections": 0,
+          "failedConnections": 0,
+          "avgAcquisitionTime": 0,
+          "avgQueryTime": 0,
+          "lastReset": "2025-08-18T08:17:57.734Z"
+        },
+        "final": {
+          "totalConnections": 0,
+          "activeConnections": 0,
+          "idleConnections": 0,
+          "waitingRequests": 0,
+          "acquiredConnections": 0,
+          "releasedConnections": 0,
+          "failedConnections": 0,
+          "avgAcquisitionTime": 0,
+          "avgQueryTime": 0,
+          "lastReset": "2025-08-18T08:17:57.734Z"
+        },
+        "health": {
+          "status": "healthy",
+          "issues": [],
+          "recommendations": []
+        }
+      }
+    ],
+    "errors": [
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-1\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 7.241499999999995,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-2\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 9.679415999999996,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-3\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 9.731583,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-4\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 9.728667000000002,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-5\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 9.666874999999997,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-6\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 9.588541,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-7\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 9.429708000000005,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-8\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 9.393,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-9\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 9.349124999999994,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-10\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 9.245582999999996,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-11\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 9.174624999999992,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-12\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 9.163875000000004,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-13\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 9.150041999999992,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-14\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 9.168958999999994,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-15\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 9.145875000000004,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-16\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 9.168959000000001,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-17\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 9.188750000000006,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-18\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 9.191959000000004,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-19\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 9.367459000000004,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-20\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 9.110167000000004,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-1\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 3.9635840000000826,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-2\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 3.9641249999999673,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-3\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 3.968208000000004,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-4\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 4.039457999999968,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-5\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 4.074165999999877,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-6\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 4.106166999999914,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-7\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 4.770832999999811,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-8\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 4.924250000000029,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-9\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 5.022500000000036,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-10\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 5.143583000000035,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-11\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 5.369957999999997,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-12\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 5.455083000000059,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-13\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 5.5455839999999625,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-14\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 5.618624999999838,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-15\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 5.684208000000126,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-16\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 5.771040999999968,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-17\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 5.840874999999869,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-18\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 5.86891700000001,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-19\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 5.932332999999971,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-20\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 5.946374999999989,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": \"Unauthorized\"\n}"
+      }
+    ]
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "ES2022",
+    "outDir": "./gen/srv",
+    "rootDir": "./srv",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "declaration": false,
+    "sourceMap": false,
+    "removeComments": true,
+    "preserveConstEnums": false,
+    "noImplicitAny": false,
+    "strict": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false
+  },
+  "include": ["srv/**/*.ts"],
+  "exclude": [
+    "node_modules",
+    "app",
+    "gen",
+    "test",
+    "srv/**/*.old.ts",
+    "srv/**/*.backup.ts"
+  ]
+}

@@ -1,0 +1,15 @@
+meta {
+  name: Delete Log Entry
+  type: http
+  seq: 8
+}
+
+delete {
+  url: {{baseURL}}/shiftbook/ShiftBookService/ShiftBookLog(550e8400-e29b-41d4-a716-446655440001)
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}

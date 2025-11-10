@@ -1,0 +1,15 @@
+meta {
+  name: Get Category by ID
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseURL}}/shiftbook/ShiftBookService/ShiftBookCategory(ID='5c8d5be9-2d80-4529-a9ea-afaa20aaa1ad',werks='2000')
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}

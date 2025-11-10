@@ -1,0 +1,15 @@
+meta {
+  name: Metrics - Prometheus
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseURL}}/metrics
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}

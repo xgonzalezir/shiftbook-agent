@@ -1,0 +1,26 @@
+meta {
+  name: Get Latest Shiftbook Log
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseURL}}/shiftbook/ShiftBookService/getLatestShiftbookLog
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "werks": "1000",
+    "workcenter": "WC_ASSEMBLY_01"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

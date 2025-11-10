@@ -1,0 +1,224 @@
+# SAP CAP Shift Book Service - Product Requirements Document
+
+## Overview
+The SAP CAP Shift Book Service is a cloud-native backend service designed to manage shift book logging for manufacturing operations. It provides a centralized system for recording shift events, managing notification categories, and sending automated email alerts. The service integrates with SAP Digital Manufacturing Cloud (DMC) to validate manufacturing context and supports multi-language internationalization for global manufacturing operations.
+
+The system solves the problem of fragmented shift logging across manufacturing plants by providing a unified, cloud-based solution that ensures consistent event recording, proper categorization, and timely notifications to relevant stakeholders.
+
+## Core Features
+
+### 1. Shift Book Logging System
+- **What it does**: Records manufacturing shift events with full context including plant, shop order, work center, and user information
+- **Why it's important**: Provides audit trail and operational visibility for manufacturing processes
+- **How it works**: Accepts log entries with DMC context validation, stores them in HANA database with timestamps and user tracking
+
+### 2. Category Management System
+- **What it does**: Manages notification categories with configurable email settings and multi-language descriptions
+- **Why it's important**: Enables flexible notification routing and internationalization support
+- **How it works**: CRUD operations for categories with associated email recipients and language-specific descriptions
+
+### 3. Email Notification System
+- **What it does**: Sends automated email notifications based on category configuration and shift events
+- **Why it's important**: Ensures timely communication of critical manufacturing events
+- **How it works**: Integrates with BTP Destination Service to send emails to configured recipients per category
+
+### 4. DMC Integration
+- **What it does**: Validates manufacturing context against SAP DMC and enriches log data
+- **Why it's important**: Ensures data integrity and provides manufacturing-specific validation
+- **How it works**: Validates shop orders, work centers, and plant information against DMC before creating logs
+
+### 5. Multi-language Support
+- **What it does**: Provides internationalization for category descriptions and system messages
+- **Why it's important**: Supports global manufacturing operations with localized content
+- **How it works**: Stores language-specific descriptions in separate entities with ISO language codes
+
+### 6. POD Plugin Integration
+- **What it does**: Enables the shift book service to work as a POD plugin within SAP DMC interface
+- **Why it's important**: Provides seamless integration with manufacturing workflows and DMC context
+- **How it works**: Uses SAP Destination Service for cross-subaccount communication with dynamic URL construction
+
+### 7. Cross-subaccount Deployment
+- **What it does**: Supports flexible deployment options with POD plugin in one subaccount and CAP backend in another
+- **Why it's important**: Enables customer-specific deployment scenarios and resource optimization
+- **How it works**: Uses OAuth2JWTBearer authentication and trust relationships between subaccounts
+
+## User Experience
+
+### User Personas
+1. **Manufacturing Operator**: Creates shift logs from DMC interface with context validation
+2. **Plant Manager**: Manages notification categories and email configurations
+3. **System Administrator**: Configures BTP services and manages deployment
+4. **Global Operations Team**: Manages multi-language content and category descriptions
+
+### Key User Flows
+1. **Shift Log Creation**: Operator selects category, enters subject/message, system validates DMC context and creates log
+2. **Category Management**: Manager creates/updates categories with email recipients and translations
+3. **Email Notification**: System automatically sends emails based on category configuration
+4. **Search and Reporting**: Users search logs by various criteria for operational insights
+
+### UI/UX Considerations
+- RESTful OData API for easy integration with DMC plugins
+- Comprehensive error handling with meaningful messages
+- Batch operations for efficient data management
+- Search capabilities with advanced filtering options
+
+## Technical Architecture
+
+### System Components
+- **CAP Service Layer**: Core business logic and OData service definitions
+- **HANA Database**: Persistent storage for logs, categories, and configurations
+- **BTP Destination Service**: Email delivery infrastructure and cross-subaccount communication
+- **POD Plugin Frontend**: UI5 application running within SAP DMC interface
+- **DMC Integration**: Manufacturing context validation and plugin registration
+- **Authentication**: XSUAA integration for secure access with OAuth2JWTBearer
+- **Communication Layer**: SAP Cloud SDK for destination-based service calls
+
+### Data Models
+- **ShiftBookLog**: Core logging entity with DMC context fields
+- **ShiftBookCategory**: Notification categories with email settings
+- **ShiftBookCategoryMail**: Email recipient configurations
+- **ShiftBookCategoryLng**: Multi-language descriptions
+
+### APIs and Integrations
+- **OData REST API**: Primary service interface for CAP backend
+- **BTP Destination Service**: Email delivery and cross-subaccount communication
+- **SAP Cloud SDK**: Destination-based service calls from POD plugin
+- **DMC APIs**: Manufacturing context validation and plugin registration
+- **XSUAA**: Authentication and authorization with OAuth2JWTBearer
+- **SAP CF Mailer**: Email delivery service integration
+
+### Infrastructure Requirements
+- **SAP BTP Cloud Foundry**: Runtime environment for CAP backend
+- **SAP BTP Cloud Foundry (POD)**: Runtime environment for POD plugin frontend
+- **HANA Cloud**: Database service for persistent storage
+- **Destination Service**: Email configuration and cross-subaccount communication
+- **XSUAA**: Security service for authentication and authorization
+- **SAP CF Mailer**: Email delivery service
+- **DMC Service Registry**: Plugin registration and discovery
+
+## Development Roadmap
+
+### Phase 1: Core Foundation & Service Layer (MSB-116)
+- **CAP Service Definitions**: Create OData service definitions for ShiftBook operations (MSB-17)
+- **Shift Book CRUD Operations**: Implement addShiftBookEntry, getLatestShiftbookLog, and full CRUD operations (MSB-122)
+- **Category Management Service**: Implement getShiftbookCategories and category CRUD operations (MSB-123)
+- **Business Logic & Validation**: Add input validation, business rules, audit logging, and proper error responses (MSB-125)
+- **Email Notification Service**: Migrate existing /sendMail endpoint to CAP with SAP CF Mailer integration (MSB-124)
+- **HANA Database Setup**: Deploy database schema and initial data
+- **Authentication Integration**: XSUAA integration for secure access
+
+### Phase 2: POD Plugin Frontend Integration (MSB-121)
+- **Frontend Assessment**: Evaluate current UI components for destination service compatibility (MSB-145)
+- **POD Plugin AJAX Service Layer**: Create service layer using SAP Cloud SDK destination service calls (MSB-126)
+- **Data Models Adaptation**: Update UI5 data models for dynamic URL construction and destination-based communication (MSB-127)
+- **Destination Service Configuration**: Set up cross-subaccount communication with OAuth2JWTBearer authentication (MSB-128)
+- **Shift Book Entry Form Update**: Update form to save data via CAP service instead of direct database calls (MSB-129)
+- **POD Plugin Deployment Configuration**: Configure deployment settings for POD plugin with DMC registration (MSB-130)
+- **Plugin Manifest Configuration**: Update manifest for destination service approach (MSB-156)
+
+### Phase 3: Communication Architecture & Performance (MSB-146)
+- **Communication Architecture Design**: Document communication patterns and data flows between POD and CAP (MSB-147)
+- **Error Handling Implementation**: Implement retry logic, circuit breakers, and user-friendly error messaging (MSB-148)
+- **Performance Optimization**: Implement request caching, batching, and lazy loading for large datasets (MSB-149)
+- **Basic Monitoring Setup**: Enable console logging, health check endpoints, and troubleshooting guides (MSB-150)
+- **Cross-subaccount Communication**: Configure trust relationships and destination service for flexible deployment (MSB-151)
+
+### Phase 4: Testing & Quality Assurance (MSB-131)
+- **Unit Testing**: Comprehensive unit tests for all service components
+- **Integration Testing**: End-to-end testing of POD-CAP communication
+- **Performance Testing**: Load testing and performance validation
+- **Security Testing**: Authentication and authorization testing
+- **User Acceptance Testing**: Validation of business requirements
+
+### Phase 5: Deployment & Customer Onboarding (MSB-137)
+- **CI/CD Pipeline**: Automated deployment pipeline for BTP Cloud Foundry
+- **Customer Deployment Infrastructure**: Multi-tenant deployment capabilities
+- **Onboarding Processes**: Customer setup and configuration procedures
+- **Documentation**: Deployment guides and operational procedures
+
+### Phase 6: Product Documentation & Enablement (MSB-141)
+- **Technical Documentation**: API documentation and integration guides
+- **User Documentation**: End-user manuals and training materials
+- **Customer Enablement**: Training materials and best practices
+- **Support Documentation**: Troubleshooting guides and FAQ
+
+## Logical Dependency Chain
+
+### Foundation First - Service Layer (MSB-116)
+1. **CAP Service Definitions** (MSB-17): Define OData services and interfaces
+2. **Database Schema**: Deploy HANA entities and initial data
+3. **Shift Book CRUD Operations** (MSB-122): Core logging functionality
+4. **Category Management Service** (MSB-123): Notification category system
+5. **Business Logic & Validation** (MSB-125): Input validation and business rules
+6. **Email Notification Service** (MSB-124): SAP CF Mailer integration
+7. **Authentication**: XSUAA integration for secure access
+
+### Frontend Integration - POD Plugin (MSB-121)
+1. **Frontend Assessment** (MSB-145): Evaluate current UI for destination compatibility
+2. **POD Plugin AJAX Service Layer** (MSB-126): Create destination-based service client
+3. **Data Models Adaptation** (MSB-127): Update UI5 models for dynamic URL construction
+4. **Destination Service Configuration** (MSB-128): Cross-subaccount communication setup
+5. **Shift Book Entry Form Update** (MSB-129): Connect UI to CAP backend
+6. **POD Plugin Deployment Configuration** (MSB-130): DMC registration and deployment
+7. **Plugin Manifest Configuration** (MSB-156): Update manifest for destination approach
+
+### Communication Architecture (MSB-146)
+1. **Communication Architecture Design** (MSB-147): Document patterns and data flows
+2. **Error Handling Implementation** (MSB-148): Retry logic and circuit breakers
+3. **Performance Optimization** (MSB-149): Caching, batching, and lazy loading
+4. **Basic Monitoring Setup** (MSB-150): Logging and health checks
+5. **Cross-subaccount Communication** (MSB-151): Trust relationships and flexible deployment
+
+### Quality Assurance & Production Readiness
+1. **Testing & QA** (MSB-131): Comprehensive testing across all components
+2. **Deployment & Customer Onboarding** (MSB-137): CI/CD and customer setup
+3. **Product Documentation & Enablement** (MSB-141): Complete documentation suite
+
+## Risks and Mitigations
+
+### Technical Challenges
+- **Risk**: DMC integration complexity and API changes
+- **Mitigation**: Implement abstraction layer and comprehensive error handling
+
+- **Risk**: Email delivery reliability and rate limiting
+- **Mitigation**: Implement retry logic and delivery status tracking
+
+- **Risk**: Multi-language content management complexity
+- **Mitigation**: Use standardized i18n patterns and validation
+
+- **Risk**: Cross-subaccount communication complexity and trust setup
+- **Mitigation**: Implement robust destination service configuration with fallback options
+
+- **Risk**: POD plugin deployment and registration issues
+- **Mitigation**: Comprehensive testing of plugin lifecycle and DMC integration
+
+### MVP Scope Management
+- **Risk**: Feature creep during development
+- **Mitigation**: Strict phase-based development with clear acceptance criteria
+
+- **Risk**: Performance issues with large data volumes
+- **Mitigation**: Implement pagination and efficient query patterns
+
+### Resource Constraints
+- **Risk**: Limited BTP service quotas
+- **Mitigation**: Optimize resource usage and implement monitoring
+
+- **Risk**: Complex deployment and configuration
+- **Mitigation**: Automated deployment scripts and comprehensive documentation
+
+## Appendix
+
+### Research Findings
+- SAP CAP provides excellent foundation for BTP deployment
+- BTP Destination Service is the recommended approach for email delivery
+- HANA Cloud offers robust performance for manufacturing data volumes
+- XSUAA provides enterprise-grade security integration
+
+### Technical Specifications
+- **Runtime**: Node.js with TypeScript
+- **Framework**: SAP CAP (Cloud Application Programming Model)
+- **Database**: SAP HANA Cloud
+- **Authentication**: XSUAA
+- **Email**: BTP Destination Service
+- **Deployment**: Cloud Foundry with MTA
+- **API**: OData v4 REST services 

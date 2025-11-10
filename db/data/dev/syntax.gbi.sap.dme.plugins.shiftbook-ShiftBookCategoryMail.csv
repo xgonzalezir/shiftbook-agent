@@ -1,0 +1,16 @@
+CATEGORY,WERKS,MAIL_ADDRESS,CREATEDAT,CREATEDBY,MODIFIEDAT,MODIFIEDBY
+7fdaa02e-ec7a-4c39-bb39-80f2a60034db,1000,production.manager@company.com,2024-01-01T08:00:00.000Z,system,2024-01-01T08:00:00.000Z,system
+7fdaa02e-ec7a-4c39-bb39-80f2a60034db,1000,shift.supervisor@company.com,2024-01-01T08:00:00.000Z,system,2024-01-01T08:00:00.000Z,system
+268812a6-36c5-4495-9486-5872d2fb3ad3,1000,quality.control@company.com,2024-01-01T08:00:00.000Z,system,2024-01-01T08:00:00.000Z,system
+268812a6-36c5-4495-9486-5872d2fb3ad3,1000,qm.team@company.com,2024-01-01T08:00:00.000Z,system,2024-01-01T08:00:00.000Z,system
+ecf61e85-189f-4f78-b5d7-3d25076d3633,1000,safety.officer@company.com,2024-01-01T08:00:00.000Z,system,2024-01-01T08:00:00.000Z,system
+ecf61e85-189f-4f78-b5d7-3d25076d3633,1000,emergency.response@company.com,2024-01-01T08:00:00.000Z,system,2024-01-01T08:00:00.000Z,system
+66f8e40d-7e82-4bbf-9798-a3fcc50f79d4,1000,maintenance.team@company.com,2024-01-01T08:00:00.000Z,system,2024-01-01T08:00:00.000Z,system
+66f8e40d-7e82-4bbf-9798-a3fcc50f79d4,1000,technical.support@company.com,2024-01-01T08:00:00.000Z,system,2024-01-01T08:00:00.000Z,system
+d9c694d1-fee3-49c4-9cd4-ca6e27f3ae85,1000,next.shift@company.com,2024-01-01T08:00:00.000Z,system,2024-01-01T08:00:00.000Z,system
+d9c694d1-fee3-49c4-9cd4-ca6e27f3ae85,1000,operations.manager@company.com,2024-01-01T08:00:00.000Z,system,2024-01-01T08:00:00.000Z,system
+bfe58faf-51f8-4837-8721-e7120d289736,1000,procurement@company.com,2024-01-01T08:00:00.000Z,system,2024-01-01T08:00:00.000Z,system
+bfe58faf-51f8-4837-8721-e7120d289736,1000,supply.chain@company.com,2024-01-01T08:00:00.000Z,system,2024-01-01T08:00:00.000Z,system
+08177299-0aed-4ec4-8009-bcafe4edf293,2000,production.manager.p2@company.com,2024-01-01T08:00:00.000Z,system,2024-01-01T08:00:00.000Z,system
+e06abc5f-ec16-4aa2-a349-d7c0c18ae8fc,2000,quality.control.p2@company.com,2024-01-01T08:00:00.000Z,system,2024-01-01T08:00:00.000Z,system
+5c8d5be9-2d80-4529-a9ea-afaa20aaa1ad,2000,safety.officer.p2@company.com,2024-01-01T08:00:00.000Z,system,2024-01-01T08:00:00.000Z,system

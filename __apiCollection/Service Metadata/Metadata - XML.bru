@@ -1,0 +1,19 @@
+meta {
+  name: Metadata - XML
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseURL}}/shiftbook/ShiftBookService/$metadata
+  body: none
+  auth: inherit
+}
+
+headers {
+  Accept: application/xml
+}
+
+settings {
+  encodeUrl: true
+}

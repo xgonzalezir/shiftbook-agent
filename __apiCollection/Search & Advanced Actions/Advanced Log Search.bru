@@ -1,0 +1,25 @@
+meta {
+  name: Advanced Log Search
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseURL}}/shiftbook/ShiftBookService/advancedLogSearch
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "query": "temperature fluctuation"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

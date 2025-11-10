@@ -1,0 +1,87 @@
+# Task ID: 26
+# Title: Disable Draft Mode for ShiftBook Entities
+# Status: pending
+# Dependencies: 3, 4, 6, 7, 17
+# Priority: medium
+# Description: Disable draft feature on CAP entities for performance optimization and simplified data operations, focusing on ShiftBookLog entity while evaluating ShiftBookCategory requirements.
+# Details:
+1. Analyze current draft configuration in shiftbook-service.cds:
+   - Identify all entities with draft enabled (confirmed: ShiftBookCategory and ShiftBookLog)
+   - Review draft annotations and related configurations
+
+2. Modify ShiftBookLog entity configuration:
+   - Remove `@odata.draft.enabled` annotation from ShiftBookLog entity
+   - Update any related draft handlers or event listeners
+   - Ensure proper error handling for in-progress operations
+
+3. Evaluate ShiftBookCategory draft requirements:
+   - Analyze usage patterns and edit complexity
+   - If confirmed beneficial, maintain draft functionality for ShiftBookCategory
+   - Document rationale for keeping draft on this entity
+
+4. Update database schema:
+   - Generate migration script to handle draft-related tables
+   - Plan for removing draft shadow tables for ShiftBookLog
+   - Ensure data integrity during migration
+
+5. Implement draft data cleanup:
+   - Create script to identify and process any existing draft instances
+   - Implement cleanup logic to remove orphaned draft data
+   - Add logging for cleanup operations
+
+6. Update service implementation:
+   - Modify any service handlers that rely on draft functionality
+   - Update validation logic that might depend on draft state
+   - Ensure CRUD operations work correctly without draft
+
+7. Update documentation:
+   - Document configuration changes in service documentation
+   - Update API documentation to reflect removed draft capabilities
+   - Document performance considerations and expected improvements
+
+8. Performance monitoring:
+   - Implement metrics collection before and after changes
+   - Configure monitoring for key operations (create/update logs)
+   - Prepare performance comparison report
+
+Best practices:
+- Follow SAP CAP guidelines for draft disablement
+- Use CAP's built-in migration capabilities for schema changes
+- Implement proper error handling for transitional period
+- Consider backward compatibility for any consuming applications
+
+# Test Strategy:
+1. Unit Testing:
+   - Create unit tests to verify ShiftBookLog operations without draft mode
+   - Test ShiftBookCategory operations with draft mode (if retained)
+   - Verify error handling for operations that previously relied on draft
+
+2. Integration Testing:
+   - Test end-to-end flows that previously used draft functionality
+   - Verify that all CRUD operations work correctly without draft
+   - Test with realistic data volumes to validate performance improvements
+
+3. Database Schema Validation:
+   - Verify that draft shadow tables are properly removed for ShiftBookLog
+   - Confirm that ShiftBookCategory draft tables remain functional (if retained)
+   - Validate data integrity after migration
+
+4. Performance Testing:
+   - Measure response times for key operations before and after changes
+   - Test with high volume of concurrent requests to verify scalability improvements
+   - Validate memory usage improvements without draft overhead
+
+5. UI Integration Testing:
+   - Test any UI components that interact with these entities
+   - Verify that UI correctly handles non-draft operations
+   - Ensure proper error messages are displayed for unsupported draft operations
+
+6. Regression Testing:
+   - Run existing test suite to ensure no functionality is broken
+   - Verify that all dependent services continue to function correctly
+   - Test any batch operations or complex transactions
+
+7. Documentation Verification:
+   - Review updated documentation for accuracy
+   - Verify API documentation reflects current implementation
+   - Ensure performance metrics are properly documented

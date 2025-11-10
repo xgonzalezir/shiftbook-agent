@@ -1,0 +1,19 @@
+meta {
+  name: Get Logs by Category
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseURL}}/shiftbook/ShiftBookService/ShiftBookLog?$filter=category eq 7fdaa02e-ec7a-4c39-bb39-80f2a60034db
+  body: none
+  auth: inherit
+}
+
+params:query {
+  $filter: category eq 7fdaa02e-ec7a-4c39-bb39-80f2a60034db
+}
+
+settings {
+  encodeUrl: true
+}

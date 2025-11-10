@@ -1,0 +1,385 @@
+{
+  "name": "shiftbook-srv",
+  "version": "1.0.0",
+  "description": "SAP CAP Shift Book Service",
+  "repository": "https://github.com/syntax-gbi/shift-book-1",
+  "license": "SEE LICENSE IN LICENSE",
+  "private": true,
+  "dependencies": {
+    "@cap-js/hana": "^2.1.2",
+    "@sap-cloud-sdk/connectivity": "^4.1.1",
+    "@sap-cloud-sdk/http-client": "^4.0.2",
+    "@sap/cds": "^9.2.0",
+    "@sap/cds-dk": "^9.2.0",
+    "@sap/cds-mtxs": "^3.2.0",
+    "@sap/xsenv": "^5.6.1",
+    "@sap/xssec": "^4",
+    "@types/nodemailer": "^6.4.17",
+    "@types/uuid": "^10.0.0",
+    "axios": "^1.10.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.0",
+    "express": "^4",
+    "handlebars": "^4.7.8",
+    "nodemailer": "^7.0.5",
+    "passport": "^0.7.0",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3",
+    "uuid": "^11.1.0",
+    "winston": "^3.15.0",
+    "winston-daily-rotate-file": "^4.7.1"
+  },
+  "devDependencies": {
+    "@cap-js/cds-test": "^0.4.0",
+    "@cap-js/cds-typer": ">=0.1",
+    "@cap-js/cds-types": "^0.13.0",
+    "@cap-js/sqlite": "^2.0.2",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.4",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^22.0.0",
+    "@types/nodemailer": "^6.4.17",
+    "@types/supertest": "^6.0.3",
+    "@types/uuid": "^10.0.0",
+    "axios": "^1.10.0",
+    "chai": "^4.3.7",
+    "concurrently": "^7.6.0",
+    "cross-env": "^7.0.3",
+    "glob": "^10.4.5",
+    "jest": "^30.0.4",
+    "jsonwebtoken": "^9.0.2",
+    "mocha": "^10.2.0",
+    "rimraf": "^5.0.10",
+    "supertest": "^7.1.4",
+    "ts-jest": "^29.4.0",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
+  },
+  "scripts": {
+    "start": "cds serve csn.json",
+    "_comment_help": "=== MAIN HELP ===",
+    "help": "echo '\n📚 AVAILABLE SCRIPT CATEGORIES\n' && echo '  dev:help     - Development scripts' && echo '  build:help   - Build scripts' && echo '  test:help    - Testing scripts' && echo '  db:help      - Database scripts' && echo '  deploy:help  - Deployment scripts' && echo '  health:help  - Health check scripts' && echo '  perf:help    - Performance scripts' && echo '  clean:help   - Cleanup scripts' && echo '\n💡 TIP: Use help:all to see all commands at once' && echo '\n📖 Full documentation: package.json.md\n'",
+    "help:all": "npm run deploy:help && npm run dev:help && npm run build:help && npm run test:help && npm run db:help && npm run health:help && npm run perf:help && npm run clean:help",
+    "_comment_deployment": "=== DEPLOYMENT ===",
+    "deploy:help": "echo '\n🚢 DEPLOYMENT SCRIPTS\n' && echo '  start             - Start production server (uses csn.json)' && echo '  deploy:cf         - Full build + deploy to Cloud Foundry' && echo '  deploy:undeploy   - Remove app from Cloud Foundry (⚠️  deletes services!)' && echo '\n⚠️  CAUTION: deploy:undeploy will delete all services and data!' && echo '\n📖 See package.json.md for detailed documentation\n'",
+    "deploy:cf": "npm run build:mtar && cf deploy mta_archives/shiftbook_1.0.0.mtar --retries 1",
+    "deploy:undeploy": "cf undeploy shiftbook --delete-services --delete-service-keys",
+    "_comment_development": "=== DEVELOPMENT ===",
+    "dev:help": "echo '\n🚀 DEVELOPMENT SCRIPTS\n' && echo '  dev:start        - Start local dev server (SQLite + dummy auth)' && echo '  dev:watch        - Watch mode with hot-reload' && echo '  dev:with-data    - Start with test data preloaded' && echo '  dev:test-env     - Start with test environment config' && echo '  dev:hybrid       - Start with HANA + XSUAA (hybrid mode)' && echo '  dev:prod-like    - Simulate production locally' && echo '  dev:load-data    - Load development test data' && echo '\n📖 See package.json.md for detailed documentation\n'",
+    "dev:start": "cross-env NODE_ENV=development cds serve",
+    "dev:watch": "cds watch",
+    "dev:with-data": "npm run dev:load-data && npm run dev:watch",
+    "dev:test-env": "npm run dev:load-data && cross-env CDS_ENV=test cds watch",
+    "dev:hybrid": "cross-env CDS_ENV=hybrid cds run",
+    "dev:prod-like": "cross-env CDS_ENV=production cds serve",
+    "dev:load-data": "node scripts/setup-dev-data.js",
+    "_comment_build": "=== BUILD ===",
+    "build:help": "echo '\n🏗️  BUILD SCRIPTS\n' && echo '  build:prod           - Full production build (clean + CDS + TypeScript + assets)' && echo '  build:dev            - Development build (TypeScript only)' && echo '  build:typescript     - Compile TypeScript to JavaScript' && echo '  build:cf             - Build for Cloud Foundry deployment' && echo '  build:mtar           - Build + generate .mtar archive' && echo '  build:copy-assets    - Copy all production assets to gen/' && echo '  build:copy-minimal   - Copy minimal files for dev build' && echo '\n📖 See package.json.md for detailed documentation\n'",
+    "prebuild": "npm run clean:mock",
+    "build:prod": "npm run clean:all && cds build --production && npm run build:typescript && npm run build:copy-assets && npm run clean:mock",
+    "build:dev": "npm run clean:all && npm run build:typescript && npm run build:copy-minimal",
+    "build:typescript": "tsc",
+    "build:copy-assets": "cp -r @cds-models gen/srv/ && cp package.json gen/srv/ && cp package-lock.json gen/srv/ && cp -r _i18n gen/srv/ && cp srv/*.js gen/srv/ && cp srv/*.cds gen/srv/ && cp -r srv/lib gen/srv/ && mkdir -p gen/srv/srv && cp gen/srv/shiftbook-service.* gen/srv/srv/ && cp -r gen/srv/lib gen/srv/srv/ && rsync -av --exclude='data/backup' --exclude='data/dev' db/ gen/db/ && cp db/package.json gen/db/ 2>/dev/null || true",
+    "build:copy-minimal": "cp package.json gen/srv/ && cp srv/server.js gen/srv/ 2>/dev/null || true",
+    "prebuild:cf": "npm run clean:mock",
+    "build:cf": "npm run build:prod && npm run clean:typescript",
+    "prebuild:mtar": "npm run clean:mock",
+    "build:mtar": "npm run build:cf && mbt build",
+    "_comment_testing": "=== TESTING ===",
+    "test:help": "echo '\n🧪 TESTING SCRIPTS\n' && echo '  test:all         - Run all tests sequentially' && echo '  test:unit        - Run unit tests only' && echo '  test:coverage    - Run unit tests with coverage report' && echo '  test:service     - Run service layer tests' && echo '  test:workflow    - Run workflow tests' && echo '  test:integration - Run integration tests' && echo '  test:e2e         - Run end-to-end tests' && echo '  test:report      - Generate custom coverage report' && echo '  test:watch       - Watch mode for tests' && echo '  test:ci          - CI/CD optimized test run' && echo '  test:debug       - Clean environment for test debugging' && echo '\n📖 See package.json.md for detailed documentation\n'",
+    "test:all": "jest --runInBand",
+    "test:unit": "jest test/unit --runInBand",
+    "test:coverage": "jest test/unit --coverage --runInBand",
+    "test:service": "jest test/service --runInBand",
+    "test:workflow": "jest test/workflow --runInBand",
+    "test:integration": "jest test/integration --runInBand",
+    "test:e2e": "jest test/e2e --runInBand",
+    "test:report": "node scripts/generate-coverage-report.js",
+    "test:watch": "jest --watch",
+    "test:ci": "jest test/unit --ci --coverage --runInBand",
+    "test:debug": "echo 'Cleaning test environment...' && npm run clean:all && npm run clean:test-cache && echo 'Ready for testing!'",
+    "_comment_database": "=== DATABASE ===",
+    "db:help": "echo '\n🗄️  DATABASE SCRIPTS\n' && echo '  db:deploy         - Deploy database using current environment config' && echo '  db:deploy:dev     - Deploy SQLite database with test data' && echo '  db:deploy:test    - Deploy in-memory SQLite for testing' && echo '  db:deploy:hybrid  - Deploy to HANA (hybrid mode)' && echo '  db:deploy:prod    - Deploy to HANA (production mode)' && echo '\n📖 See package.json.md for detailed documentation\n'",
+    "db:deploy": "cds deploy",
+    "db:deploy:dev": "npm run dev:load-data && cross-env CDS_ENV=development cds deploy --to sqlite:db/shiftbook-dev.db",
+    "db:deploy:test": "cross-env CDS_ENV=test cds deploy --to sqlite::memory:",
+    "db:deploy:hybrid": "cross-env CDS_ENV=hybrid cds deploy --to hana",
+    "db:deploy:prod": "cross-env CDS_ENV=production cds deploy --to hana",
+    "_comment_health": "=== HEALTH CHECKS ===",
+    "health:help": "echo '\n🏥 HEALTH CHECK SCRIPTS\n' && echo '  health:local        - Check health of local server (detailed)' && echo '  health:local:simple - Check health of local server (simple status)' && echo '  health:dev          - Check health of dev environment in BTP' && echo '  health:test         - Check health of test environment in BTP' && echo '  health:prod         - Check health of prod environment in BTP' && echo '\n💡 Use HEALTH_CHECK_URL and CF_DOMAIN env vars to customize URLs' && echo '\n📖 See package.json.md for detailed documentation\n'",
+    "health:local": "curl -f http://localhost:4004/health || echo '❌ Local health check failed'",
+    "health:local:simple": "curl -f http://localhost:4004/health/simple || echo '❌ Local simple health check failed'",
+    "health:dev": "curl -f ${HEALTH_CHECK_URL:-https://shiftbook-cap-dev.${CF_DOMAIN:-cfapps.eu10.hana.ondemand.com}/health} || echo '❌ Dev health check failed'",
+    "health:test": "curl -f ${HEALTH_CHECK_URL:-https://shiftbook-cap-test.${CF_DOMAIN:-cfapps.eu10.hana.ondemand.com}/health} || echo '❌ Test health check failed'",
+    "health:prod": "curl -f ${HEALTH_CHECK_URL:-https://shiftbook-cap.${CF_DOMAIN:-cfapps.eu10.hana.ondemand.com}/health} || echo '❌ Prod health check failed'",
+    "_comment_performance": "=== PERFORMANCE ===",
+    "perf:help": "echo '\n⚡ PERFORMANCE SCRIPTS\n' && echo '  perf:connection-pool        - Test connection pool with default settings' && echo '  perf:connection-pool:light  - Light stress test (10 concurrent, 50 total)' && echo '  perf:connection-pool:heavy  - Heavy stress test (50 concurrent, 200 total)' && echo '  perf:monitoring             - Test performance monitoring system' && echo '  perf:logging                - Test structured logging system' && echo '\n📖 See package.json.md for detailed documentation\n'",
+    "perf:connection-pool": "node scripts/test-connection-pool.js",
+    "perf:connection-pool:light": "CONCURRENT_REQUESTS=10 TOTAL_REQUESTS=50 node scripts/test-connection-pool.js",
+    "perf:connection-pool:heavy": "CONCURRENT_REQUESTS=50 TOTAL_REQUESTS=200 node scripts/test-connection-pool.js",
+    "perf:monitoring": "node scripts/test-performance-monitoring.js",
+    "perf:logging": "node scripts/test-structured-logging.js",
+    "_comment_cleanup": "=== CLEANUP ===",
+    "clean:help": "echo '\n🧹 CLEANUP SCRIPTS\n' && echo '  clean:all         - Remove gen/ folder completely' && echo '  clean:mock        - Remove mock data files' && echo '  clean:typescript  - Remove TypeScript files from gen/' && echo '  clean:test-cache  - Clear Jest test cache' && echo '\n📖 See package.json.md for detailed documentation\n'",
+    "clean:all": "rm -rf gen/",
+    "clean:mock": "npm install glob rimraf --save-dev --silent && node cleanMock.js",
+    "clean:typescript": "npx rimraf gen/srv/srv/**/*.ts",
+    "clean:test-cache": "jest --clearCache",
+    "_comment_deprecated": "=== DEPRECATED (will be removed) ===",
+    "start:local": "echo '⚠️  DEPRECATED: Use dev:start instead' && npm run dev:start",
+    "watch": "echo '⚠️  DEPRECATED: Use dev:watch instead' && npm run dev:watch",
+    "dev": "echo '⚠️  DEPRECATED: Use dev:with-data instead' && npm run dev:with-data",
+    "dev:test": "echo '⚠️  DEPRECATED: Use dev:test-env instead' && npm run dev:test-env",
+    "hybrid": "echo '⚠️  DEPRECATED: Use dev:hybrid instead' && npm run dev:hybrid",
+    "prod": "echo '⚠️  DEPRECATED: Use dev:prod-like instead' && npm run dev:prod-like",
+    "setup:dev-data": "echo '⚠️  DEPRECATED: Use dev:load-data instead' && npm run dev:load-data",
+    "build": "echo '⚠️  DEPRECATED: Use build:prod instead' && npm run build:prod",
+    "build:ts": "echo '⚠️  DEPRECATED: Use build:typescript instead' && npm run build:typescript",
+    "build:cloudfoundry": "echo '⚠️  DEPRECATED: Use build:cf instead' && npm run build:cf",
+    "build:mta": "echo '⚠️  DEPRECATED: Use build:mtar instead' && npm run build:mtar",
+    "copy:extras": "echo '⚠️  DEPRECATED: Use build:copy-assets instead' && npm run build:copy-assets",
+    "copy:files": "echo '⚠️  DEPRECATED: Use build:copy-minimal instead' && npm run build:copy-minimal",
+    "clean": "echo '⚠️  DEPRECATED: Use clean:all instead' && npm run clean:all",
+    "cleanup:mock": "echo '⚠️  DEPRECATED: Use clean:mock instead' && npm run clean:mock",
+    "cleanup:ts": "echo '⚠️  DEPRECATED: Use clean:typescript instead' && npm run clean:typescript",
+    "deploy": "echo '⚠️  DEPRECATED: Use deploy:cf instead' && npm run deploy:cf",
+    "undeploy": "echo '⚠️  DEPRECATED: Use deploy:undeploy instead' && npm run deploy:undeploy",
+    "jest": "echo '⚠️  DEPRECATED: Use test:all instead' && npm run test:all",
+    "jest:unit": "echo '⚠️  DEPRECATED: Use test:unit instead' && npm run test:unit",
+    "jest:coverage": "echo '⚠️  DEPRECATED: Use test:coverage instead' && npm run test:coverage",
+    "jest:service": "echo '⚠️  DEPRECATED: Use test:service instead' && npm run test:service",
+    "jest:workflow": "echo '⚠️  DEPRECATED: Use test:workflow instead' && npm run test:workflow",
+    "jest:integration": "echo '⚠️  DEPRECATED: Use test:integration instead' && npm run test:integration",
+    "jest:e2e": "echo '⚠️  DEPRECATED: Use test:e2e instead' && npm run test:e2e",
+    "jest:coverage:report": "echo '⚠️  DEPRECATED: Use test:report instead' && npm run test:report",
+    "jest:watch": "echo '⚠️  DEPRECATED: Use test:watch instead' && npm run test:watch",
+    "jest:ci": "echo '⚠️  DEPRECATED: Use test:ci instead' && npm run test:ci",
+    "jest:clean": "echo '⚠️  DEPRECATED: Use clean:test-cache instead' && npm run clean:test-cache",
+    "jest:debug": "echo '⚠️  DEPRECATED: Use test:debug instead' && npm run test:debug",
+    "health:check": "echo '⚠️  DEPRECATED: Removed - use health:local, health:dev, health:test, or health:prod'",
+    "health:simple": "echo '⚠️  DEPRECATED: Removed - use health:local:simple'",
+    "health:check:local": "echo '⚠️  DEPRECATED: Use health:local instead' && npm run health:local",
+    "health:simple:local": "echo '⚠️  DEPRECATED: Use health:local:simple instead' && npm run health:local:simple",
+    "health:check:dev": "echo '⚠️  DEPRECATED: Use health:dev instead' && npm run health:dev",
+    "health:check:test": "echo '⚠️  DEPRECATED: Use health:test instead' && npm run health:test",
+    "health:check:prod": "echo '⚠️  DEPRECATED: Use health:prod instead' && npm run health:prod",
+    "test:connection-pool": "echo '⚠️  DEPRECATED: Use perf:connection-pool instead' && npm run perf:connection-pool",
+    "test:connection-pool:light": "echo '⚠️  DEPRECATED: Use perf:connection-pool:light instead' && npm run perf:connection-pool:light",
+    "test:connection-pool:heavy": "echo '⚠️  DEPRECATED: Use perf:connection-pool:heavy instead' && npm run perf:connection-pool:heavy",
+    "test:performance-monitoring": "echo '⚠️  DEPRECATED: Use perf:monitoring instead' && npm run perf:monitoring",
+    "test:structured-logging": "echo '⚠️  DEPRECATED: Use perf:logging instead' && npm run perf:logging"
+  },
+  "cds": {
+    "log": {
+      "levels": {
+        "shiftbook": "info",
+        "shiftbook.auth": "info",
+        "shiftbook.db": "debug",
+        "shiftbook.perf": "info",
+        "shiftbook.health": "info",
+        "shiftbook.business": "info",
+        "shiftbook.error": "error",
+        "shiftbook.security": "warn",
+        "sql": "debug"
+      },
+      "format": "json"
+    },
+    "i18n": {
+      "folders": [
+        "_i18n"
+      ],
+      "default_language": "en",
+      "supported_languages": [
+        "en",
+        "de",
+        "es",
+        "fr",
+        "it",
+        "pt"
+      ],
+      "fallback_language": "en",
+      "cache": {
+        "enabled": true,
+        "max_age": 3600000
+      }
+    },
+    "build": {
+      "target": "gen",
+      "tasks": [
+        {
+          "for": "hana",
+          "src": "db",
+          "options": {
+            "model": [
+              "db/",
+              "srv/",
+              "@sap/cds/srv/outbox"
+            ]
+          }
+        },
+        {
+          "for": "nodejs",
+          "src": ".",
+          "options": {
+            "model": [
+              "db/",
+              "srv/",
+              "@sap/cds/srv/outbox"
+            ]
+          }
+        },
+        {
+          "for": "typescript",
+          "src": "."
+        }
+      ]
+    },
+    "requires": {
+      "db": {
+        "[development]": {
+          "kind": "sqlite",
+          "credentials": {
+            "url": "db/shiftbook-dev.db"
+          },
+          "options": {
+            "pragma": {
+              "journal_mode": "WAL",
+              "synchronous": "NORMAL",
+              "cache_size": 50000,
+              "temp_store": "MEMORY",
+              "mmap_size": 268435456,
+              "optimize": true
+            }
+          }
+        },
+        "[test]": {
+          "kind": "sqlite",
+          "credentials": {
+            "url": ":memory:"
+          },
+          "options": {
+            "pragma": {
+              "journal_mode": "WAL",
+              "synchronous": "NORMAL",
+              "cache_size": 50000,
+              "temp_store": "MEMORY",
+              "mmap_size": 268435456,
+              "optimize": true
+            }
+          }
+        },
+        "[hybrid]": {
+          "kind": "hana",
+          "migrations": "alter",
+          "pool": {
+            "min": 15,
+            "max": 75,
+            "acquireTimeoutMillis": 5000,
+            "idleTimeoutMillis": 180000,
+            "healthCheckIntervalMillis": 30000
+          },
+          "options": {
+            "encrypt": true,
+            "trustServerCertificate": false,
+            "connectionTimeout": 30000,
+            "requestTimeout": 30000
+          }
+        },
+        "[production]": {
+          "kind": "hana",
+          "migrations": "alter",
+          "pool": {
+            "min": 20,
+            "max": 100,
+            "acquireTimeoutMillis": 5000,
+            "idleTimeoutMillis": 180000,
+            "healthCheckIntervalMillis": 30000
+          },
+          "options": {
+            "encrypt": true,
+            "trustServerCertificate": false,
+            "connectionTimeout": 30000,
+            "requestTimeout": 30000
+          }
+        }
+      },
+      "uaa": {
+        "kind": "xsuaa"
+      },
+      "auth": {
+        "[development]": {
+          "kind": "dummy",
+          "users": {
+            "alice": {
+              "ID": "alice",
+              "tenant": "t1",
+              "roles": [
+                "admin",
+                "operator"
+              ]
+            },
+            "bob": {
+              "ID": "bob",
+              "tenant": "t1",
+              "roles": [
+                "operator"
+              ]
+            },
+            "admin": {
+              "ID": "admin",
+              "tenant": "t1",
+              "roles": [
+                "admin",
+                "operator"
+              ]
+            },
+            "operator": {
+              "ID": "operator",
+              "tenant": "t1",
+              "roles": [
+                "operator"
+              ]
+            }
+          }
+        },
+        "[test]": {
+          "kind": "dummy",
+          "users": {
+            "test-operator": {
+              "ID": "test-operator",
+              "tenant": "t1",
+              "roles": [
+                "operator"
+              ]
+            },
+            "test-admin": {
+              "ID": "test-admin",
+              "tenant": "t1",
+              "roles": [
+                "admin",
+                "operator"
+              ]
+            }
+          }
+        },
+        "[hybrid]": {
+          "kind": "xsuaa",
+          "credentials": {}
+        },
+        "[production]": {
+          "kind": "xsuaa",
+          "credentials": {}
+        }
+      },
+      "destinations": true,
+      "html5-runtime": true,
+      "server": {
+        "port": 4004
+      }
+    }
+  },
+  "sapux": true,
+  "imports": {
+    "#cds-models/*": "./@cds-models/*/index.js"
+  }
+}

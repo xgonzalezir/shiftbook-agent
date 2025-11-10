@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "commonjs",
+    "lib": ["ES2022"],
+    "outDir": "./gen",
+    "rootDir": "./",
+    "strict": false,
+    "noImplicitAny": false,
+    "noImplicitThis": false,
+    "strictNullChecks": false,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "declaration": true,
+    "sourceMap": true,
+    "typeRoots": [
+      "./srv/@types",
+      "./node_modules/@types"
+    ],
+    "paths": {
+      "#cds-models/*": [
+        "./@cds-models/*"
+      ]
+    }
+  },
+  "include": [
+    "srv/**/*",
+    "@cds-models/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "gen/**/*",
+    "test/**/*"
+  ]
+}

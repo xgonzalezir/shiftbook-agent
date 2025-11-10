@@ -1,0 +1,81 @@
+{
+  "timestamp": "2025-08-18T07:53:04.727Z",
+  "testConfiguration": {
+    "baseUrl": "http://localhost:4004",
+    "concurrentRequests": 10,
+    "totalRequests": 50,
+    "delayBetweenBatches": 1000
+  },
+  "results": {
+    "totalRequests": 30,
+    "successfulRequests": 20,
+    "failedRequests": 10,
+    "totalTime": 55.09362500000013,
+    "averageResponseTime": 2.7546812500000066,
+    "minResponseTime": 8.156708999999864,
+    "maxResponseTime": 19.357917,
+    "connectionPoolMetrics": [],
+    "errors": [
+      {
+        "scenario": "Health Check",
+        "error": "Request failed with status code 404",
+        "statusCode": 404,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Health Check-1\",\n  \"scenario\": \"Health Check\",\n  \"responseTime\": 9.07633399999986,\n  \"error\": \"Request failed with status code 404\",\n  \"statusCode\": 404,\n  \"statusText\": \"Not Found\",\n  \"responseData\": \"<!DOCTYPE html>\\n<html lang=\\\"en\\\">\\n<head>\\n<meta charset=\\\"utf-8\\\">\\n<title>Error</title>\\n</head>\\n<body>\\n<pre>Cannot GET /health/connection-pool</pre>\\n</body>\\n</html>\\n\"\n}"
+      },
+      {
+        "scenario": "Health Check",
+        "error": "Request failed with status code 404",
+        "statusCode": 404,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Health Check-2\",\n  \"scenario\": \"Health Check\",\n  \"responseTime\": 9.575708999999733,\n  \"error\": \"Request failed with status code 404\",\n  \"statusCode\": 404,\n  \"statusText\": \"Not Found\",\n  \"responseData\": \"<!DOCTYPE html>\\n<html lang=\\\"en\\\">\\n<head>\\n<meta charset=\\\"utf-8\\\">\\n<title>Error</title>\\n</head>\\n<body>\\n<pre>Cannot GET /health/connection-pool</pre>\\n</body>\\n</html>\\n\"\n}"
+      },
+      {
+        "scenario": "Health Check",
+        "error": "Request failed with status code 404",
+        "statusCode": 404,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Health Check-3\",\n  \"scenario\": \"Health Check\",\n  \"responseTime\": 9.693459000000075,\n  \"error\": \"Request failed with status code 404\",\n  \"statusCode\": 404,\n  \"statusText\": \"Not Found\",\n  \"responseData\": \"<!DOCTYPE html>\\n<html lang=\\\"en\\\">\\n<head>\\n<meta charset=\\\"utf-8\\\">\\n<title>Error</title>\\n</head>\\n<body>\\n<pre>Cannot GET /health/connection-pool</pre>\\n</body>\\n</html>\\n\"\n}"
+      },
+      {
+        "scenario": "Health Check",
+        "error": "Request failed with status code 404",
+        "statusCode": 404,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Health Check-4\",\n  \"scenario\": \"Health Check\",\n  \"responseTime\": 9.821624999999585,\n  \"error\": \"Request failed with status code 404\",\n  \"statusCode\": 404,\n  \"statusText\": \"Not Found\",\n  \"responseData\": \"<!DOCTYPE html>\\n<html lang=\\\"en\\\">\\n<head>\\n<meta charset=\\\"utf-8\\\">\\n<title>Error</title>\\n</head>\\n<body>\\n<pre>Cannot GET /health/connection-pool</pre>\\n</body>\\n</html>\\n\"\n}"
+      },
+      {
+        "scenario": "Health Check",
+        "error": "Request failed with status code 404",
+        "statusCode": 404,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Health Check-5\",\n  \"scenario\": \"Health Check\",\n  \"responseTime\": 10.019834000000174,\n  \"error\": \"Request failed with status code 404\",\n  \"statusCode\": 404,\n  \"statusText\": \"Not Found\",\n  \"responseData\": \"<!DOCTYPE html>\\n<html lang=\\\"en\\\">\\n<head>\\n<meta charset=\\\"utf-8\\\">\\n<title>Error</title>\\n</head>\\n<body>\\n<pre>Cannot GET /health/connection-pool</pre>\\n</body>\\n</html>\\n\"\n}"
+      },
+      {
+        "scenario": "Health Check",
+        "error": "Request failed with status code 404",
+        "statusCode": 404,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Health Check-6\",\n  \"scenario\": \"Health Check\",\n  \"responseTime\": 10.225875000000087,\n  \"error\": \"Request failed with status code 404\",\n  \"statusCode\": 404,\n  \"statusText\": \"Not Found\",\n  \"responseData\": \"<!DOCTYPE html>\\n<html lang=\\\"en\\\">\\n<head>\\n<meta charset=\\\"utf-8\\\">\\n<title>Error</title>\\n</head>\\n<body>\\n<pre>Cannot GET /health/connection-pool</pre>\\n</body>\\n</html>\\n\"\n}"
+      },
+      {
+        "scenario": "Health Check",
+        "error": "Request failed with status code 404",
+        "statusCode": 404,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Health Check-7\",\n  \"scenario\": \"Health Check\",\n  \"responseTime\": 10.416208000000097,\n  \"error\": \"Request failed with status code 404\",\n  \"statusCode\": 404,\n  \"statusText\": \"Not Found\",\n  \"responseData\": \"<!DOCTYPE html>\\n<html lang=\\\"en\\\">\\n<head>\\n<meta charset=\\\"utf-8\\\">\\n<title>Error</title>\\n</head>\\n<body>\\n<pre>Cannot GET /health/connection-pool</pre>\\n</body>\\n</html>\\n\"\n}"
+      },
+      {
+        "scenario": "Health Check",
+        "error": "Request failed with status code 404",
+        "statusCode": 404,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Health Check-8\",\n  \"scenario\": \"Health Check\",\n  \"responseTime\": 10.585667000000285,\n  \"error\": \"Request failed with status code 404\",\n  \"statusCode\": 404,\n  \"statusText\": \"Not Found\",\n  \"responseData\": \"<!DOCTYPE html>\\n<html lang=\\\"en\\\">\\n<head>\\n<meta charset=\\\"utf-8\\\">\\n<title>Error</title>\\n</head>\\n<body>\\n<pre>Cannot GET /health/connection-pool</pre>\\n</body>\\n</html>\\n\"\n}"
+      },
+      {
+        "scenario": "Health Check",
+        "error": "Request failed with status code 404",
+        "statusCode": 404,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Health Check-9\",\n  \"scenario\": \"Health Check\",\n  \"responseTime\": 10.777749999999742,\n  \"error\": \"Request failed with status code 404\",\n  \"statusCode\": 404,\n  \"statusText\": \"Not Found\",\n  \"responseData\": \"<!DOCTYPE html>\\n<html lang=\\\"en\\\">\\n<head>\\n<meta charset=\\\"utf-8\\\">\\n<title>Error</title>\\n</head>\\n<body>\\n<pre>Cannot GET /health/connection-pool</pre>\\n</body>\\n</html>\\n\"\n}"
+      },
+      {
+        "scenario": "Health Check",
+        "error": "Request failed with status code 404",
+        "statusCode": 404,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Health Check-10\",\n  \"scenario\": \"Health Check\",\n  \"responseTime\": 11.792625000000044,\n  \"error\": \"Request failed with status code 404\",\n  \"statusCode\": 404,\n  \"statusText\": \"Not Found\",\n  \"responseData\": \"<!DOCTYPE html>\\n<html lang=\\\"en\\\">\\n<head>\\n<meta charset=\\\"utf-8\\\">\\n<title>Error</title>\\n</head>\\n<body>\\n<pre>Cannot GET /health/connection-pool</pre>\\n</body>\\n</html>\\n\"\n}"
+      }
+    ]
+  }
+}

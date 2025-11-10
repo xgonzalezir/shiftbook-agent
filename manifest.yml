@@ -1,0 +1,19 @@
+applications:
+- name: shiftbook-srv
+  memory: 512M
+  disk_quota: 2G
+  instances: 1
+  buildpack: nodejs_buildpack
+  health-check-type: http
+  health-check-http-endpoint: /health
+  timeout: 180
+  path: gen/srv
+  services:
+    - shiftbook-db
+    - shiftbook-auth
+    - shiftbook-destination
+    - shiftbook-config
+  env:
+    NODE_ENV: production
+    CDS_ENV: production
+  command: npm start

@@ -1,0 +1,28 @@
+meta {
+  name: Create Category Translation
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseURL}}/shiftbook/ShiftBookService/ShiftBookCategoryLng
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "category": "7fdaa02e-ec7a-4c39-bb39-80f2a60034db",
+    "lng": "pt",
+    "werks": "1000",
+    "desc": "Problemas de Produção"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

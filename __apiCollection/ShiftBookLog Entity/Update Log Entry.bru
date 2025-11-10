@@ -1,0 +1,26 @@
+meta {
+  name: Update Log Entry
+  type: http
+  seq: 7
+}
+
+patch {
+  url: {{baseURL}}/shiftbook/ShiftBookService/ShiftBookLog(550e8400-e29b-41d4-a716-446655440001)
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "subject": "Updated Test Log Entry",
+    "message": "This log entry has been updated via API"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

@@ -1,0 +1,772 @@
+import { describe, it, expect, beforeAll, afterAll, beforeEach } from '@jest/globals';
+import * as cds from '@sap/cds';
+import { performance } from 'perf_hooks';
+const { PERFORMANCE_CONFIG } = require('../../config/performance-test-config');
+
+/**
+ * Log Filtering Performance Tests for ShiftBook Service
+ *
+ * These tests specifically focus on performance characteristics of log filtering operations:
+ * 1. Work center filtering with origin vs destination workcenters
+ * 2. Complex queries involving multiple joins between logs and workcenters
+ * 3. Pagination performance with large datasets
+ * 4. Index optimization validation
+ * 5. Query performance under different data distribution patterns
+ */
+describe('ShiftBook Log Filtering - Performance Tests', () => {
+  let service: any;
+  let db: any;
+  let entities: any;
+
+  // Performance thresholds from configurable test setup
+  const FILTERING_PERFORMANCE_THRESHOLDS = {
+    ORIGIN_FILTER_SMALL: Math.floor(PERFORMANCE_CONFIG.thresholds.ORIGIN_FILTER_LARGE * 0.2),
+    ORIGIN_FILTER_MEDIUM: Math.floor(PERFORMANCE_CONFIG.thresholds.ORIGIN_FILTER_LARGE * 0.5),
+    ORIGIN_FILTER_LARGE: PERFORMANCE_CONFIG.thresholds.ORIGIN_FILTER_LARGE,
+    DESTINATION_FILTER_SMALL: Math.floor(PERFORMANCE_CONFIG.thresholds.DESTINATION_FILTER_LARGE * 0.15),
+    DESTINATION_FILTER_MEDIUM: Math.floor(PERFORMANCE_CONFIG.thresholds.DESTINATION_FILTER_LARGE * 0.4),
+    DESTINATION_FILTER_LARGE: PERFORMANCE_CONFIG.thresholds.DESTINATION_FILTER_LARGE,
+    COMBINED_FILTER_SMALL: Math.floor(PERFORMANCE_CONFIG.thresholds.COMBINED_FILTER_LARGE * 0.13),
+    COMBINED_FILTER_MEDIUM: Math.floor(PERFORMANCE_CONFIG.thresholds.COMBINED_FILTER_LARGE * 0.33),
+    COMBINED_FILTER_LARGE: PERFORMANCE_CONFIG.thresholds.COMBINED_FILTER_LARGE,
+    PAGINATION_FIRST_PAGE: 200,       // First page load
+    PAGINATION_MIDDLE_PAGE: 300,      // Middle page load
+    PAGINATION_LAST_PAGE: 400,        // Last page load
+    COMPLEX_JOIN_QUERY: Math.floor(PERFORMANCE_CONFIG.thresholds.ORIGIN_FILTER_LARGE * 1.5),
+    AGGREGATION_QUERY: Math.floor(PERFORMANCE_CONFIG.thresholds.ORIGIN_FILTER_LARGE * 1.0),
+    INDEX_SCAN_QUERY: 100             // Simple indexed queries
+  };
+
+  // Service implementation focused on filtering operations (defined before beforeAll)
+  const createLogFilteringService = () => ({
+    send: async (actionName: string, data: any) => {
+      const { SELECT, INSERT } = cds.ql;
+
+      switch (actionName) {
+        case 'filterLogsByOriginWorkcenter':
+          const { werks, workcenter, page = 1, pageSize = 20 } = data;
+
+          const offset = (page - 1) * pageSize;
+          const originLogs = await db.run(
+            SELECT.from(entities.ShiftBookLog)
+              .where({ werks, workcenter })
+              .orderBy({ log_dt: 'desc' })
+              .limit(pageSize, offset)
+          );
+
+          const totalResult = await db.run(
+            SELECT.from(entities.ShiftBookLog)
+              .columns('count(*) as total')
+              .where({ werks, workcenter })
+          );
+
+          return {
+            logs: originLogs,
+            total: totalResult[0]?.total || 0,
+            page,
+            pageSize,
+            filterType: 'origin'
+          };
+
+        case 'filterLogsByDestinationWorkcenter':
+          const { werks: dWerks, workcenter: dWorkcenter, page: dPage = 1, pageSize: dPageSize = 20 } = data;
+
+          // Get log IDs that have this workcenter as destination
+          const destLogIds = await db.run(
+            SELECT.from(entities.ShiftBookLogWC)
+              .columns(['log_id'])
+              .where({ workcenter: dWorkcenter })
+          );
+
+          const logIds = destLogIds.map((lwc: any) => lwc.log_id);
+
+          if (logIds.length === 0) {
+            return { logs: [], total: 0, page: dPage, pageSize: dPageSize, filterType: 'destination' };
+          }
+
+          const offset2 = (dPage - 1) * dPageSize;
+          const destLogs = await db.run(
+            SELECT.from(entities.ShiftBookLog)
+              .where({ werks: dWerks, ID: { in: logIds } })
+              .orderBy({ log_dt: 'desc' })
+              .limit(dPageSize, offset2)
+          );
+
+          return {
+            logs: destLogs,
+            total: logIds.length,
+            page: dPage,
+            pageSize: dPageSize,
+            filterType: 'destination'
+          };
+
+        case 'filterLogsByCombinedWorkcenter':
+          const {
+            werks: cWerks,
+            workcenter: cWorkcenter,
+            page: cPage = 1,
+            pageSize: cPageSize = 20
+          } = data;
+
+          // Get destination log IDs
+          const destIds = await db.run(
+            SELECT.from(entities.ShiftBookLogWC)
+              .columns(['log_id'])
+              .where({ workcenter: cWorkcenter })
+          );
+          const destinationLogIds = destIds.map((lwc: any) => lwc.log_id);
+
+          // Get origin log IDs
+          const combinedOriginLogs = await db.run(
+            SELECT.from(entities.ShiftBookLog)
+              .columns(['ID'])
+              .where({ werks: cWerks, workcenter: cWorkcenter })
+          );
+          const originLogIds = combinedOriginLogs.map((log: any) => log.ID);
+
+          // Combine both sets
+          const allIds = new Set([...destinationLogIds, ...originLogIds]);
+          const finalIds = Array.from(allIds);
+
+          if (finalIds.length === 0) {
+            return { logs: [], total: 0, page: cPage, pageSize: cPageSize, filterType: 'combined' };
+          }
+
+          const offset3 = (cPage - 1) * cPageSize;
+          const combinedLogs = await db.run(
+            SELECT.from(entities.ShiftBookLog)
+              .where({ werks: cWerks, ID: { in: finalIds } })
+              .orderBy({ log_dt: 'desc' })
+              .limit(cPageSize, offset3)
+          );
+
+          return {
+            logs: combinedLogs,
+            total: finalIds.length,
+            page: cPage,
+            pageSize: cPageSize,
+            filterType: 'combined'
+          };
+
+        case 'complexJoinQuery':
+          // Simplified complex query that works with CDS
+          const { werks: jWerks, limit = 100 } = data;
+
+          // Get logs first
+          const queryLogs = await db.run(
+            SELECT.from(entities.ShiftBookLog)
+              .columns(['ID', 'shoporder', 'stepid', 'workcenter', 'subject', 'log_dt', 'category'])
+              .where({ werks: jWerks })
+              .limit(limit)
+              .orderBy('log_dt desc')
+          );
+
+          // Get associated workcenters and categories for these logs
+          if (queryLogs.length > 0) {
+            const logIds = queryLogs.map(log => log.ID);
+
+            const logWorkcenters = await db.run(
+              SELECT.from(entities.ShiftBookLogWC)
+                .where({ log_id: { in: logIds } })
+            );
+
+            const categories = await db.run(
+              SELECT.from(entities.ShiftBookCategory)
+                .where({ werks: jWerks })
+            );
+
+            return {
+              results: queryLogs,
+              workcenters: logWorkcenters,
+              categories: categories,
+              count: queryLogs.length
+            };
+          }
+
+          return { results: [], workcenters: [], categories: [], count: 0 };
+
+        case 'aggregationQuery':
+          // Aggregation queries for performance testing
+          const { werks: aWerks } = data;
+
+          const aggregations = await db.run(
+            SELECT.from(entities.ShiftBookLog)
+              .columns([
+                'workcenter',
+                'count(*) as log_count',
+                'min(log_dt) as earliest_log',
+                'max(log_dt) as latest_log'
+              ])
+              .where({ werks: aWerks })
+              .groupBy('workcenter')
+              .orderBy('log_count desc')
+          );
+
+          return { aggregations, count: aggregations.length };
+
+        default:
+          throw new Error(`Action ${actionName} not implemented in filtering service`);
+      }
+    }
+  });
+
+  beforeAll(async () => {
+    process.env.NODE_ENV = 'test';
+    process.env.CDS_ENV = 'test';
+    process.env.EMAIL_SIMULATION_MODE = 'true';
+
+    cds.env.requires.db = {
+      kind: 'sqlite',
+      credentials: { database: ':memory:' }
+    };
+
+    if (!cds.model) {
+      const model = await cds.load(['db', 'srv']);
+      if (model && !cds.model) {
+        cds.model = model;
+      }
+    }
+
+    db = await cds.connect.to('db');
+    await cds.deploy(cds.model).to(db);
+
+    entities = {
+      ShiftBookLog: 'syntax.gbi.sap.dme.plugins.shiftbook.ShiftBookLog',
+      ShiftBookCategory: 'syntax.gbi.sap.dme.plugins.shiftbook.ShiftBookCategory',
+      ShiftBookCategoryWC: 'syntax.gbi.sap.dme.plugins.shiftbook.ShiftBookCategoryWC',
+      ShiftBookLogWC: 'syntax.gbi.sap.dme.plugins.shiftbook.ShiftBookLogWC'
+    };
+
+    // Create indexes for performance testing (would be in schema in real deployment)
+    try {
+      await db.run(`CREATE INDEX IF NOT EXISTS idx_shiftbooklog_werks_workcenter
+                    ON ${entities.ShiftBookLog.split('.').pop()} (werks, workcenter)`);
+      await db.run(`CREATE INDEX IF NOT EXISTS idx_shiftbooklog_werks_category
+                    ON ${entities.ShiftBookLog.split('.').pop()} (werks, category)`);
+      await db.run(`CREATE INDEX IF NOT EXISTS idx_shiftbooklog_log_dt
+                    ON ${entities.ShiftBookLog.split('.').pop()} (log_dt)`);
+      await db.run(`CREATE INDEX IF NOT EXISTS idx_shiftbooklogwc_workcenter
+                    ON ${entities.ShiftBookLogWC.split('.').pop()} (workcenter)`);
+    } catch (error) {
+      // Indexes might already exist or not be supported in test environment
+      console.log('Index creation skipped (may not be supported in test environment)');
+    }
+
+    service = createLogFilteringService();
+    
+    // Validate service was initialized
+    if (!service) {
+      throw new Error('Service initialization failed - cannot run tests');
+    }
+  });
+
+  afterAll(async () => {
+    if (db) {
+      await db.disconnect();
+    }
+  });
+
+  beforeEach(async () => {
+    try {
+      await db.run(cds.ql.DELETE.from(entities.ShiftBookLogWC));
+      await db.run(cds.ql.DELETE.from(entities.ShiftBookCategoryWC));
+      await db.run(cds.ql.DELETE.from(entities.ShiftBookLog));
+      await db.run(cds.ql.DELETE.from(entities.ShiftBookCategory));
+    } catch (error) {
+      console.warn('Error cleaning up test data:', error.message);
+    }
+  });
+
+  // Service implementation focused on filtering operations
+
+  // Helper functions
+  const measureFilteringPerformance = async (
+    testName: string,
+    testFunction: () => Promise<any>,
+    expectedThreshold: number
+  ) => {
+    const startTime = performance.now();
+    const startMemory = process.memoryUsage();
+
+    const result = await testFunction();
+
+    const endTime = performance.now();
+    const endMemory = process.memoryUsage();
+    const duration = endTime - startTime;
+
+    console.log(`🔍 ${testName}:`);
+    console.log(`   Duration: ${duration.toFixed(2)}ms (Threshold: ${expectedThreshold}ms)`);
+    console.log(`   Memory: ${((endMemory.heapUsed - startMemory.heapUsed) / 1024 / 1024).toFixed(2)}MB`);
+    console.log(`   Status: ${duration < expectedThreshold ? '✅ PASS' : '❌ FAIL'}`);
+
+    expect(duration).toBeLessThan(expectedThreshold);
+    return { result, duration };
+  };
+
+  const createTestDataset = async (
+    logCount: number,
+    workCenterCount: number,
+    categoryCount: number = 1
+  ) => {
+    console.log(`📦 Creating test dataset: ${logCount} logs, ${workCenterCount} work centers, ${categoryCount} categories`);
+
+    const categories = [];
+    const workcenters = Array.from({ length: workCenterCount }, (_, i) => `WC${String(i + 1).padStart(4, '0')}`);
+
+    // Create categories with workcenters
+    for (let c = 0; c < categoryCount; c++) {
+      const categoryId = cds.utils.uuid();
+      await db.run(cds.ql.INSERT.into(entities.ShiftBookCategory).entries({
+        ID: categoryId,
+        werks: '1000',
+        sendmail: 1
+      }));
+
+      // Add workcenters to category
+      const categoryWorkcenters = workcenters.slice(0, Math.min(workcenters.length, 10)); // Limit to 10 per category
+      for (const wc of categoryWorkcenters) {
+        await db.run(cds.ql.INSERT.into(entities.ShiftBookCategoryWC).entries({
+          category_id: categoryId,
+          workcenter: wc
+        }));
+      }
+
+      categories.push({ id: categoryId, workcenters: categoryWorkcenters });
+    }
+
+    // Create logs in batches for better performance
+    const logs = [];
+    const batchSize = PERFORMANCE_CONFIG.batchSize;
+
+    for (let batch = 0; batch < Math.ceil(logCount / batchSize); batch++) {
+      const batchStart = batch * batchSize;
+      const batchEnd = Math.min(batchStart + batchSize, logCount);
+
+      // Prepare batch data
+      const logBatch = [];
+      const logWCBatch = [];
+
+      for (let i = batchStart; i < batchEnd; i++) {
+        const category = categories[i % categories.length];
+        const workcenter = workcenters[i % workcenters.length];
+        const logId = cds.utils.uuid();
+
+        const logData = {
+          ID: logId,
+          werks: '1000',
+          shoporder: `SO${String(i + 1).padStart(6, '0')}`,
+          stepid: String((i % 999) + 1).padStart(3, '0'),
+          split: String((i % 99) + 1).padStart(3, '0'),
+          workcenter,
+          user_id: `user${(i % 10) + 1}`,
+          log_dt: new Date(Date.now() - (i * 3600000)), // Spread across hours
+          category: category.id,
+          subject: `Performance Test Subject ${i + 1}`,
+          message: `Performance test message for log ${i + 1} with workcenter ${workcenter}`
+        };
+
+        logBatch.push(logData);
+        logs.push(logData);
+
+        // Create destination workcenters for each log (inherit from category)
+        for (const wc of category.workcenters) {
+          logWCBatch.push({
+            log_id: logId,
+            workcenter: wc
+          });
+        }
+      }
+
+      // Insert batch
+      if (logBatch.length > 0) {
+        await db.run(cds.ql.INSERT.into(entities.ShiftBookLog).entries(logBatch));
+      }
+      if (logWCBatch.length > 0) {
+        await db.run(cds.ql.INSERT.into(entities.ShiftBookLogWC).entries(logWCBatch));
+      }
+    }
+
+    console.log(`✅ Created ${logs.length} logs with destination workcenters`);
+    return { categories, logs, workcenters };
+  };
+
+  describe('Small Dataset Performance', () => {
+    beforeEach(async () => {
+      const config = PERFORMANCE_CONFIG.datasets.small;
+      await createTestDataset(config.logs, config.workcenters, config.categories);
+    });
+
+    it('should filter by origin workcenter efficiently on small dataset', async () => {
+      await measureFilteringPerformance(
+        'Origin Workcenter Filter - Small Dataset',
+        async () => {
+          return await service.send('filterLogsByOriginWorkcenter', {
+            werks: '1000',
+            workcenter: 'WC0001',
+            page: 1,
+            pageSize: 50
+          });
+        },
+        FILTERING_PERFORMANCE_THRESHOLDS.ORIGIN_FILTER_SMALL
+      );
+    });
+
+    it('should filter by destination workcenter efficiently on small dataset', async () => {
+      await measureFilteringPerformance(
+        'Destination Workcenter Filter - Small Dataset',
+        async () => {
+          return await service.send('filterLogsByDestinationWorkcenter', {
+            werks: '1000',
+            workcenter: 'WC0001',
+            page: 1,
+            pageSize: 50
+          });
+        },
+        FILTERING_PERFORMANCE_THRESHOLDS.DESTINATION_FILTER_SMALL
+      );
+    });
+
+    it('should filter by combined workcenters efficiently on small dataset', async () => {
+      await measureFilteringPerformance(
+        'Combined Workcenter Filter - Small Dataset',
+        async () => {
+          return await service.send('filterLogsByCombinedWorkcenter', {
+            werks: '1000',
+            workcenter: 'WC0001',
+            page: 1,
+            pageSize: 50
+          });
+        },
+        FILTERING_PERFORMANCE_THRESHOLDS.COMBINED_FILTER_SMALL
+      );
+    });
+  });
+
+  describe('Medium Dataset Performance', () => {
+    beforeEach(async () => {
+      const config = PERFORMANCE_CONFIG.datasets.medium;
+      await createTestDataset(config.logs, config.workcenters, config.categories);
+    });
+
+    it('should filter by origin workcenter efficiently on medium dataset', async () => {
+      await measureFilteringPerformance(
+        'Origin Workcenter Filter - Medium Dataset',
+        async () => {
+          return await service.send('filterLogsByOriginWorkcenter', {
+            werks: '1000',
+            workcenter: 'WC0001',
+            page: 1,
+            pageSize: 100
+          });
+        },
+        FILTERING_PERFORMANCE_THRESHOLDS.ORIGIN_FILTER_MEDIUM
+      );
+    });
+
+    it('should filter by destination workcenter efficiently on medium dataset', async () => {
+      await measureFilteringPerformance(
+        'Destination Workcenter Filter - Medium Dataset',
+        async () => {
+          return await service.send('filterLogsByDestinationWorkcenter', {
+            werks: '1000',
+            workcenter: 'WC0001',
+            page: 1,
+            pageSize: 100
+          });
+        },
+        FILTERING_PERFORMANCE_THRESHOLDS.DESTINATION_FILTER_MEDIUM
+      );
+    });
+
+    it('should filter by combined workcenters efficiently on medium dataset', async () => {
+      await measureFilteringPerformance(
+        'Combined Workcenter Filter - Medium Dataset',
+        async () => {
+          return await service.send('filterLogsByCombinedWorkcenter', {
+            werks: '1000',
+            workcenter: 'WC0001',
+            page: 1,
+            pageSize: 100
+          });
+        },
+        FILTERING_PERFORMANCE_THRESHOLDS.COMBINED_FILTER_MEDIUM
+      );
+    });
+
+    it('should handle complex join queries efficiently on medium dataset', async () => {
+      await measureFilteringPerformance(
+        'Complex Join Query - Medium Dataset',
+        async () => {
+          return await service.send('complexJoinQuery', {
+            werks: '1000',
+            limit: 200
+          });
+        },
+        FILTERING_PERFORMANCE_THRESHOLDS.COMPLEX_JOIN_QUERY
+      );
+    });
+  });
+
+  describe('Large Dataset Performance', () => {
+    beforeEach(async () => {
+      const config = PERFORMANCE_CONFIG.datasets.large;
+      await createTestDataset(config.logs, config.workcenters, config.categories);
+    });
+
+    it('should filter by origin workcenter efficiently on large dataset', async () => {
+      await measureFilteringPerformance(
+        'Origin Workcenter Filter - Large Dataset',
+        async () => {
+          return await service.send('filterLogsByOriginWorkcenter', {
+            werks: '1000',
+            workcenter: 'WC0001',
+            page: 1,
+            pageSize: 100
+          });
+        },
+        FILTERING_PERFORMANCE_THRESHOLDS.ORIGIN_FILTER_LARGE
+      );
+    });
+
+    it('should filter by destination workcenter efficiently on large dataset', async () => {
+      await measureFilteringPerformance(
+        'Destination Workcenter Filter - Large Dataset',
+        async () => {
+          return await service.send('filterLogsByDestinationWorkcenter', {
+            werks: '1000',
+            workcenter: 'WC0001',
+            page: 1,
+            pageSize: 100
+          });
+        },
+        FILTERING_PERFORMANCE_THRESHOLDS.DESTINATION_FILTER_LARGE
+      );
+    });
+
+    it('should filter by combined workcenters efficiently on large dataset', async () => {
+      await measureFilteringPerformance(
+        'Combined Workcenter Filter - Large Dataset',
+        async () => {
+          return await service.send('filterLogsByCombinedWorkcenter', {
+            werks: '1000',
+            workcenter: 'WC0001',
+            page: 1,
+            pageSize: 100
+          });
+        },
+        FILTERING_PERFORMANCE_THRESHOLDS.COMBINED_FILTER_LARGE
+      );
+    });
+  });
+
+  describe('Pagination Performance', () => {
+    beforeEach(async () => {
+      const config = PERFORMANCE_CONFIG.datasets.medium;
+      await createTestDataset(config.logs, config.workcenters, config.categories);
+    });
+
+    it('should load first page efficiently', async () => {
+      await measureFilteringPerformance(
+        'Pagination - First Page',
+        async () => {
+          return await service.send('filterLogsByCombinedWorkcenter', {
+            werks: '1000',
+            workcenter: 'WC0001',
+            page: 1,
+            pageSize: 20
+          });
+        },
+        FILTERING_PERFORMANCE_THRESHOLDS.PAGINATION_FIRST_PAGE
+      );
+    });
+
+    it('should load middle pages efficiently', async () => {
+      await measureFilteringPerformance(
+        'Pagination - Middle Page',
+        async () => {
+          return await service.send('filterLogsByCombinedWorkcenter', {
+            werks: '1000',
+            workcenter: 'WC0001',
+            page: 25, // Middle page
+            pageSize: 20
+          });
+        },
+        FILTERING_PERFORMANCE_THRESHOLDS.PAGINATION_MIDDLE_PAGE
+      );
+    });
+
+    it('should load last pages efficiently', async () => {
+      // First get total count to calculate last page
+      const firstPageResult = await service.send('filterLogsByCombinedWorkcenter', {
+        werks: '1000',
+        workcenter: 'WC0001',
+        page: 1,
+        pageSize: 20
+      });
+
+      const lastPage = Math.ceil(firstPageResult.total / 20);
+
+      await measureFilteringPerformance(
+        'Pagination - Last Page',
+        async () => {
+          return await service.send('filterLogsByCombinedWorkcenter', {
+            werks: '1000',
+            workcenter: 'WC0001',
+            page: lastPage,
+            pageSize: 20
+          });
+        },
+        FILTERING_PERFORMANCE_THRESHOLDS.PAGINATION_LAST_PAGE
+      );
+    });
+  });
+
+  describe('Aggregation and Analytics Performance', () => {
+    beforeEach(async () => {
+      const config = PERFORMANCE_CONFIG.datasets.small;
+      await createTestDataset(config.logs, config.workcenters, config.categories);
+    });
+
+    it('should perform aggregation queries efficiently', async () => {
+      await measureFilteringPerformance(
+        'Aggregation Query - Workcenter Statistics',
+        async () => {
+          return await service.send('aggregationQuery', {
+            werks: '1000'
+          });
+        },
+        FILTERING_PERFORMANCE_THRESHOLDS.AGGREGATION_QUERY
+      );
+    });
+
+    it('should handle multiple concurrent filter requests', async () => {
+      await measureFilteringPerformance(
+        'Concurrent Filter Requests',
+        async () => {
+          const promises = [];
+          const workcenters = ['WC0001', 'WC0002', 'WC0003', 'WC0004', 'WC0005'];
+
+          // Simulate 5 concurrent filter requests
+          for (const wc of workcenters) {
+            promises.push(
+              service.send('filterLogsByCombinedWorkcenter', {
+                werks: '1000',
+                workcenter: wc,
+                page: 1,
+                pageSize: 50
+              })
+            );
+          }
+
+          return await Promise.all(promises);
+        },
+        FILTERING_PERFORMANCE_THRESHOLDS.COMBINED_FILTER_MEDIUM * 2 // Allow 2x threshold for concurrency
+      );
+    });
+  });
+
+  describe('Edge Cases and Stress Testing', () => {
+    it('should handle empty result sets efficiently', async () => {
+      await createTestDataset(1000, 10, 2);
+
+      await measureFilteringPerformance(
+        'Empty Result Set Filter',
+        async () => {
+          return await service.send('filterLogsByOriginWorkcenter', {
+            werks: '1000',
+            workcenter: 'NONEXISTENT_WC',
+            page: 1,
+            pageSize: 50
+          });
+        },
+        FILTERING_PERFORMANCE_THRESHOLDS.INDEX_SCAN_QUERY
+      );
+    });
+
+    it('should handle very selective filters efficiently', async () => {
+      await createTestDataset(5000, 100, 5);
+
+      await measureFilteringPerformance(
+        'Highly Selective Filter',
+        async () => {
+          // Filter that should return very few results
+          return await service.send('filterLogsByOriginWorkcenter', {
+            werks: '1000',
+            workcenter: 'WC0100', // Last workcenter, should have few matches
+            page: 1,
+            pageSize: 10
+          });
+        },
+        FILTERING_PERFORMANCE_THRESHOLDS.ORIGIN_FILTER_MEDIUM
+      );
+    });
+
+    it('should maintain performance with uneven data distribution', async () => {
+      // Create dataset with uneven distribution (most logs for few workcenters)
+      const logCount = 3000;
+      const categories = [];
+
+      // Create 2 categories
+      for (let c = 0; c < 2; c++) {
+        const categoryId = cds.utils.uuid();
+        await db.run(cds.ql.INSERT.into(entities.ShiftBookCategory).entries({
+          ID: categoryId,
+          werks: '1000',
+          sendmail: 1
+        }));
+
+        // Add 5 workcenters per category
+        for (let w = 1; w <= 5; w++) {
+          await db.run(cds.ql.INSERT.into(entities.ShiftBookCategoryWC).entries({
+            category_id: categoryId,
+            workcenter: `WC${String(c * 5 + w).padStart(4, '0')}`
+          }));
+        }
+
+        categories.push(categoryId);
+      }
+
+      // Create logs with skewed distribution (80% to first 2 workcenters)
+      for (let i = 0; i < logCount; i++) {
+        const logId = cds.utils.uuid();
+        let workcenter;
+
+        if (i < logCount * 0.8) {
+          // 80% of logs go to first 2 workcenters
+          workcenter = i % 2 === 0 ? 'WC0001' : 'WC0002';
+        } else {
+          // Remaining 20% distributed across others
+          workcenter = `WC${String((i % 8) + 1).padStart(4, '0')}`;
+        }
+
+        await db.run(cds.ql.INSERT.into(entities.ShiftBookLog).entries({
+          ID: logId,
+          werks: '1000',
+          shoporder: `SO${String(i + 1).padStart(6, '0')}`,
+          stepid: '001',
+          split: '001',
+          workcenter,
+          user_id: 'testuser',
+          log_dt: new Date(Date.now() - (i * 60000)), // Spread across minutes
+          category: categories[i % categories.length],
+          subject: `Skewed Test Subject ${i + 1}`,
+          message: `Skewed test message ${i + 1}`
+        }));
+      }
+
+      // Test performance with most popular workcenter (should have many results)
+      await measureFilteringPerformance(
+        'Uneven Distribution - Popular Workcenter',
+        async () => {
+          return await service.send('filterLogsByOriginWorkcenter', {
+            werks: '1000',
+            workcenter: 'WC0001', // Should have ~40% of all logs
+            page: 1,
+            pageSize: 100
+          });
+        },
+        FILTERING_PERFORMANCE_THRESHOLDS.ORIGIN_FILTER_MEDIUM
+      );
+    });
+  });
+});

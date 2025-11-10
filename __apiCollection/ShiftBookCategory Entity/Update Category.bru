@@ -1,0 +1,25 @@
+meta {
+  name: Update Category
+  type: http
+  seq: 7
+}
+
+patch {
+  url: {{baseURL}}/shiftbook/ShiftBookService/ShiftBookCategory(werks='1000')
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "sendmail": 0
+  }
+}
+
+settings {
+  encodeUrl: true
+}

@@ -1,0 +1,54 @@
+### Test createCategoryWithDetails action - Complete with Complex Types
+POST http://localhost:54069/shiftbook/ShiftBookService/createCategoryWithDetails
+Content-Type: application/json
+Authorization: Basic alice:
+
+{
+  "werks": "1000",
+  "sendmail": 1,
+  "sendworkcenters": 1,
+  "default_subject": "Nuevo problema de calidad detectado",
+  "default_message": "Se ha detectado un problema que requiere atención inmediata en el área de producción.",
+  "translations": [
+    {
+      "lng": "EN",
+      "desc": "Quality Issue - Immediate Attention Required"
+    },
+    {
+      "lng": "ES",
+      "desc": "Problema de Calidad - Requiere Atención Inmediata"
+    },
+    {
+      "lng": "DE",
+      "desc": "Qualitätsproblem - Sofortige Aufmerksamkeit Erforderlich"
+    }
+  ],
+  "mails": [
+    {
+      "mail_address": "quality.team@syntax.com"
+    },
+    {
+      "mail_address": "production.manager@syntax.com"
+    },
+    {
+      "mail_address": "shift.supervisor@syntax.com"
+    }
+  ],
+  "workcenters": [
+    {
+      "workcenter": "ASSEMBLY_01"
+    },
+    {
+      "workcenter": "QUALITY_CHECK"
+    },
+    {
+      "workcenter": "PACKAGING"
+    }
+  ],
+  "teamsChannel": {
+    "name": "Production Alerts - Quality",
+    "webhookURL": "https://default47a1881620434cd08bf4e0c942d8c2.d6.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/90629ee7aa3f4168b9a9637143a756d8/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=b6o-rc9dkquVv8rdV-pxyzoMR45Jjt0o5aadc6EBC_M",
+    "description": "Canal para notificaciones críticas de calidad en producción",
+    "active": true
+  }
+}

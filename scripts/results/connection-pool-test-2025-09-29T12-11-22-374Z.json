@@ -1,0 +1,201 @@
+{
+  "timestamp": "2025-09-29T12:11:22.374Z",
+  "testConfiguration": {
+    "baseUrl": "http://localhost:4004",
+    "concurrentRequests": 10,
+    "totalRequests": 50,
+    "delayBetweenBatches": 1000
+  },
+  "results": {
+    "totalRequests": 30,
+    "successfulRequests": 0,
+    "failedRequests": 30,
+    "totalTime": 22.43291499999981,
+    "averageResponseTime": 0,
+    "minResponseTime": null,
+    "maxResponseTime": 0,
+    "connectionPoolMetrics": [],
+    "errors": [
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Unknown error",
+        "statusCode": "N/A",
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-1\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 9.214917000000014,\n  \"error\": \"\"\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Unknown error",
+        "statusCode": "N/A",
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-2\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 8.371458000000004,\n  \"error\": \"\"\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Unknown error",
+        "statusCode": "N/A",
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-3\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 8.156165999999999,\n  \"error\": \"\"\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Unknown error",
+        "statusCode": "N/A",
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-4\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 8.33937499999999,\n  \"error\": \"\"\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Unknown error",
+        "statusCode": "N/A",
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-5\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 7.679000000000002,\n  \"error\": \"\"\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Unknown error",
+        "statusCode": "N/A",
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-6\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 7.697374999999994,\n  \"error\": \"\"\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Unknown error",
+        "statusCode": "N/A",
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-7\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 7.50800000000001,\n  \"error\": \"\"\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Unknown error",
+        "statusCode": "N/A",
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-8\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 7.209917000000004,\n  \"error\": \"\"\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Unknown error",
+        "statusCode": "N/A",
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-9\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 5.777292000000003,\n  \"error\": \"\"\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Unknown error",
+        "statusCode": "N/A",
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-10\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 5.642124999999993,\n  \"error\": \"\"\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Unknown error",
+        "statusCode": "N/A",
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-1\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 3.206875000000082,\n  \"error\": \"\"\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Unknown error",
+        "statusCode": "N/A",
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-2\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 2.806957999999895,\n  \"error\": \"\"\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Unknown error",
+        "statusCode": "N/A",
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-3\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 3.0556249999999636,\n  \"error\": \"\"\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Unknown error",
+        "statusCode": "N/A",
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-4\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 2.7267910000000484,\n  \"error\": \"\"\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Unknown error",
+        "statusCode": "N/A",
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-5\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 3.389125000000149,\n  \"error\": \"\"\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Unknown error",
+        "statusCode": "N/A",
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-6\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 2.8437079999998787,\n  \"error\": \"\"\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Unknown error",
+        "statusCode": "N/A",
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-7\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 3.8994169999998576,\n  \"error\": \"\"\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Unknown error",
+        "statusCode": "N/A",
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-8\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 3.6764169999999012,\n  \"error\": \"\"\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Unknown error",
+        "statusCode": "N/A",
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-9\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 4.13474999999994,\n  \"error\": \"\"\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Unknown error",
+        "statusCode": "N/A",
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-10\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 3.9082080000000587,\n  \"error\": \"\"\n}"
+      },
+      {
+        "scenario": "Health Check",
+        "error": "Unknown error",
+        "statusCode": "N/A",
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Health Check-1\",\n  \"scenario\": \"Health Check\",\n  \"responseTime\": 4.015957999999955,\n  \"error\": \"\"\n}"
+      },
+      {
+        "scenario": "Health Check",
+        "error": "Unknown error",
+        "statusCode": "N/A",
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Health Check-2\",\n  \"scenario\": \"Health Check\",\n  \"responseTime\": 3.848500000000058,\n  \"error\": \"\"\n}"
+      },
+      {
+        "scenario": "Health Check",
+        "error": "Unknown error",
+        "statusCode": "N/A",
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Health Check-3\",\n  \"scenario\": \"Health Check\",\n  \"responseTime\": 3.8807090000000244,\n  \"error\": \"\"\n}"
+      },
+      {
+        "scenario": "Health Check",
+        "error": "Unknown error",
+        "statusCode": "N/A",
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Health Check-4\",\n  \"scenario\": \"Health Check\",\n  \"responseTime\": 3.59637500000008,\n  \"error\": \"\"\n}"
+      },
+      {
+        "scenario": "Health Check",
+        "error": "Unknown error",
+        "statusCode": "N/A",
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Health Check-5\",\n  \"scenario\": \"Health Check\",\n  \"responseTime\": 3.680667000000085,\n  \"error\": \"\"\n}"
+      },
+      {
+        "scenario": "Health Check",
+        "error": "Unknown error",
+        "statusCode": "N/A",
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Health Check-6\",\n  \"scenario\": \"Health Check\",\n  \"responseTime\": 3.8923749999999018,\n  \"error\": \"\"\n}"
+      },
+      {
+        "scenario": "Health Check",
+        "error": "Unknown error",
+        "statusCode": "N/A",
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Health Check-7\",\n  \"scenario\": \"Health Check\",\n  \"responseTime\": 3.5438340000000608,\n  \"error\": \"\"\n}"
+      },
+      {
+        "scenario": "Health Check",
+        "error": "Unknown error",
+        "statusCode": "N/A",
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Health Check-8\",\n  \"scenario\": \"Health Check\",\n  \"responseTime\": 3.735500000000229,\n  \"error\": \"\"\n}"
+      },
+      {
+        "scenario": "Health Check",
+        "error": "Unknown error",
+        "statusCode": "N/A",
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Health Check-9\",\n  \"scenario\": \"Health Check\",\n  \"responseTime\": 3.6733330000001843,\n  \"error\": \"\"\n}"
+      },
+      {
+        "scenario": "Health Check",
+        "error": "Unknown error",
+        "statusCode": "N/A",
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Health Check-10\",\n  \"scenario\": \"Health Check\",\n  \"responseTime\": 3.424167000000125,\n  \"error\": \"\"\n}"
+      }
+    ]
+  }
+}

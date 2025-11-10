@@ -1,0 +1,12 @@
+### Test renamed action
+POST http://localhost:4004/shiftbook/ShiftBookService/testCreateCategory
+Content-Type: application/json
+Authorization: Basic admin:
+
+{
+  "werks": "1000",
+  "sendmail": 1,
+  "sendworkcenters": 1,
+  "default_subject": "Test",
+  "default_message": "Test message"
+}

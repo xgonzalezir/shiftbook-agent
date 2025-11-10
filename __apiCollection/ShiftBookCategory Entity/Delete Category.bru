@@ -1,0 +1,15 @@
+meta {
+  name: Delete Category
+  type: http
+  seq: 8
+}
+
+delete {
+  url: {{baseURL}}/shiftbook/ShiftBookService/ShiftBookCategory(werks='1000')
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}

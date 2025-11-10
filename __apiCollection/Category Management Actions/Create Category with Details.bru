@@ -1,0 +1,45 @@
+meta {
+  name: Create Category with Details
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseURL}}/shiftbook/ShiftBookService/createCategoryWithDetails
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "werks": "3333",
+    "sendmail": 1,
+    "translations": [
+      {
+        "lng": "en",
+        "desc": "Environmental Issues Kawhi"
+      },
+      {
+        "lng": "es",
+        "desc": "Problemas Ambientales Kawhi"
+      },
+      {
+        "lng": "de",
+        "desc": "Umweltprobleme Kawhi"
+      }
+    ],
+    "mails": [
+      {
+        "mail_address": "jon.herrazti@syntax.com"
+      }
+    ]
+  }
+}
+
+settings {
+  encodeUrl: true
+}

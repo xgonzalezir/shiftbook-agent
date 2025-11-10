@@ -1,0 +1,16 @@
+### Test addShiftBookEntry that supposedly works
+POST http://localhost:4004/shiftbook/ShiftBookService/addShiftBookEntry
+Content-Type: application/json
+Authorization: Basic alice:
+
+{
+  "werks": "1000",
+  "shoporder": "TEST001",
+  "stepid": "0010",
+  "split": "001",
+  "workcenter": "TEST_WC",
+  "user_id": "test.user@syntax.com",
+  "category": "70434504-9e71-477b-9a44-f52d7c25039d",
+  "subject": "Test",
+  "message": "Testing addShiftBookEntry"
+}

@@ -1,0 +1,16 @@
+### Test addShiftBookEntry (known working action)
+POST http://localhost:53910/shiftbook/ShiftBookService/addShiftBookEntry
+Content-Type: application/json
+Authorization: Basic alice:
+
+{
+  "werks": "1000",
+  "shoporder": "12345",
+  "stepid": "0010",
+  "split": "001",
+  "workcenter": "WORK01",
+  "user_id": "alice",
+  "category": "11111111-1111-1111-1111-111111111111",
+  "subject": "Test",
+  "message": "Test message"
+}

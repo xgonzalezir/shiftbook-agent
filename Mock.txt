@@ -1,0 +1,5 @@
+README.md
+.hdiconfig
+.hdinamespace
+cds.outbox.Messages
+syntax.gbi.sap.dme.plugins.shiftbook.AuditLog

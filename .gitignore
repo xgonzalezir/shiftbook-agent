@@ -1,0 +1,110 @@
+# CAP gbi-shiftbook-cap
+_out
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+connection.properties
+default-*.json
+default-env.json
+.cdsrc-private.json
+gen/
+node_modules/
+target/
+
+# Environment variables (security)
+.env
+.env.local
+.env.production
+.env.staging
+.env.*.local
+**/.env
+
+# Web IDE, App Studio
+.che/
+.gen/
+
+# MTA
+*_mta_build_tmp
+*.mtar
+mta_archives/
+mta*
+
+# Other
+.DS_Store
+*.orig
+*.log
+*.bak
+*.tmp
+*.cache
+
+*.iml
+*.flattened-pom.xml
+
+# IDEs
+# .vscode
+# .idea
+
+# @cap-js/cds-typer
+@cds-models
+
+# TypeScript compiled output
+srv/**/*.js
+srv/**/*.js.map
+test/**/*.js
+test/**/*.js.map
+# Keep the essential JS files that are not TypeScript compilations
+!srv/server.js
+!srv/shiftbook-service.js
+!test/setup/env.setup.js
+
+# User-Provided Service configuration
+config.json
+config-*.json
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+dev-debug.log
+# Dependency directories
+# Environment variables
+# Editor directories and files
+.idea
+.vscode
+.cursor
+.claude
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+# OS specific
+
+# Task files
+# tasks.json
+# tasks/ 
+.taskmaster/config.json
+
+# Test artifacts
+coverage/
+coverage-e2e/
+coverage-integration/
+coverage-reports/
+performance-reports/
+.nyc_output/
+test-results/
+junit.xml
+
+# Mock and test data
+mock-tokens.json
+
+# My content (Alvaro)
+.stuff/
+ShiftBook-Complete-API.postman_collection.json
+.gitignore
+Shiftbook.postman_collection.json
+*.backup.ts
+.cursor/

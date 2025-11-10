@@ -1,0 +1,19 @@
+meta {
+  name: Get Category by Werks
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseURL}}/shiftbook/ShiftBookService/ShiftBookCategory?$filter=werks eq '1000'
+  body: none
+  auth: inherit
+}
+
+params:query {
+  $filter: werks eq '1000'
+}
+
+settings {
+  encodeUrl: true
+}

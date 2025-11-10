@@ -1,0 +1,3 @@
+### Ultra simple test - no params, no auth
+POST http://localhost:4004/shiftbook/ShiftBookService/ultraSimpleTest
+Content-Type: application/json

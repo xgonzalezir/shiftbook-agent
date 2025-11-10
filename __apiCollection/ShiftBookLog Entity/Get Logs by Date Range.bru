@@ -1,0 +1,19 @@
+meta {
+  name: Get Logs by Date Range
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseURL}}/shiftbook/ShiftBookService/ShiftBookLog?$filter=log_dt ge 2024-01-15T00:00:00.000Z and log_dt le 2024-01-15T23:59:59.999Z
+  body: none
+  auth: inherit
+}
+
+params:query {
+  $filter: log_dt ge 2024-01-15T00:00:00.000Z and log_dt le 2024-01-15T23:59:59.999Z
+}
+
+settings {
+  encodeUrl: true
+}

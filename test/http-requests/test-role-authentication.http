@@ -1,0 +1,286 @@
+### 🧪 Role and Authentication Tests - Shift Book Service
+### Use these requests to verify that roles work correctly
+
+@baseUrl = http://localhost:4004/shiftbook/ShiftBookService
+
+### ===================================================================
+### ✅ TEST 1: Admin can create categories (alice)
+### ===================================================================
+POST {{baseUrl}}/createCategoryWithDetails
+Authorization: Basic alice:
+Content-Type: application/json
+
+{
+  "werks": "1000",
+  "sendmail": 1,
+  "sendworkcenters": 1,
+  "translations": [
+    {
+      "lng": "en",
+      "desc": "Test: Category created by Admin"
+    }
+  ],
+  "teamsChannel": {
+    "name": "Admin Test Channel",
+    "webhookURL": "https://mysyntax.webhook.office.com/webhookb2/32d6e0c0-f56d-467a-8d0b-9f3722bce865@47a18816-2043-4cd0-8bf4-e0c942d8c2d6/IncomingWebhook/1600cfa3267741e7b23094d94dee2a0a/d4b0a266-0d9e-4a2f-b5f9-cabbcaa3b62f/V2P2joTACXvX1E-oOQ7jOg8hK89Ye7IAo4MTVKQwlU7N41",
+    "description": "Test channel for admin",
+    "active": true
+  }
+}
+
+### Expected result: ✅ 200 OK - Category created
+### User alice has role: shiftbook.admin + shiftbook.operator
+
+###
+
+### ===================================================================
+### ❌ TEST 2: Operator CANNOT create categories (bob)
+### ===================================================================
+POST {{baseUrl}}/createCategoryWithDetails
+Authorization: Basic bob:
+Content-Type: application/json
+
+{
+  "werks": "1000",
+  "sendmail": 1,
+  "sendworkcenters": 1,
+  "translations": [
+    {
+      "lng": "en",
+      "desc": "Test: Attempt to create category as Operator"
+    }
+  ]
+}
+
+### Expected result: ❌ 403 Forbidden
+### User bob only has role: shiftbook.operator
+### Error: @requires: 'shiftbook.admin' not satisfied
+
+###
+
+### ===================================================================
+### ✅ TEST 3: Operator can create logs (bob)
+### ===================================================================
+### ⚠️ First execute TEST 1 and copy the returned category ID
+POST {{baseUrl}}/addShiftBookEntry
+Authorization: Basic bob:
+Content-Type: application/json
+
+{
+  "werks": "1000",
+  "shoporder": "TEST001",
+  "stepid": "0010",
+  "split": "001",
+  "workcenter": "TEST_WC",
+  "user_id": "bob@test.com",
+  "category": "c4f07743-87d0-4399-8a50-f8e0198d4406",
+  "subject": "Test: Log created by Operator",
+  "message": "This log was created by a user with operator role"
+}
+
+### Expected result: ✅ 200 OK - Log created
+### User bob has permission to create logs
+### Notifications will be sent if Teams channel is configured
+
+###
+
+### ===================================================================
+### ✅ TEST 4: Admin can also create logs (alice)
+### ===================================================================
+POST {{baseUrl}}/addShiftBookEntry
+Authorization: Basic alice:
+Content-Type: application/json
+
+{
+  "werks": "1000",
+  "shoporder": "TEST002",
+  "stepid": "0020",
+  "split": "001",
+  "workcenter": "TEST_WC",
+  "user_id": "alice@test.com",
+  "category": "c4f07743-87d0-4399-8a50-f8e0198d4406",
+  "subject": "Test: Log created by Admin",
+  "message": "Admins can also create logs"
+}
+
+### Expected result: ✅ 200 OK - Log created
+### Admin has all operator permissions + additional permissions
+
+###
+
+### ===================================================================
+### ✅ TEST 5: Operator can read categories (bob)
+### ===================================================================
+GET {{baseUrl}}/ShiftBookCategory?$top=5
+Authorization: Basic bob:
+
+### Expected result: ✅ 200 OK - Category list
+### Operator has READ permission
+
+###
+
+### ===================================================================
+### ❌ TEST 6: Operator CANNOT modify categories (bob)
+### ===================================================================
+### ⚠️ Replace the ID with an existing category
+PATCH {{baseUrl}}/ShiftBookCategory(ID=c4f07743-87d0-4399-8a50-f8e0198d4406,werks='1000')
+Authorization: Basic bob:
+Content-Type: application/json
+
+{
+  "sendmail": 0
+}
+
+### Expected result: ❌ 403 Forbidden
+### Only admin can modify categories
+
+###
+
+### ===================================================================
+### ✅ TEST 7: Admin can modify categories (alice)
+### ===================================================================
+PATCH {{baseUrl}}/ShiftBookCategory(ID=c4f07743-87d0-4399-8a50-f8e0198d4406,werks='1000')
+Authorization: Basic alice:
+Content-Type: application/json
+
+{
+  "sendmail": 1
+}
+
+### Expected result: ✅ 200 OK - Category updated
+
+###
+
+### ===================================================================
+### ✅ TEST 8: Operator can search categories (bob)
+### ===================================================================
+POST {{baseUrl}}/advancedCategorySearch
+Authorization: Basic bob:
+Content-Type: application/json
+
+{
+  "query": "test",
+  "language": "en"
+}
+
+### Expected result: ✅ 200 OK - Search results
+### @requires: ['shiftbook.operator', 'shiftbook.admin']
+
+###
+
+### ===================================================================
+### ✅ TEST 9: Operator can view logs (bob)
+### ===================================================================
+GET {{baseUrl}}/ShiftBookLog?$top=5&$orderby=createdAt desc
+Authorization: Basic bob:
+
+### Expected result: ✅ 200 OK - Log list
+### Operator has READ permission on logs
+
+###
+
+### ===================================================================
+### ✅ TEST 10: Admin can send emails manually (alice)
+### ===================================================================
+### ⚠️ Requires category with configured emails
+POST {{baseUrl}}/sendMailByCategory
+Authorization: Basic alice:
+Content-Type: application/json
+
+{
+  "category": "c4f07743-87d0-4399-8a50-f8e0198d4406",
+  "werks": "1000",
+  "subject": "Test manual email",
+  "message": "Email sent manually by admin"
+}
+
+### Expected result: ✅ 200 OK - Email sent
+### @requires: 'shiftbook.admin' - Admins only
+
+###
+
+### ===================================================================
+### ❌ TEST 11: Operator CANNOT send emails manually (bob)
+### ===================================================================
+POST {{baseUrl}}/sendMailByCategory
+Authorization: Basic bob:
+Content-Type: application/json
+
+{
+  "category": "c4f07743-87d0-4399-8a50-f8e0198d4406",
+  "werks": "1000",
+  "subject": "Attempt to send email",
+  "message": "This should fail"
+}
+
+### Expected result: ❌ 403 Forbidden
+### Only admins can send manual emails
+
+###
+
+### ===================================================================
+### ❌ TEST 12: Without authentication - Request fails
+### ===================================================================
+GET {{baseUrl}}/ShiftBookCategory?$top=1
+
+### Expected result: ❌ 401 Unauthorized
+### No credentials provided
+
+###
+
+### ===================================================================
+### ✅ TEST 13: User 'operator' can create logs
+### ===================================================================
+POST {{baseUrl}}/addShiftBookEntry
+Authorization: Basic operator:
+Content-Type: application/json
+
+{
+  "werks": "1000",
+  "shoporder": "TEST003",
+  "stepid": "0030",
+  "split": "001",
+  "workcenter": "TEST_WC",
+  "user_id": "operator@test.com",
+  "category": "c4f07743-87d0-4399-8a50-f8e0198d4406",
+  "subject": "Test: User 'operator'",
+  "message": "Testing predefined 'operator' user"
+}
+
+### Expected result: ✅ 200 OK - Log created
+
+###
+
+### ===================================================================
+### ✅ TEST 14: User 'admin' can create categories
+### ===================================================================
+POST {{baseUrl}}/createCategoryWithDetails
+Authorization: Basic admin:
+Content-Type: application/json
+
+{
+  "werks": "1000",
+  "sendmail": 1,
+  "sendworkcenters": 1,
+  "translations": [
+    {
+      "lng": "en",
+      "desc": "Test: Predefined 'admin' user"
+    }
+  ]
+}
+
+### Expected result: ✅ 200 OK - Category created
+
+###
+
+### ===================================================================
+### ✅ TEST 15: Verify recent log information
+### ===================================================================
+GET {{baseUrl}}/ShiftBookLog?$top=10&$orderby=createdAt desc&$expand=category
+Authorization: Basic alice:
+
+### Expected result: ✅ 200 OK - Logs with expanded category
+### See who created each log (createdBy)
+
+###

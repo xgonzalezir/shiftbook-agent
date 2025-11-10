@@ -1,0 +1,19 @@
+meta {
+  name: Get Logs by Werks
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseURL}}/shiftbook/ShiftBookService/ShiftBookLog?$filter=werks eq '1000'
+  body: none
+  auth: inherit
+}
+
+params:query {
+  $filter: werks eq '1000'
+}
+
+settings {
+  encodeUrl: true
+}

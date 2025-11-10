@@ -1,0 +1,26 @@
+meta {
+  name: Create Category
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseURL}}/shiftbook/ShiftBookService/ShiftBookCategory
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "werks": "5000",
+    "sendmail": 1
+  }
+}
+
+settings {
+  encodeUrl: true
+}

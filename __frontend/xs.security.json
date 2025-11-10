@@ -1,0 +1,15 @@
+{
+  "xsappname": "shiftbook-plugin",
+  "tenant-mode": "dedicated",
+  "description": "Security profile for ShiftBook frontend - references backend roles",
+  "scopes": [
+    {
+      "name": "uaa.user",
+      "description": "UAA user scope for authentication"
+    }
+  ],
+  "authorities": [
+    "$XSAPPNAME(shiftbook-srv-manu-dev-org-dev-v3).operator",
+    "$XSAPPNAME(shiftbook-srv-manu-dev-org-dev-v3).admin"
+  ]
+}

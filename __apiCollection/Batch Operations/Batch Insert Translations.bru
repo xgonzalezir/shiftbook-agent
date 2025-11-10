@@ -1,0 +1,40 @@
+meta {
+  name: Batch Insert Translations
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseURL}}/shiftbook/ShiftBookService/batchInsertTranslations
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "category": "7fdaa02e-ec7a-4c39-bb39-80f2a60034db",
+    "werks": "1000",
+    "translations": [
+      {
+        "lng": "fr",
+        "desc": "Problèmes de Production"
+      },
+      {
+        "lng": "it",
+        "desc": "Problemi di Produzione"
+      },
+      {
+        "lng": "pt",
+        "desc": "Problemas de Produção"
+      }
+    ]
+  }
+}
+
+settings {
+  encodeUrl: true
+}

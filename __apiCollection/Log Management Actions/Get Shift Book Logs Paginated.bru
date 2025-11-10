@@ -1,0 +1,30 @@
+meta {
+  name: Get Shift Book Logs Paginated
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseURL}}/shiftbook/ShiftBookService/getShiftBookLogsPaginated
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "werks": "1000",
+    "workcenter": "WC_ASSEMBLY_01",
+    "category": "7fdaa02e-ec7a-4c39-bb39-80f2a60034db",
+    "page": 1,
+    "pageSize": 10,
+    "language": "en"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

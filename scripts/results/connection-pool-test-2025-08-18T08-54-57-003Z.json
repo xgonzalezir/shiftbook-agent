@@ -1,0 +1,117 @@
+{
+  "timestamp": "2025-08-18T08:54:57.004Z",
+  "testConfiguration": {
+    "baseUrl": "http://localhost:4004",
+    "concurrentRequests": 20,
+    "totalRequests": 100,
+    "delayBetweenBatches": 1000
+  },
+  "results": {
+    "totalRequests": 60,
+    "successfulRequests": 60,
+    "failedRequests": 0,
+    "totalTime": 77.26224999999987,
+    "averageResponseTime": 1.2877041666666644,
+    "minResponseTime": 4.862415999999939,
+    "maxResponseTime": 24.709499999999935,
+    "connectionPoolMetrics": [
+      {
+        "scenario": "Shift Book Logs Query",
+        "initial": {
+          "totalConnections": 0,
+          "activeConnections": 0,
+          "idleConnections": 0,
+          "waitingRequests": 0,
+          "acquiredConnections": 0,
+          "releasedConnections": 0,
+          "failedConnections": 0,
+          "avgAcquisitionTime": 0,
+          "avgQueryTime": 0,
+          "lastReset": "2025-08-18T08:50:10.959Z"
+        },
+        "final": {
+          "totalConnections": 0,
+          "activeConnections": 0,
+          "idleConnections": 0,
+          "waitingRequests": 0,
+          "acquiredConnections": 0,
+          "releasedConnections": 0,
+          "failedConnections": 0,
+          "avgAcquisitionTime": 0,
+          "avgQueryTime": 0,
+          "lastReset": "2025-08-18T08:50:10.959Z"
+        },
+        "health": {
+          "status": "healthy",
+          "issues": [],
+          "recommendations": []
+        }
+      },
+      {
+        "scenario": "Categories Query",
+        "initial": {
+          "totalConnections": 0,
+          "activeConnections": 0,
+          "idleConnections": 0,
+          "waitingRequests": 0,
+          "acquiredConnections": 0,
+          "releasedConnections": 0,
+          "failedConnections": 0,
+          "avgAcquisitionTime": 0,
+          "avgQueryTime": 0,
+          "lastReset": "2025-08-18T08:50:10.959Z"
+        },
+        "final": {
+          "totalConnections": 0,
+          "activeConnections": 0,
+          "idleConnections": 0,
+          "waitingRequests": 0,
+          "acquiredConnections": 0,
+          "releasedConnections": 0,
+          "failedConnections": 0,
+          "avgAcquisitionTime": 0,
+          "avgQueryTime": 0,
+          "lastReset": "2025-08-18T08:50:10.959Z"
+        },
+        "health": {
+          "status": "healthy",
+          "issues": [],
+          "recommendations": []
+        }
+      },
+      {
+        "scenario": "Health Check",
+        "initial": {
+          "totalConnections": 0,
+          "activeConnections": 0,
+          "idleConnections": 0,
+          "waitingRequests": 0,
+          "acquiredConnections": 0,
+          "releasedConnections": 0,
+          "failedConnections": 0,
+          "avgAcquisitionTime": 0,
+          "avgQueryTime": 0,
+          "lastReset": "2025-08-18T08:50:10.959Z"
+        },
+        "final": {
+          "totalConnections": 0,
+          "activeConnections": 0,
+          "idleConnections": 0,
+          "waitingRequests": 0,
+          "acquiredConnections": 0,
+          "releasedConnections": 0,
+          "failedConnections": 0,
+          "avgAcquisitionTime": 0,
+          "avgQueryTime": 0,
+          "lastReset": "2025-08-18T08:50:10.959Z"
+        },
+        "health": {
+          "status": "healthy",
+          "issues": [],
+          "recommendations": []
+        }
+      }
+    ],
+    "errors": []
+  }
+}

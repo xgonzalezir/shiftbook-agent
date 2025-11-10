@@ -1,0 +1,90 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    // CRITICAL: CommonJS es requerido por Node.js en Cloud Foundry
+    // ES modules no son compatibles con el runtime de CF actual
+    "module": "commonjs",
+    
+    // ES2022 proporciona compatibilidad con Node.js 16+ usado en Cloud Foundry
+    // Incluye características modernas como top-level await, Promise.any, etc.
+    "target": "ES2022",
+    
+    // Directorio de salida para archivos JavaScript compilados
+    // CDS espera encontrar los archivos transpilados aquí para incluirlos en el MTAR
+    "outDir": "./gen/srv",
+    
+    // Directorio raíz de archivos TypeScript fuente
+    // Mantiene la estructura de carpetas en la salida
+    "rootDir": "./srv",
+    
+    // Node resolution es necesario para resolver correctamente los imports relativos
+    // Sigue la estrategia de resolución de módulos de Node.js (node_modules, etc.)
+    "moduleResolution": "node",
+    
+    // Permite interoperabilidad entre ES modules y CommonJS
+    // Necesario para importar módulos SAP que usan diferentes sistemas de módulos
+    "esModuleInterop": true,
+    
+    // Permite importar archivos JSON como módulos
+    // Útil para cargar configuraciones y datos estáticos
+    "resolveJsonModule": true,
+    
+    // Omite la verificación de tipos en archivos .d.ts de node_modules
+    // Acelera la compilación y evita errores de tipos en dependencias de terceros
+    "skipLibCheck": true,
+    
+    // No genera archivos de declaración (.d.ts)
+    // No son necesarios en producción, solo el JavaScript ejecutable
+    "declaration": false,
+    
+    // No genera source maps en producción
+    // Reduce el tamaño del MTAR y protege el código fuente
+    "sourceMap": false,
+    
+    // Elimina comentarios del código JavaScript generado
+    // Reduce el tamaño del bundle y mejora el rendimiento
+    "removeComments": true,
+    
+    // No preserva const enums en el output
+    // Optimiza el código generado al inline los valores
+    "preserveConstEnums": false,
+    
+    // Permite any implícito para mayor flexibilidad
+    // Útil durante refactorización y con código legacy
+    "noImplicitAny": false,
+    
+    // Modo no estricto para facilitar migración desde JavaScript
+    // Permite mayor flexibilidad en tipos
+    "strict": false,
+    
+    // Permite variables locales sin usar
+    // Útil para parámetros de funciones que no siempre se utilizan
+    "noUnusedLocals": false,
+    
+    // Permite parámetros de función sin usar
+    // Común en callbacks y event handlers de Express/CAP
+    "noUnusedParameters": false
+  },
+  
+  // Solo incluir archivos TypeScript (.ts) para compilación
+  // Excluye archivos JavaScript que ya están compilados
+  "include": ["srv/**/*.ts"],
+  
+  "exclude": [
+    // Excluir node_modules para evitar compilar dependencias
+    "node_modules",
+    
+    // Excluir frontend y aplicaciones UI
+    "app",
+    
+    // Excluir archivos ya generados para evitar bucles
+    "gen",
+    
+    // Excluir archivos de test para no incluirlos en producción
+    "test",
+    
+    // Excluir archivos de backup del código original
+    "srv/**/*.old.ts",
+    "srv/**/*.backup.ts"
+  ]
+}

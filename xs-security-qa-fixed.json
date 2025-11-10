@@ -1,0 +1,61 @@
+{
+  "_comment": "QA ENVIRONMENT ONLY: This configuration is used exclusively for the manu-qa subaccount. It removes the 'granted-apps' references that cause service update failures in QA. The standard xs-security.json should be used for other environments (dev, production).",
+  "xsappname": "shiftbook-srv",
+  "tenant-mode": "dedicated",
+  "description": "Security for Shift Book Backend",
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.operator",
+      "description": "Operator - Read/Create logs"
+    },
+    {
+      "name": "$XSAPPNAME.admin",
+      "description": "Admin - Full access"
+    },
+    {
+      "name": "uaa.user",
+      "description": "UAA user for propagation"
+    }
+  ],
+  "attributes": [],
+  "authorities": [
+    "$XSAPPNAME.operator",
+    "$XSAPPNAME.admin",
+    "uaa.user",
+    "$ACCEPT_GRANTED_AUTHORITIES"
+  ],
+  "role-templates": [
+    {
+      "name": "operator",
+      "description": "Operator Role",
+      "scope-references": ["$XSAPPNAME.operator"]
+    },
+    {
+      "name": "admin",
+      "description": "Admin Role",
+      "scope-references": ["$XSAPPNAME.admin"]
+    }
+  ],
+  "role-collections": [
+    {
+      "name": "shiftbook.operator",
+      "description": "Shiftbook Operator - Can read categories and create/read logs",
+      "role-template-references": ["$XSAPPNAME.operator"]
+    },
+    {
+      "name": "shiftbook.admin",
+      "description": "Shiftbook Administrator - Full access to all operations",
+      "role-template-references": ["$XSAPPNAME.admin"]
+    }
+  ],
+  "oauth2-configuration": {
+    "token-validity": 7200,
+    "refresh-token-validity": 86400,
+    "grant-types": [
+      "client_credentials",
+      "urn:ietf:params:oauth:grant-type:jwt-bearer",
+      "user_token",
+      "refresh_token"
+    ]
+  }
+}

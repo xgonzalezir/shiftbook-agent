@@ -1,0 +1,38 @@
+meta {
+  name: Update Category with Details
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseURL}}/shiftbook/ShiftBookService/updateCategoryWithDetails
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "category": "7fdaa02e-ec7a-4c39-bb39-80f2a60034db",
+    "werks": "1000",
+    "sendmail": 0,
+    "translations": [
+      {
+        "lng": "en",
+        "desc": "Updated Production Issues"
+      }
+    ],
+    "mails": [
+      {
+        "mail_address": "updated@company.com"
+      }
+    ]
+  }
+}
+
+settings {
+  encodeUrl: true
+}

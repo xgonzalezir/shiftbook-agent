@@ -1,0 +1,28 @@
+meta {
+  name: Send Mail by Category
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseURL}}/shiftbook/ShiftBookService/sendMailByCategory
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "category": "31a1c870-5b61-4595-91e0-dc86218acf38",
+    "werks": "7000",
+    "subject": "URGENT: Production Line M-001 Critical Failure",
+    "message": "Production line M-001 has experienced a critical mechanical failure. Immediate attention required. Estimated downtime: 4-6 hours. Maintenance team has been notified. Please review and coordinate response."
+  }
+}
+
+settings {
+  encodeUrl: true
+}

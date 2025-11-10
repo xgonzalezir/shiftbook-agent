@@ -1,0 +1,234 @@
+### Category Management Actions
+### Base URL: http://localhost:4004/shiftbook/ShiftBookService
+
+@baseUrl = http://localhost:4004/shiftbook/ShiftBookService
+@auth = Basic alice:
+
+### Create Category with Details
+POST {{baseUrl}}/createCategoryWithDetails
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "werks": "1000",
+  "sendmail": 1,
+  "sendworkcenters": 1,
+  "default_subject": "Production Issue - Action Required",
+  "default_message": "A production issue has been detected. Please review and take appropriate action.",
+  "translations": [
+    {
+      "lng": "en",
+      "desc": "Production Issue"
+    },
+    {
+      "lng": "es",
+      "desc": "Problema de Producción"
+    },
+    {
+      "lng": "de",
+      "desc": "Produktionsproblem"
+    }
+  ],
+  "mails": [
+    {
+      "mail_address": "production@example.com"
+    },
+    {
+      "mail_address": "supervisor@example.com"
+    }
+  ],
+  "workcenters": [
+    {
+      "workcenter": "WC001"
+    },
+    {
+      "workcenter": "WC002"
+    }
+  ],
+  "teamsChannel": {
+    "name": "Production Alerts",
+    "webhookURL": "https://example.webhook.office.com/webhookb2/...",
+    "description": "Production issues notifications",
+    "active": true
+  }
+}
+
+###
+
+### Update Category with Details
+### Replace CATEGORY_ID with actual UUID
+POST {{baseUrl}}/updateCategoryWithDetails
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "category": "CATEGORY_ID",
+  "werks": "1000",
+  "sendmail": 1,
+  "sendworkcenters": 1,
+  "default_subject": "Updated Production Issue - Action Required",
+  "default_message": "An updated production issue has been detected. Please review and take appropriate action immediately.",
+  "translations": [
+    {
+      "lng": "en",
+      "desc": "Updated Production Issue"
+    },
+    {
+      "lng": "es",
+      "desc": "Problema de Producción Actualizado"
+    }
+  ],
+  "mails": [
+    {
+      "mail_address": "production@example.com"
+    }
+  ],
+  "workcenters": [
+    {
+      "workcenter": "WC001"
+    }
+  ],
+  "teamsChannel": {
+    "name": "Production Alerts Updated",
+    "webhookURL": "https://example.webhook.office.com/webhookb2/...",
+    "description": "Updated production issues notifications",
+    "active": true
+  }
+}
+
+###
+
+### Delete Category Cascade
+### Replace CATEGORY_ID with actual UUID
+POST {{baseUrl}}/deleteCategoryCascade
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "category": "CATEGORY_ID",
+  "werks": "1000"
+}
+
+###
+
+### Advanced Category Search
+POST {{baseUrl}}/advancedCategorySearch
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "query": "production",
+  "language": "en"
+}
+
+###
+
+### Get Shiftbook Categories
+POST {{baseUrl}}/getShiftbookCategories
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "werks": "1000",
+  "language": "en"
+}
+
+###
+
+### Batch Insert Mails
+### Replace CATEGORY_ID with actual UUID
+POST {{baseUrl}}/batchInsertMails
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "category": "CATEGORY_ID",
+  "werks": "1000",
+  "mails": [
+    {
+      "mail_address": "operator1@example.com"
+    },
+    {
+      "mail_address": "operator2@example.com"
+    },
+    {
+      "mail_address": "manager@example.com"
+    }
+  ]
+}
+
+###
+
+### Batch Insert Translations
+### Replace CATEGORY_ID with actual UUID
+POST {{baseUrl}}/batchInsertTranslations
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "category": "CATEGORY_ID",
+  "werks": "1000",
+  "translations": [
+    {
+      "lng": "fr",
+      "desc": "Problème de production"
+    },
+    {
+      "lng": "it",
+      "desc": "Problema di produzione"
+    }
+  ]
+}
+
+###
+
+### Batch Insert Workcenters
+### Replace CATEGORY_ID with actual UUID
+POST {{baseUrl}}/batchInsertWorkcenters
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "category": "CATEGORY_ID",
+  "workcenters": [
+    {
+      "workcenter": "WC003"
+    },
+    {
+      "workcenter": "WC004"
+    },
+    {
+      "workcenter": "WC005"
+    }
+  ]
+}
+
+###
+
+### Send Mail by Category
+### Replace CATEGORY_ID with actual UUID
+POST {{baseUrl}}/sendMailByCategory
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "category": "CATEGORY_ID",
+  "werks": "1000",
+  "subject": "Production Alert",
+  "message": "Critical issue detected in production line. Immediate attention required."
+}
+
+###
+
+### Get Mail Recipients
+### Replace CATEGORY_ID with actual UUID
+POST {{baseUrl}}/getMailRecipients
+Content-Type: application/json
+Authorization: {{auth}}
+
+{
+  "category": "CATEGORY_ID",
+  "werks": "1000"
+}
+
+###

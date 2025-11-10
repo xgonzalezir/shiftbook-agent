@@ -1,0 +1,39 @@
+# .claude-code/agent-routing.yaml
+routing_rules:
+  file_patterns:
+    ".claude-code/project-chronicle.md": "project-chronicle-tracker"
+    "**/*.cds": "cap-implementation-specialist"
+    "srv/**/*.js": "cap-implementation-specialist"
+    "db/**/*.cds": "cap-implementation-specialist"
+    "webapp/**/*.xml": "sapui5-fiori-developer"
+    "webapp/**/*.js": "sapui5-fiori-developer"
+    "webapp/manifest.json": "sapui5-fiori-developer"
+    "mta.yaml": "sap-btp-deployment-specialist"
+    "manifest.yml": "sap-btp-deployment-specialist"
+    "test/**": "test-engineer"
+    "**/*.test.js": "test-engineer"
+    "**/*.spec.js": "test-engineer"
+    "README.md": "technical-documentation-architect"
+    "docs/**": "technical-documentation-architect"
+    ".claude-code/project-rules.md": "project-governance-compliance"
+
+  keyword_triggers:
+    chronicle: ["chronicle", "history", "log", "session", "continue", "restore", "what happened", "last session", "taskmaster", "commit", "jira", "epic"]
+    testing: ["test", "testing", "unit", "integration", "coverage", "qunit", "opa5", "jest", "spec", "mock"]
+    governance: ["governance", "compliance", "approve", "rules", "standards", "policy", "validate", "check compliance"]
+    cap: ["CAP", "CDS", "service", "entity", "OData", "HANA", "database", "schema", "authentication", "srv/"]
+    deployment: ["deploy", "deployment", "BTP", "Cloud Foundry", "MTA", "pipeline", "build", "provision"]
+    research: ["research", "documentation", "how to", "best practices", "API", "library", "framework", "investigate"]
+    ui5: ["SAPUI5", "UI5", "Fiori", "frontend", "view", "controller", "XML", "manifest", "webapp/"]
+    documentation: ["documentation", "docs", "readme", "guide", "manual", "specification", "document", "write docs"]
+
+  priority_order:
+    1. "project-governance-compliance" # Always check compliance first
+    2. "project-chronicle-tracker" # For session/context management  
+    3. "cap-implementation-specialist" # For CAP development
+    4. "sapui5-fiori-developer" # For frontend development
+    5. "sap-btp-deployment-specialist" # For deployment tasks
+    6. "test-engineer" # For testing tasks
+    7. "library-implementation-researcher" # For research tasks
+    8. "technical-documentation-architect" # For documentation
+    9. "general-purpose" # Fallback only

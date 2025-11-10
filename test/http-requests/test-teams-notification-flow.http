@@ -1,0 +1,100 @@
+### Test Flow: Create Category + Send Teams Notification
+### This file contains a complete test flow to verify Teams notifications
+
+### Step 1: Create Category with Teams Channel
+### Copy the returned ID and use it in Step 2
+POST http://localhost:4004/shiftbook/ShiftBookService/createCategoryWithDetails
+Content-Type: application/json
+Authorization: Basic admin:
+
+{
+  "werks": "1000",
+  "sendmail": 1,
+  "sendworkcenters": 1,
+  "default_subject": "Teams Notification Test - Action Required",
+  "default_message": "This is a test notification sent to Microsoft Teams. Please verify receipt in the Teams channel.",
+  "translations": [
+    {
+      "lng": "en",
+      "desc": "Test Teams Notification 9"
+    }
+  ],
+  "teamsChannel": {
+    "name": "Syntax Test Channel",
+    "webhookURL": "https://default47a1881620434cd08bf4e0c942d8c2.d6.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/90629ee7aa3f4168b9a9637143a756d8/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=b6o-rc9dkquVv8rdV-pxyzoMR45Jjt0o5aadc6EBC_M",
+    "description": "test channel",
+    "active": true
+  }
+}
+
+###
+
+### Step 2: Create Log Entry to Trigger Teams Notification
+### ⚠️ Replace "PASTE_CATEGORY_ID_HERE" with the ID from Step 1 response
+POST http://localhost:4004/shiftbook/ShiftBookService/ShiftBookLog
+Content-Type: application/json
+Authorization: Basic alice:
+
+{
+  "werks": "1000",
+  "shoporder": "TEST001",
+  "stepid": "0010",
+  "split": "001",
+  "workcenter": "TEST_WC",
+  "user_id": "test.user@syntax.com",
+  "category": "2a6180cd-4759-478b-a302-dc2081dd0ff7",
+  "subject": "Test: Teams Notification",
+  "message": "test"
+}
+
+### Step 3 (Optional): Verify Category with Teams Channel
+### Replace PASTE_CATEGORY_ID_HERE with the category ID
+GET http://localhost:4004/shiftbook/ShiftBookService/ShiftBookCategory(ID=PASTE_CATEGORY_ID_HERE,werks='1000')?$expand=teamsChannel,mails
+Authorization: Basic alice:
+
+###
+
+### Step 4 (Optional): Check Recent Logs
+GET http://localhost:4004/shiftbook/ShiftBookService/ShiftBookLog?$top=5&$orderby=createdAt desc&$expand=category
+Authorization: Basic alice:
+
+###
+
+### Step 5: Test addShiftBookEntry with Long Shoporder (String(30) validation)
+### This tests the fix for shoporder field length - should succeed with 21-character shoporder
+POST http://localhost:4004/shiftbook/ShiftBookService/addShiftBookEntry
+Content-Type: application/json
+Authorization: Basic alice:
+
+{
+    "category": "056a100d-c7dd-4f6d-bc90-022178409e8c",
+    "subject": "Test Long Shoporder",
+    "message": "Testing shoporder field with 21 characters\n<br><br>-------------------<br>\nPlant: 2000<br>\nWorkcenter: #1<br>\nResource: REXROTH-MILLING-1<br>\nOrder: BOSCH_REXROTH_DEMO-2<br>\nSFC: 20004009\n",
+    "werks": "2000",
+    "shoporder": "BOSCH_REXROTH_DEMO-2",
+    "stepid": "---",
+    "split": "---",
+    "user_id": "ioana-andreea.beudeanu@syntax.com",
+    "workcenter": "#1"
+}
+
+###
+
+### Step 6: List all categories to verify if they are being created
+GET http://localhost:4004/shiftbook/ShiftBookService/ShiftBookCategory?$top=10&$orderby=createdAt desc&$expand=teamsChannel,translations,mails
+Authorization: Basic alice:
+
+###
+
+### Step 7: Alternative - List categories without expand (simpler query)
+GET http://localhost:4004/shiftbook/ShiftBookService/ShiftBookCategory?$top=5&$orderby=createdAt desc
+Authorization: Basic alice:
+
+###
+
+### TEST: Simple action to verify action handling works
+POST http://localhost:4004/shiftbook/ShiftBookService/testAction
+Content-Type: application/json
+Authorization: Basic admin:
+
+###

@@ -1,0 +1,34 @@
+meta {
+  name: Create Log Entry
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseURL}}/shiftbook/ShiftBookService/ShiftBookLog
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "werks": "1000",
+    "shoporder": "SO2024003001",
+    "stepid": "0010",
+    "split": "001",
+    "workcenter": "WC_ASSEMBLY_01",
+    "user_id": "api.test@company.com",
+    "log_dt": "2024-01-15T10:30:00.000Z",
+    "category": "7fdaa02e-ec7a-4c39-bb39-80f2a60034db",
+    "subject": "API Test - Production Line Issue",
+    "message": "Testing API integration. Machine M-003 showing temperature fluctuations. Monitoring required."
+  }
+}
+
+settings {
+  encodeUrl: true
+}

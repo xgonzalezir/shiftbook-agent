@@ -1,0 +1,358 @@
+{
+  "timestamp": "2025-08-18T08:35:38.536Z",
+  "testConfiguration": {
+    "baseUrl": "http://localhost:4004",
+    "concurrentRequests": 20,
+    "totalRequests": 100,
+    "delayBetweenBatches": 1000
+  },
+  "results": {
+    "totalRequests": 60,
+    "successfulRequests": 20,
+    "failedRequests": 40,
+    "totalTime": 53.88966600000022,
+    "averageResponseTime": 2.694483300000011,
+    "minResponseTime": 5.863082999999733,
+    "maxResponseTime": 29.872082999999748,
+    "connectionPoolMetrics": [
+      {
+        "scenario": "Shift Book Logs Query",
+        "initial": {
+          "totalConnections": 0,
+          "activeConnections": 0,
+          "idleConnections": 0,
+          "waitingRequests": 0,
+          "acquiredConnections": 0,
+          "releasedConnections": 0,
+          "failedConnections": 0,
+          "avgAcquisitionTime": 0,
+          "avgQueryTime": 0,
+          "lastReset": "2025-08-18T08:34:20.080Z"
+        },
+        "final": {
+          "totalConnections": 0,
+          "activeConnections": 0,
+          "idleConnections": 0,
+          "waitingRequests": 0,
+          "acquiredConnections": 0,
+          "releasedConnections": 0,
+          "failedConnections": 0,
+          "avgAcquisitionTime": 0,
+          "avgQueryTime": 0,
+          "lastReset": "2025-08-18T08:34:20.080Z"
+        },
+        "health": {
+          "status": "healthy",
+          "issues": [],
+          "recommendations": []
+        }
+      },
+      {
+        "scenario": "Categories Query",
+        "initial": {
+          "totalConnections": 0,
+          "activeConnections": 0,
+          "idleConnections": 0,
+          "waitingRequests": 0,
+          "acquiredConnections": 0,
+          "releasedConnections": 0,
+          "failedConnections": 0,
+          "avgAcquisitionTime": 0,
+          "avgQueryTime": 0,
+          "lastReset": "2025-08-18T08:34:20.080Z"
+        },
+        "final": {
+          "totalConnections": 0,
+          "activeConnections": 0,
+          "idleConnections": 0,
+          "waitingRequests": 0,
+          "acquiredConnections": 0,
+          "releasedConnections": 0,
+          "failedConnections": 0,
+          "avgAcquisitionTime": 0,
+          "avgQueryTime": 0,
+          "lastReset": "2025-08-18T08:34:20.080Z"
+        },
+        "health": {
+          "status": "healthy",
+          "issues": [],
+          "recommendations": []
+        }
+      },
+      {
+        "scenario": "Health Check",
+        "initial": {
+          "totalConnections": 0,
+          "activeConnections": 0,
+          "idleConnections": 0,
+          "waitingRequests": 0,
+          "acquiredConnections": 0,
+          "releasedConnections": 0,
+          "failedConnections": 0,
+          "avgAcquisitionTime": 0,
+          "avgQueryTime": 0,
+          "lastReset": "2025-08-18T08:34:20.080Z"
+        },
+        "final": {
+          "totalConnections": 0,
+          "activeConnections": 0,
+          "idleConnections": 0,
+          "waitingRequests": 0,
+          "acquiredConnections": 0,
+          "releasedConnections": 0,
+          "failedConnections": 0,
+          "avgAcquisitionTime": 0,
+          "avgQueryTime": 0,
+          "lastReset": "2025-08-18T08:34:20.080Z"
+        },
+        "health": {
+          "status": "healthy",
+          "issues": [],
+          "recommendations": []
+        }
+      }
+    ],
+    "errors": [
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-1\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 5.911040999999997,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:36.469Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-2\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 10.175583000000003,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:36.473Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-3\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 9.581374999999994,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:36.473Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-4\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 9.989208999999988,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:36.474Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-5\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 10.031542000000002,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:36.474Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-6\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 10.055708999999993,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:36.474Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-7\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 10.012875000000008,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:36.474Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-8\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 10.038083999999998,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:36.475Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-9\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 10.033084000000002,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:36.475Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-10\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 9.931334000000007,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:36.475Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-11\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 10.051625000000001,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:36.475Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-12\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 9.751958000000002,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:36.475Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-13\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 9.922249999999991,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:36.476Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-14\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 9.936082999999996,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:36.476Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-15\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 10.070958999999988,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:36.476Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-16\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 9.792917000000003,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:36.476Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-17\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 10.030750000000012,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:36.476Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-18\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 9.795958999999996,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:36.476Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-19\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 10.091499999999996,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:36.476Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Shift Book Logs Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Shift Book Logs Query-20\",\n  \"scenario\": \"Shift Book Logs Query\",\n  \"responseTime\": 9.83729199999999,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:36.476Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-1\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 4.073666000000003,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:37.489Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-2\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 4.019083000000137,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:37.489Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-3\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 3.9775419999998576,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:37.489Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-4\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 4.01566600000001,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:37.489Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-5\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 4.014666000000034,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:37.489Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-6\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 3.9856249999998,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:37.489Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-7\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 4.032791999999972,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:37.490Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-8\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 4.048249999999825,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:37.490Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-9\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 4.075874999999996,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:37.490Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-10\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 4.119374999999991,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:37.490Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-11\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 4.161458000000039,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:37.490Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-12\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 4.105750000000171,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:37.490Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-13\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 3.9874999999999545,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:37.490Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-14\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 3.9120000000000346,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:37.490Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-15\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 3.9075000000000273,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:37.490Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-16\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 3.9270409999999174,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:37.490Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-17\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 3.9427499999999327,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:37.490Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-18\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 3.9529589999999644,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:37.490Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-19\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 4.002375000000029,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:37.491Z\",\n    \"environment\": \"development\"\n  }\n}"
+      },
+      {
+        "scenario": "Categories Query",
+        "error": "Request failed with status code 401",
+        "statusCode": 401,
+        "fullError": "{\n  \"success\": false,\n  \"requestId\": \"Categories Query-20\",\n  \"scenario\": \"Categories Query\",\n  \"responseTime\": 4.050166999999874,\n  \"error\": \"Request failed with status code 401\",\n  \"statusCode\": 401,\n  \"statusText\": \"Unauthorized\",\n  \"responseData\": {\n    \"error\": \"Authentication required\",\n    \"message\": \"Bearer token is required for cloud environment\",\n    \"timestamp\": \"2025-08-18T08:35:37.491Z\",\n    \"environment\": \"development\"\n  }\n}"
+      }
+    ]
+  }
+}

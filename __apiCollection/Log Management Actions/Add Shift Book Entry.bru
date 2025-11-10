@@ -1,0 +1,33 @@
+meta {
+  name: Add Shift Book Entry
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseURL}}/shiftbook/ShiftBookService/addShiftBookEntry
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "werks": "5000",
+    "shoporder": "SO2024003001",
+    "stepid": "0010",
+    "split": "001",
+    "workcenter": "WC_TEST_01_JON",
+    "user_id": "api.test@jon.com",
+    "category": "62623e35-235e-442a-905e-0b35b0c81815",
+    "subject": "API Test Entry by Jon",
+    "message": "This entry was created via API action by Jon"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

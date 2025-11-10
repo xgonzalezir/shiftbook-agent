@@ -1,0 +1,8 @@
+# Exclude development/test data and configs from CAP build
+db/data/dev/
+*.csv
+# tests
+**/*.test.*
+**/*.spec.*
+# env files
+.env*

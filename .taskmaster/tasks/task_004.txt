@@ -1,0 +1,70 @@
+# Task ID: 4
+# Title: Configure HANA Database Integration
+# Status: done
+# Dependencies: 2
+# Priority: high
+# Description: Set up HANA Cloud database integration for the CAP service with proper configuration for deployment and local development.
+# Details:
+Configure HANA database connection in package.json using cds-requires. Set up local development with SQLite fallback. Create deployment configuration for HANA Cloud in mta.yaml. Implement database initialization scripts for initial data load. Configure HDI container parameters for optimal performance. Set up database migration strategy using CAP's built-in capabilities. Configure connection pooling for production performance. Implement proper error handling for database operations.
+
+# Test Strategy:
+Test local development with SQLite. Verify HANA deployment with test data. Validate database schema generation. Test connection pooling under load. Verify error handling with simulated database failures.
+
+# Subtasks:
+## 1. Configure Database Connection in package.json [done]
+### Dependencies: None
+### Description: Set up HANA database connection in package.json using cds-requires and configure SQLite fallback for local development
+### Details:
+Add HANA database configuration in package.json under cds > requires > db section. Configure connection parameters including schema name, driver, and credentials. Set up SQLite as fallback for local development using { kind: 'sqlite', credentials: { database: 'sqlite.db' } }. Implement environment-based configuration to switch between HANA and SQLite based on NODE_ENV.
+<info added on 2025-07-28T14:18:12.606Z>
+I'll enhance the connection pooling configuration for HANA database integration to ensure production readiness. Add the following parameters to the HANA configuration in package.json:
+
+- Set max connection pool size to 25 for optimal performance under load
+- Configure connection timeout to 30000ms
+- Set idle timeout to 10000ms for efficient resource management
+- Add connection acquisition timeout of 5000ms
+- Implement connection health check interval of 60000ms
+- Configure retry strategy with exponential backoff (initial delay: 1000ms, max retries: 5)
+- Add connection monitoring with detailed logging for production troubleshooting
+- Implement graceful connection handling during application shutdown
+</info added on 2025-07-28T14:18:12.606Z>
+
+## 2. Create HANA Cloud Deployment Configuration [done]
+### Dependencies: 4.1
+### Description: Set up deployment configuration for HANA Cloud in mta.yaml with proper HDI container parameters
+### Details:
+Create or update mta.yaml file with HANA HDI container service configuration. Define HDI container resource with appropriate service plan. Configure container parameters for optimal performance including statement memory limit, row store usage, and indexing options. Set up service binding between CAP application module and HDI container. Include configuration for managed-hana service if using SAP BTP.
+<info added on 2025-07-28T14:21:34.215Z>
+Enhancing the mta.yaml configuration with production-ready HDI container settings:
+
+- Update statement memory limit to 2048MB for handling complex queries
+- Configure row store usage threshold to 30% to optimize memory allocation
+- Enable asynchronous table replication with 300 second interval for high availability
+- Set indexing parameters including fuzzy search index and text analysis configuration
+- Configure HDI container with schema isolation for improved security
+- Add disk space quota parameters (8GB initial, 16GB maximum) for controlled growth
+- Implement connection pooling with minimum 5, maximum 100 connections
+- Set statement timeout to 300 seconds for long-running operations
+- Configure automatic statistics collection with 7-day refresh interval
+- Add memory pressure handling parameters to prevent OOM conditions
+- Include logging configuration for HDI operations with 14-day retention
+</info added on 2025-07-28T14:21:34.215Z>
+
+## 3. Implement Database Initialization Scripts [done]
+### Dependencies: 4.1, 4.2
+### Description: Create database initialization scripts for initial data load and implement database migration strategy
+### Details:
+Create .csv files in db/data folder for initial data load of ShiftBookCategory, ShiftBookCategoryMail, and ShiftBookCategoryLng entities. Implement .hdbprocedure or .hdbtablefunction files if needed for complex data operations. Set up database migration strategy using CAP's delta-deployment capabilities. Configure deployment hooks in package.json for pre/post-deployment actions.
+
+## 4. Configure Connection Pooling and Performance Optimization [done]
+### Dependencies: 4.2
+### Description: Set up database connection pooling for production performance and optimize HDI container parameters
+### Details:
+Configure connection pooling parameters in package.json or server.js including max connections, idle timeout, and acquisition timeout. Implement connection reuse strategy. Optimize HDI container parameters for the specific workload including memory allocation, statement concurrency, and query optimization. Set up proper indexes on frequently queried fields in schema.cds using @cds.index annotations.
+
+## 5. Implement Database Error Handling and Monitoring [done]
+### Dependencies: 4.1, 4.3, 4.4
+### Description: Set up proper error handling for database operations and implement monitoring for database performance
+### Details:
+Implement try-catch blocks around database operations with specific error handling for common HANA errors. Create custom error messages for database constraint violations. Set up logging for database operations with appropriate log levels. Implement circuit breaker pattern for database connection failures. Configure monitoring for database performance metrics including query execution time, connection pool utilization, and error rates.
+

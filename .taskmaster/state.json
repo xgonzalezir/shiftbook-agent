@@ -1,0 +1,8 @@
+{
+  "currentTag": "master",
+  "lastSwitched": "2025-07-28T15:50:16.207Z",
+  "branchTagMapping": {
+    "feature/security-annotations": "feature-security-annotations"
+  },
+  "migrationNoticeShown": true
+}

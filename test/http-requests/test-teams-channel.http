@@ -1,0 +1,37 @@
+### Test updateCategoryWithDetails with teamsChannel parameter
+POST http://localhost:4004/shiftbook/ShiftBookService/updateCategoryWithDetails
+Content-Type: application/json
+Authorization: Basic alice:
+
+{
+  "category": "your-category-uuid-here",
+  "werks": "1000",
+  "sendmail": 1,
+  "sendworkcenters": 1,
+  "default_subject": "Teams Channel Test - Action Required",
+  "default_message": "Testing Teams channel integration with default message and subject fields.",
+  "translations": [
+    {
+      "lng": "en",
+      "desc": "Test Category"
+    }
+  ],
+  "mails": [
+    {
+      "mail_address": "test@example.com"
+    }
+  ],
+  "workcenters": [
+    {
+      "workcenter": "WC001"
+    }
+  ],
+  "teamsChannel": {
+    "name": "Production Alerts",
+    "webhookURL": "https://outlook.office.com/webhook/test-webhook-url",
+    "description": "Channel for production shift notifications",
+    "active": true
+  }
+}
+
+###

@@ -1,0 +1,68 @@
+{
+  "xsappname": "shiftbook-srv-manu-dev-org-dev-v3",
+  "tenant-mode": "dedicated",
+  "oauth2-configuration": {
+    "token-validity": 7200,
+    "refresh-token-validity": 86400,
+    "grant-types": [
+      "client_credentials",
+      "urn:ietf:params:oauth:grant-type:jwt-bearer",
+      "user_token",
+      "refresh_token"
+    ],
+    "redirect-uris": []
+  },
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.operator",
+      "description": "Shiftbook Operator - Can read categories and create/read logs"
+    },
+    {
+      "name": "$XSAPPNAME.admin",
+      "description": "Shiftbook Administrator - Full access to all operations"
+    },
+    {
+      "name": "uaa.user",
+      "description": "UAA user scope for token exchange"
+    }
+  ],
+  "authorities": [
+    "$XSAPPNAME.operator",
+    "$XSAPPNAME.admin",
+    "uaa.user"
+  ],
+  "role-templates": [
+    {
+      "name": "operator",
+      "description": "Shiftbook Operator Role",
+      "scope-references": [
+        "$XSAPPNAME.operator"
+      ],
+      "attribute-references": []
+    },
+    {
+      "name": "admin",
+      "description": "Shiftbook Administrator Role",
+      "scope-references": [
+        "$XSAPPNAME.admin"
+      ],
+      "attribute-references": []
+    }
+  ],
+  "role-collections": [
+    {
+      "name": "shiftbook.operator (shiftbook-srv manu-dev-org-dev)",
+      "description": "Shiftbook Operator - Can read categories and create/read logs",
+      "role-template-references": [
+        "$XSAPPNAME.operator"
+      ]
+    },
+    {
+      "name": "shiftbook.admin (shiftbook-srv manu-dev-org-dev)",
+      "description": "Shiftbook Administrator - Full access to all operations",
+      "role-template-references": [
+        "$XSAPPNAME.admin"
+      ]
+    }
+  ]
+}

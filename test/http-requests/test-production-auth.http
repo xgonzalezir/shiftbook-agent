@@ -1,0 +1,41 @@
+### Test Production Authentication
+### URL: https://manu-dev-org-dev-shiftbook-srv.cfapps.us10-001.hana.ondemand.com
+
+### 1. Test WITHOUT authentication - Should fail with 401
+GET {{$dotenv PROD_URL}}/odata/v4/shiftbook/ShiftBookLogs
+Content-Type: application/json
+
+###
+
+### 2. Test WITH authentication but NO roles assigned - Should fail with 403
+### (Replace YOUR_TOKEN with actual bearer token from BTP)
+GET {{$dotenv PROD_URL}}/odata/v4/shiftbook/ShiftBookLogs
+Authorization: Bearer YOUR_TOKEN_HERE
+Content-Type: application/json
+
+###
+
+### 3. Test creating a log WITHOUT operator role - Should fail with 403
+POST {{$dotenv PROD_URL}}/odata/v4/shiftbook/ShiftBookLogs
+Authorization: Bearer YOUR_TOKEN_HERE
+Content-Type: application/json
+
+{
+  "date": "2025-10-06",
+  "shift": "morning",
+  "category_ID": "cat-001",
+  "details": "Test log without permissions"
+}
+
+###
+
+### 4. Test creating a category WITHOUT admin role - Should fail with 403
+POST {{$dotenv PROD_URL}}/odata/v4/shiftbook/ShiftBookCategories
+Authorization: Bearer YOUR_TOKEN_HERE
+Content-Type: application/json
+
+{
+  "name": "Test Category",
+  "description": "Should fail without admin role"
+}
+

@@ -1,0 +1,10 @@
+### Test simplified action (only simple types)
+POST http://localhost:4004/shiftbook/ShiftBookService/createCategorySimple
+Content-Type: application/json
+Authorization: Basic admin:
+
+{
+  "werks": "1000",
+  "subject": "Test simple action",
+  "message": "Testing with only simple types"
+}

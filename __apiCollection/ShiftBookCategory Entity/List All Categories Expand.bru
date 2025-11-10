@@ -1,0 +1,19 @@
+meta {
+  name: List All Categories Expand
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseURL}}/shiftbook/ShiftBookService/ShiftBookCategory?$expand=translations,mails,workcenters
+  body: none
+  auth: inherit
+}
+
+params:query {
+  $expand: translations,mails,workcenters
+}
+
+settings {
+  encodeUrl: true
+}

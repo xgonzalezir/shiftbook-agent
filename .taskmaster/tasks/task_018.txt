@@ -1,0 +1,25 @@
+# Task ID: 18
+# Title: Implement Basic Monitoring and Logging
+# Status: in-progress
+# Dependencies: 6, 7, 8, 9 (Not found)
+# Priority: medium
+# Description: Enable console logging, health check endpoints, and troubleshooting guides for system monitoring.
+# Details:
+Configure structured logging with proper log levels using @sap/logging or winston. Implement health check endpoints for service status monitoring. Add custom metrics for business operations. Configure log rotation and archiving. Implement correlation IDs for request tracking. Add performance logging for slow operations. Create troubleshooting guides for common issues. Configure alerting for critical errors.
+
+# Test Strategy:
+Verify log format and content with different log levels. Test health check endpoints with service dependencies. Validate metric collection under load. Test log rotation with simulated high volume.
+
+# Subtasks:
+## 1. Implement Structured Logging with Proper Log Levels [done]
+### Dependencies: None
+### Description: Configure structured logging using cds.log() with proper log levels, correlation IDs, and SAP CAP best practices. Implement log format configuration and integrate with existing health check endpoints.
+### Details:
+
+
+## 2. Implement Log Rotation and Archiving [pending]
+### Dependencies: None
+### Description: Configure log rotation and archiving for production environments. Implement log file management with size limits, retention policies, and archival strategies following SAP CAP best practices.
+### Details:
+
+

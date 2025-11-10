@@ -1,0 +1,55 @@
+meta {
+  name: Create Category With WC
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseURL}}/shiftbook/ShiftBookService/ShiftBookCategory
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "werks": "2000",
+    "sendmail": 1,
+        "translations": [
+          {
+            "lng": "EN",
+            "desc": "Production Line Issues"
+          },
+          {
+            "lng": "DE", 
+            "desc": "Produktionslinie Probleme"
+          }
+        ],
+        "mails": [
+          {
+            "mail_address": "production-manager@company.com"
+          },
+          {
+            "mail_address": "shift-supervisor@company.com"
+          }
+        ],
+        "workcenters": [
+          {
+            "workcenter": "WC001"
+          },
+          {
+            "workcenter": "WC002"
+          },
+          {
+            "workcenter": "WC003"
+          }
+        ]
+  }
+}
+
+settings {
+  encodeUrl: true
+}

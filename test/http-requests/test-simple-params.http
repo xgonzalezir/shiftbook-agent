@@ -1,0 +1,12 @@
+### Test createCategoryWithDetails with ONLY simple parameters
+POST http://localhost:4004/shiftbook/ShiftBookService/createCategoryWithDetails
+Content-Type: application/json
+Authorization: Basic admin:
+
+{
+  "werks": "1000",
+  "sendmail": 1,
+  "sendworkcenters": 1,
+  "default_subject": "Test with simple params only",
+  "default_message": "Testing without complex types"
+}

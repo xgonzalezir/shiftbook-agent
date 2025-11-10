@@ -1,0 +1,173 @@
+/**
+ * Unit Tests for Health Check Service
+ * Using comprehensive mocking to prevent hanging
+ */
+
+import { describe, it, expect, beforeEach, afterEach, jest } from '@jest/globals';
+
+// Mock all external dependencies BEFORE importing
+jest.mock('@sap/cds', () => ({
+  connect: {
+    to: jest.fn(() => Promise.resolve({
+      run: jest.fn(() => Promise.resolve([]))
+    }))
+  }
+}));
+
+jest.mock('../../../srv/lib/connection-pool-monitor', () => ({
+  __esModule: true,
+  default: {
+    getPoolHealth: jest.fn(() => ({ 
+      status: 'healthy', 
+      issues: [],
+      activeConnections: 5,
+      idleConnections: 10
+    })),
+    getMetrics: jest.fn(() => ({
+      activeConnections: 5,
+      idleConnections: 10,
+      totalConnections: 15
+    })),
+    getEventHistory: jest.fn(() => [])
+  }
+}));
+
+jest.mock('../../../srv/lib/performance-monitor', () => ({
+  __esModule: true,
+  default: {
+    getStatus: jest.fn(() => ({ isMonitoring: true })),
+    getMetrics: jest.fn(() => ({})),
+    getPrometheusMetrics: jest.fn(() => '')
+  }
+}));
+
+jest.mock('../../../srv/lib/resource-cleanup', () => ({
+  __esModule: true,
+  default: {
+    getStatus: jest.fn(() => ({ isRunning: true })),
+    getMetrics: jest.fn(() => ({})),
+    getTasks: jest.fn(() => [])
+  }
+}));
+
+jest.mock('../../../srv/lib/log-rotation-manager.js', () => ({
+  getLogConfig: jest.fn(() => ({ enabled: true })),
+  getLogStatistics: jest.fn(() => ({ 
+    archiveCount: 5, 
+    archiveSize: 1024000 
+  }))
+}));
+
+// Import using named import for singleton (the actual usage)
+import { healthCheckService } from '../../../srv/health-check';
+
+describe('HealthCheckService', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    
+    // Mock process.memoryUsage for consistent tests
+    jest.spyOn(process, 'memoryUsage').mockReturnValue({
+      rss: 50 * 1024 * 1024,
+      heapTotal: 30 * 1024 * 1024,
+      heapUsed: 20 * 1024 * 1024,
+      external: 5 * 1024 * 1024,
+      arrayBuffers: 1 * 1024 * 1024
+    });
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
+  describe('healthCheckService singleton', () => {
+    it('should return health status with all properties', async () => {
+      const status = await healthCheckService.getHealthStatus();
+      
+      expect(status).toBeDefined();
+      expect(status).toHaveProperty('status');
+      expect(status).toHaveProperty('timestamp');
+      expect(status).toHaveProperty('version');
+      expect(status).toHaveProperty('uptime');
+      expect(status).toHaveProperty('checks');
+      expect(typeof status.uptime).toBe('number');
+      expect(status.timestamp).toMatch(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/);
+    });
+
+    it('should return simple health status', async () => {
+      const simpleHealth = await healthCheckService.getSimpleHealth();
+      
+      expect(simpleHealth).toBeDefined();
+      expect(simpleHealth).toHaveProperty('status');
+      expect(simpleHealth).toHaveProperty('timestamp');
+      expect(simpleHealth.timestamp).toMatch(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/);
+    });
+
+    it('should return prometheus metrics', async () => {
+      const metrics = await healthCheckService.getPrometheusMetrics();
+      
+      expect(typeof metrics).toBe('string');
+      expect(metrics.length).toBeGreaterThan(0);
+      expect(metrics).toContain('application_uptime_seconds');
+      expect(metrics).toContain('process_memory_heap_used_bytes');
+    });
+
+    it('should perform database health check', async () => {
+      const status = await healthCheckService.getHealthStatus();
+      
+      expect(status.checks).toHaveProperty('database');
+      expect(status.checks.database).toBe(true); // Mocked to succeed
+    });
+
+    it('should handle memory usage correctly', async () => {
+      const status = await healthCheckService.getHealthStatus();
+      
+      expect(status.checks).toHaveProperty('memory');
+      expect(status.checks.memory).toBe(true); // Under 90% threshold
+    });
+
+    it('should detect critical memory usage', async () => {
+      jest.spyOn(process, 'memoryUsage').mockReturnValue({
+        rss: 100 * 1024 * 1024,
+        heapTotal: 30 * 1024 * 1024,
+        heapUsed: 28.5 * 1024 * 1024, // 95% - critical
+        external: 5 * 1024 * 1024,
+        arrayBuffers: 1 * 1024 * 1024
+      });
+
+      const status = await healthCheckService.getHealthStatus();
+      
+      expect(status.checks.memory).toBe(false); // Over 90% threshold
+    });
+
+    it('should check connection pool health', async () => {
+      const status = await healthCheckService.getHealthStatus();
+      
+      expect(status.checks).toHaveProperty('connectionPool');
+      // This will exercise the connectionPoolMonitor code
+    });
+
+    it('should check performance monitoring', async () => {
+      const status = await healthCheckService.getHealthStatus();
+      
+      expect(status.checks).toHaveProperty('performance');
+      // This will exercise the performanceMonitor code
+    });
+
+    it('should check resource cleanup status', async () => {
+      const status = await healthCheckService.getHealthStatus();
+      
+      expect(status.checks).toHaveProperty('resourceCleanup');
+      // This will exercise the resourceCleanup code
+    });
+
+    it('should handle environment variables', async () => {
+      const originalEnv = process.env.CDS_ENV;
+      process.env.CDS_ENV = 'production';
+
+      const status = await healthCheckService.getHealthStatus();
+      expect(status.environment).toBe('production');
+
+      process.env.CDS_ENV = originalEnv;
+    });
+  });
+});

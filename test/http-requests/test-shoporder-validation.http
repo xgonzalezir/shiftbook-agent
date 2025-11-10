@@ -1,0 +1,94 @@
+### Test Shoporder Field Length Validation (String(30))
+### This file tests the fix for shoporder field supporting long values like "BOSCH_REXROTH_DEMO-2" (21 chars)
+
+### Step 1: Create a test category for plant 2000
+POST http://localhost:4004/shiftbook/ShiftBookService/createCategoryWithDetails
+Content-Type: application/json
+Authorization: Basic alice:
+
+{
+  "werks": "2000",
+  "sendmail": 1,
+  "sendworkcenters": 1,
+  "translations": [
+    {
+      "lng": "en",
+      "desc": "Test Category for Shoporder Validation"
+    }
+  ],
+  "teamsChannel": {
+    "name": "Test Channel Plant 2000",
+    "webhookURL": "https://mysyntax.webhook.office.com/webhookb2/32d6e0c0-f56d-467a-8d0b-9f3722bce865@47a18816-2043-4cd0-8bf4-e0c942d8c2d6/IncomingWebhook/1600cfa3267741e7b23094d94dee2a0a/d4b0a266-0d9e-4a2f-b5f9-cabbcaa3b62f/V2P2joTACXvX1E-oOQ7jOg8hK89Ye7IAo4MTVKQwlU7N41",
+    "description": "Test channel for plant 2000",
+    "active": true
+  }
+}
+
+###
+
+### Step 2: Test addShiftBookEntry with LONG shoporder (21 characters)
+### ⚠️ Replace PASTE_CATEGORY_ID_HERE with the category ID from Step 1
+### Expected: SUCCESS - shoporder field is now String(30), supports 21-character value
+POST http://localhost:4004/shiftbook/ShiftBookService/addShiftBookEntry
+Content-Type: application/json
+Authorization: Basic alice:
+
+{
+    "category": "PASTE_CATEGORY_ID_HERE",
+    "subject": "Test Long Shoporder - BOSCH_REXROTH_DEMO-2",
+    "message": "Testing shoporder field with 21 characters\n<br><br>-------------------<br>\nPlant: 2000<br>\nWorkcenter: #1<br>\nResource: REXROTH-MILLING-1<br>\nOrder: BOSCH_REXROTH_DEMO-2<br>\nSFC: 20004009\n",
+    "werks": "2000",
+    "shoporder": "BOSCH_REXROTH_DEMO-2",
+    "stepid": "---",
+    "split": "---",
+    "user_id": "ioana-andreea.beudeanu@syntax.com",
+    "workcenter": "#1"
+}
+
+###
+
+### Step 3: Test addShiftBookEntry with MAXIMUM length shoporder (30 characters)
+### Expected: SUCCESS - shoporder is exactly at String(30) limit
+POST http://localhost:4004/shiftbook/ShiftBookService/addShiftBookEntry
+Content-Type: application/json
+Authorization: Basic alice:
+
+{
+    "category": "PASTE_CATEGORY_ID_HERE",
+    "subject": "Test Max Shoporder - 30 chars",
+    "message": "Testing shoporder field with exactly 30 characters",
+    "werks": "2000",
+    "shoporder": "SHOPORDER_EXACTLY_30_CHARS!!",
+    "stepid": "---",
+    "split": "---",
+    "user_id": "test.user@syntax.com",
+    "workcenter": "#1"
+}
+
+###
+
+### Step 4: Test addShiftBookEntry with EXCEEDING length shoporder (31 characters)
+### Expected: FAILURE - shoporder exceeds String(30) limit
+POST http://localhost:4004/shiftbook/ShiftBookService/addShiftBookEntry
+Content-Type: application/json
+Authorization: Basic alice:
+
+{
+    "category": "PASTE_CATEGORY_ID_HERE",
+    "subject": "Test Exceeding Shoporder - 31 chars",
+    "message": "Testing shoporder field that EXCEEDS 30 characters - should fail",
+    "werks": "2000",
+    "shoporder": "SHOPORDER_EXCEEDS_30_CHARS!!!",
+    "stepid": "---",
+    "split": "---",
+    "user_id": "test.user@syntax.com",
+    "workcenter": "#1"
+}
+
+###
+
+### Step 5: Verify all logs created for plant 2000
+GET http://localhost:4004/shiftbook/ShiftBookService/ShiftBookLog?$filter=werks eq '2000'&$orderby=createdAt desc&$expand=categoryDetails
+Authorization: Basic alice:
+
+###
