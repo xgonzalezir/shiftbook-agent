@@ -107,4 +107,3 @@ ShiftBook-Complete-API.postman_collection.json
 .gitignore
 Shiftbook.postman_collection.json
 *.backup.ts
-.cursor/
